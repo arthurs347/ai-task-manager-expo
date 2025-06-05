@@ -41,3 +41,4 @@ app-example
 /.idea/modules.xml
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
+/.idea/biome.xml
