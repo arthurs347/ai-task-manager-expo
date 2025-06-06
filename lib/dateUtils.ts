@@ -1,5 +1,5 @@
 import { DATETIME_FORMAT, DURATION_FORMAT } from "@/lib/constants";
-import { Task } from "@/lib/types";
+import { Task } from "@/prisma/generated/prisma";
 import dayjs from "dayjs";
 
 export function ISOToDateTimeFormat(dateTime: string) {
@@ -12,12 +12,8 @@ export function ISOToDurationFormat(dateTime: string) {
 
 export function sortTasksByStartDateTime(tasks: Task[]): Task[] {
 	return [...tasks].sort((a, b) => {
-		const aTime = a.startDateTime
-			? dayjs(a.startDateTime, DATETIME_FORMAT)
-			: dayjs(0);
-		const bTime = b.startDateTime
-			? dayjs(b.startDateTime, DATETIME_FORMAT)
-			: dayjs(0);
+		const aTime = a.start ? dayjs(a.start, DATETIME_FORMAT) : dayjs(0);
+		const bTime = b.start ? dayjs(b.start, DATETIME_FORMAT) : dayjs(0);
 		return aTime.valueOf() - bTime.valueOf();
 	});
 }

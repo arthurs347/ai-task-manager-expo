@@ -9,8 +9,41 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
+  id    String  @id @default(cuid())
+  name  String?
+  email String  @unique
+  image String?
+  tasks Task[]
+}
+
+model Task {
+  id                String            @id @default(cuid())
+  title             String
+  description       String?
+  priorityLevel     PriorityLevel
+  priorityScore     Int?
+  priorityCategory  PriorityCategory?
+  startCalculated   String
+  endCalculated     String
+  dueDateTime       String
+  estimatedDuration String
+  isHardDeadline    Boolean
+  isRecurring       Boolean
+  completed         Boolean           @default(false)
+  user              User?             @relation(fields: [userId], references: [id])
+  userId            String?
+}
+
+enum PriorityLevel {
+  LOW
+  MED
+  HIGH
+  CRIT
+}
+
+enum PriorityCategory {
+  LOW
+  MED
+  HIGH
+  CRIT
 }

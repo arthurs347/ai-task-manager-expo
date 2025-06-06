@@ -1,5 +1,8 @@
-import { PriorityCategory, PriorityLevel } from "@/lib/enums";
-import { Task } from "@/lib/types";
+import {
+	PriorityCategory,
+	PriorityLevel,
+	Task,
+} from "@/prisma/generated/prisma";
 import dayjs from "dayjs";
 
 const baseDate = dayjs().startOf("day").add(9, "hour"); // 9:00 AM today
@@ -7,13 +10,14 @@ const baseDate = dayjs().startOf("day").add(9, "hour"); // 9:00 AM today
 export const testTasks: Task[] = [
 	{
 		id: "1",
+		userId: "1",
 		title: "Morning Standup",
 		description: "Daily team sync meeting",
 		priorityLevel: PriorityLevel.MED,
 		priorityScore: 3,
 		priorityCategory: PriorityCategory.MED,
-		startDateTime: baseDate.toISOString(),
-		dueDateTime: baseDate.add(30, "minute").toISOString(),
+		start: baseDate.toISOString(),
+		end: baseDate.add(30, "minute").toISOString(),
 		estimatedDuration: "00:30",
 		isHardDeadline: true,
 		isRecurring: true,
@@ -21,13 +25,14 @@ export const testTasks: Task[] = [
 	},
 	{
 		id: "2",
+		userId: "1",
 		title: "Code Review",
 		description: "Review PRs assigned to you",
 		priorityLevel: PriorityLevel.HIGH,
 		priorityScore: 5,
 		priorityCategory: PriorityCategory.HIGH,
-		startDateTime: baseDate.add(1, "hour").toISOString(),
-		dueDateTime: baseDate.add(2, "hour").toISOString(),
+		start: baseDate.add(1, "hour").toISOString(),
+		end: baseDate.add(2, "hour").toISOString(),
 		estimatedDuration: "01:00",
 		isHardDeadline: false,
 		isRecurring: false,
@@ -35,12 +40,13 @@ export const testTasks: Task[] = [
 	},
 	{
 		id: "3",
+		userId: "1",
 		title: "Write Documentation",
 		description: "Update API docs for new endpoints",
 		priorityLevel: PriorityLevel.LOW,
 		priorityScore: 1,
 		priorityCategory: PriorityCategory.LOW,
-		startDateTime: baseDate.add(2, "hour").toISOString(),
+		start: baseDate.add(2, "hour").toISOString(),
 		dueDateTime: baseDate.add(3, "hour").toISOString(),
 		estimatedDuration: "01:00",
 		isHardDeadline: false,
@@ -49,13 +55,14 @@ export const testTasks: Task[] = [
 	},
 	{
 		id: "4",
+		userId: "1",
 		title: "Client Call",
 		description: "Discuss project requirements",
 		priorityLevel: PriorityLevel.CRIT,
 		priorityScore: 8,
 		priorityCategory: PriorityCategory.CRIT,
-		startDateTime: baseDate.add(4, "hour").toISOString(),
-		dueDateTime: baseDate.add(5, "hour").toISOString(),
+		start: baseDate.add(4, "hour").toISOString(),
+		end: baseDate.add(5, "hour").toISOString(),
 		estimatedDuration: "01:00",
 		isHardDeadline: true,
 		isRecurring: false,
@@ -63,13 +70,14 @@ export const testTasks: Task[] = [
 	},
 	{
 		id: "5",
+		userId: "1",
 		title: "Design Review",
 		description: "Review new UI mockups",
 		priorityLevel: PriorityLevel.MED,
 		priorityScore: 2,
 		priorityCategory: PriorityCategory.MED,
-		startDateTime: baseDate.add(5, "hour").toISOString(),
-		dueDateTime: baseDate.add(6, "hour").toISOString(),
+		start: baseDate.add(5, "hour").toISOString(),
+		end: baseDate.add(6, "hour").toISOString(),
 		estimatedDuration: "01:00",
 		isHardDeadline: false,
 		isRecurring: false,

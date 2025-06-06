@@ -1,12 +1,14 @@
-import {Header} from "tamagui";
+import { Header } from "tamagui";
 
 interface TaskTimeHeaderProps {
-    taskStartTime: string;
-    taskEndTime: string;
-    taskDuration: string;
+	taskStartTime: string;
+	taskEndTime: string;
+	taskDuration: string;
 }
-export function TaskTimeHeader({taskStartTime, taskEndTime, taskDuration}: TaskTimeHeaderProps) {
-    return (
-        <Header> </Header>
-    )
+export default function TaskTimeHeader({
+	taskStartTime,
+	taskEndTime,
+	taskDuration,
+}: TaskTimeHeaderProps) {
+	return <Header> </Header>;
 }
