@@ -1,3 +1,4 @@
+import { CreateTaskPopup } from "@/app/(tabs)/home/_components/CreateTaskPopup";
 import TaskAndTimeBox from "@/app/(tabs)/home/_components/TaskAndTimeBox";
 import { ISOToDateTimeFormat, sortTasksByStartDateTime } from "@/lib/dateUtils";
 import {
@@ -45,7 +46,7 @@ export default function Index() {
 			}}
 		>
 			<YStack>
-				<Button onPress={handleCreateTask}>Create Task</Button>
+				<CreateTaskPopup />
 				{sortedTasks.map((task, index) => (
 					<Text key={index}>{task.title}</Text>
 				))}
