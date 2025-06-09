@@ -9,7 +9,7 @@ import {
 	XStack,
 } from "tamagui";
 
-export function CreateTaskPopup() {
+export default function CreateTaskPopup() {
 	function handleCreateTask() {
 		alert("Create Task");
 	}
