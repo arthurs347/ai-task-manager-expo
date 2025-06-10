@@ -1,49 +1,43 @@
 import {SignedIn, SignedOut, useSSO} from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
+import {useRouter} from "expo-router";
 import {useCallback} from "react";
 import {Text, View} from "react-native";
 import {Button} from "tamagui";
 
 export default function Page() {
     const {startSSOFlow} = useSSO();
+    const router = useRouter();
 
     const onPress = useCallback(async () => {
         try {
-            // Start the authentication process by calling `startSSOFlow()`
             const {createdSessionId, setActive, signIn, signUp} =
                 await startSSOFlow({
-                    strategy: "oauth_google",
-                    // For web, defaults to current path
-                    // For native, you must pass a scheme, like AuthSession.makeRedirectUri({ scheme, path })
-                    // For more info, see https://docs.expo.dev/versions/latest/sdk/auth-session/#authsessionmakeredirecturioptions
+                    strategy: "oauth_github",
                     redirectUrl: AuthSession.makeRedirectUri(),
                 });
 
-            // If sign in was successful, set the active session
             if (createdSessionId) {
-                await setActive!({session: createdSessionId});
-                alert("successful login");
+                setActive!({session: createdSessionId});
+                router.replace("/");
             } else {
-                alert(signIn?.status);
-                // If there is no `createdSessionId`,
-                // there are missing requirements, such as MFA
-                // Use the `signIn` or `signUp` returned from `startSSOFlow`
-                // to handle next steps
+                // Handle missing requirements based on status
+                if (signIn) {
+                    alert(signIn.status);
+                    // Handle additional sign-in requirements here
+                }
             }
         } catch (err) {
-            // See https://clerk.com/docs/custom-flows/error-handling
-            // for more info on error handling
             console.error(JSON.stringify(err, null, 2));
         }
-    }, [startSSOFlow]);
-
+    }, [router]);
     return (
         <View>
             <SignedIn>
                 <Text>Signed in</Text>
             </SignedIn>
             <SignedOut>
-                <Button onPress={onPress}>Sign in with Google</Button>
+                <Button onPress={onPress}>Sign in with Github</Button>
             </SignedOut>
         </View>
     );

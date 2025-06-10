@@ -1,12 +1,13 @@
-import CreateTaskPopup from "@/app/(tabs)/home/_components/CreateTaskPopup";
+import {SignOutButton} from "@/components/auth/SignOutButton";
+import CreateTaskPopup from "@/components/home/CreateTaskPopup";
 import {ISOToDateTimeFormat, sortTasksByStartDateTime} from "@/lib/dateUtils";
 import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma";
 import {testTasks} from "@/test/testTasks";
 import dayjs from "dayjs";
-import {Text, View} from "react-native";
+import {Text} from "react-native";
 import {YStack} from "tamagui";
 
-export default function Index() {
+export default function Home() {
     //TODO: Replace with actual task to add
     const taskToAdd: Task = {
         id: "1",
@@ -35,20 +36,19 @@ export default function Index() {
     console.log(ISOToDateTimeFormat(dayjs().toISOString()));
     const sortedTasks = sortTasksByStartDateTime(testTasks);
     return (
-        <View
+        <YStack
             style={{
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
             }}
         >
-            <YStack>
-                <CreateTaskPopup/>
-                {sortedTasks.map((task, index) => (
-                    <Text key={index}>{task.title}</Text>
-                ))}
-                {/*<TaskAndTimeBox />*/}
-            </YStack>
-        </View>
+            <SignOutButton/>
+            <CreateTaskPopup/>
+            {sortedTasks.map((task, index) => (
+                <Text key={index}>{task.title}</Text>
+            ))}
+            {/*<TaskAndTimeBox />*/}
+        </YStack>
     );
 }
