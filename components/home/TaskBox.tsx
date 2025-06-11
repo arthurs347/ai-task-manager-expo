@@ -1,12 +1,10 @@
-import { Card, CardHeader } from "tamagui";
+import {Card} from "@/components/ui/card";
+import {Heading} from "@/components/ui/heading";
 
 export default function TaskBox() {
-	return (
-		<Card>
-			<CardHeader padded bordered>
-				{" "}
-				TaskName
-			</CardHeader>
-		</Card>
-	);
+    return (
+        <Card>
+            <Heading>TaskName</Heading>
+        </Card>
+    );
 }

@@ -1,21 +1,26 @@
 import {Button} from "@/components/ui/button";
-import {SignedIn, SignedOut, useSSO} from "@clerk/clerk-expo";
+import {OFFLINE_DEV_MODE} from "@/lib/constants";
+import {SignedIn, SignedOut, useSSO, useUser} from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
 import {useRouter} from "expo-router";
 import {useCallback} from "react";
 import {Text, View} from "react-native";
 
 export default function Page() {
-    const {startSSOFlow} = useSSO();
+    const {user} = useUser();
     const router = useRouter();
+
+    if (user || OFFLINE_DEV_MODE) {
+        router.replace("/(tabs)/home");
+    }
+    const {startSSOFlow} = useSSO();
 
     const onPress = useCallback(async () => {
         try {
-            const {createdSessionId, setActive, signIn, signUp} =
-                await startSSOFlow({
-                    strategy: "oauth_github",
-                    redirectUrl: AuthSession.makeRedirectUri(),
-                });
+            const {createdSessionId, setActive, signIn} = await startSSOFlow({
+                strategy: "oauth_github",
+                redirectUrl: AuthSession.makeRedirectUri(),
+            });
 
             if (createdSessionId) {
                 setActive!({session: createdSessionId});

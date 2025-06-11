@@ -1,11 +1,11 @@
 import {SignOutButton} from "@/components/auth/SignOutButton";
 import CreateTaskPopup from "@/components/home/CreateTaskPopup";
+import {HStack} from "@/components/ui/hstack";
 import {ISOToDateTimeFormat, sortTasksByStartDateTime} from "@/lib/dateUtils";
 import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma";
 import {testTasks} from "@/test/testTasks";
 import dayjs from "dayjs";
 import {Text} from "react-native";
-import {YStack} from "tamagui";
 
 export default function Home() {
     //TODO: Replace with actual task to add
@@ -36,7 +36,7 @@ export default function Home() {
     console.log(ISOToDateTimeFormat(dayjs().toISOString()));
     const sortedTasks = sortTasksByStartDateTime(testTasks);
     return (
-        <YStack
+        <HStack
             style={{
                 flex: 1,
                 justifyContent: "center",
@@ -49,6 +49,6 @@ export default function Home() {
                 <Text key={index}>{task.title}</Text>
             ))}
             {/*<TaskAndTimeBox />*/}
-        </YStack>
+        </HStack>
     );
 }

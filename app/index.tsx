@@ -1,24 +1,14 @@
-import {useUser} from "@clerk/clerk-expo";
-import {Link, useRouter} from "expo-router";
-import {View} from "react-native";
-import {Text} from "tamagui";
+import {Button} from "@/components/ui/button";
+import {Link} from "expo-router";
+import {Text, View} from "react-native";
 
-export default function Page() {
-    const {user} = useUser();
-    const router = useRouter();
-
-    if (user) {
-        router.replace("/(tabs)/home");
-    }
-
+export default function LandingPage() {
     return (
         <View>
-            <Link href="/(auth)/sign-in">
-                <Text fontSize={40}>Sign in</Text>
+            <Text> Welcome to your new AI Task Manager</Text>
+            <Link href="/(auth)/auth">
+                <Button size={"lg"}>Get Started</Button>
             </Link>
-            {/*<Link href="/(auth)/sign-up">*/}
-            {/*    <Text>Sign up</Text>*/}
-            {/*</Link>*/}
         </View>
     );
 }
