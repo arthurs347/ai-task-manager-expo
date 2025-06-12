@@ -1,4 +1,5 @@
-import {Button} from "@/components/ui/button";
+import {createUserAction} from "@/actions/user";
+import {Button, ButtonText} from "@/components/ui/button";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
 import {SignedIn, SignedOut, useSSO, useUser} from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
@@ -15,15 +16,19 @@ export default function Page() {
     }
     const {startSSOFlow} = useSSO();
 
-    const onPress = useCallback(async () => {
+    const handleSignIn = useCallback(async () => {
         try {
             const {createdSessionId, setActive, signIn} = await startSSOFlow({
                 strategy: "oauth_github",
                 redirectUrl: AuthSession.makeRedirectUri(),
             });
 
+            // If the user is already signed in, redirect to home
             if (createdSessionId) {
-                setActive!({session: createdSessionId});
+                await setActive!({session: createdSessionId});
+                // Handle user creation if needed
+                await createUserAction()
+
                 router.replace("/");
             } else {
                 // Handle missing requirements based on status
@@ -35,14 +40,16 @@ export default function Page() {
         } catch (err) {
             console.error(JSON.stringify(err, null, 2));
         }
-    }, [router]);
+    }, [router, startSSOFlow]);
     return (
         <View>
             <SignedIn>
                 <Text>Signed in</Text>
             </SignedIn>
             <SignedOut>
-                <Button onPress={onPress}>Sign in with Github</Button>
+                <Button onPress={handleSignIn}>
+                    <ButtonText>Sign in with Github</ButtonText>
+                </Button>
             </SignedOut>
         </View>
     );
