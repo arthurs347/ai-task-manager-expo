@@ -1,4 +1,4 @@
-import {useAuth, useUser} from "@clerk/clerk-expo";
+import {getClerkInstance} from "@clerk/clerk-expo";
 import {router} from "expo-router";
 
 /**
@@ -6,8 +6,10 @@ import {router} from "expo-router";
  * Routes to auth page if not authenticated or returns the user.
  * */
 export function authenticateUser() {
-    const session = useAuth()
-    const user = useUser().user
+    const clerkInstance = getClerkInstance();
+    const session = clerkInstance?.session;
+    const user = clerkInstance?.user;
+
     if (!session || !user) {
         router.replace("/(auth)/auth")
     }

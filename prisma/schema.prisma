@@ -23,7 +23,7 @@ model Task {
   start   String
   end     String
   dueDateTime       String
-  estimatedDuration String
+  estimatedDuration Int
   isHardDeadline    Boolean
   isRecurring       Boolean
   priorityLevel     PriorityLevel
