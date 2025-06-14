@@ -23,7 +23,7 @@ export type TaskDataEntry = {
     hardDeadline: boolean;
 }
 
-export default function CreateTaskPopup() {
+export default function CreateTaskPopup({setRefreshKey}: { setRefreshKey: (key: number) => void }) {
 
     // Memoize defaultValues so it doesn't change on every render
     const defaultValues = useMemo(() => ({
@@ -40,9 +40,8 @@ export default function CreateTaskPopup() {
     const { handleSubmit, watch, setValue } = useForm({ defaultValues });
 
     async function handleCreateTask(formTaskData: TaskDataEntry) {
-        console.log("Before",formTaskData)
+        setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
         await createTaskAction(formTaskData)
-        console.log("After",formTaskData)
     }
 
     return (
