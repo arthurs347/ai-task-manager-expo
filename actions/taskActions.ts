@@ -1,7 +1,7 @@
-import {authenticateUser} from "@/actions/auth";
+import {authenticateUser} from "@/actions/authActions";
 import {TaskDataEntry} from "@/components/home/CreateTaskPopup";
-import {PriorityCategory, Task} from "@/prisma/generated/prisma";
 import {ISOToDateTimeFormat, parseEstimatedDuration} from "@/lib/dateUtils";
+import {PriorityCategory, Task} from "@/prisma/generated/prisma";
 
 function calculateTaskStartAndEnd(task: TaskDataEntry) {
     //TODO: REPLACE WITH ACTUAL LOGIC
@@ -45,4 +45,20 @@ export async function createTaskAction(task: TaskDataEntry){
         method: "POST",
         body: JSON.stringify(taskToCreateData) ,
     });
+}
+
+export async function getTasksAction() {
+    const user = authenticateUser();
+    const userId = user?.id;
+    if (!userId) throw new Error("User not authenticated");
+
+    const response = await fetch(`/api/tasks?userId=${encodeURIComponent(userId)}`, {
+        method: "GET",
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch tasks");
+    }
+
+    return response.json();
 }

@@ -1,4 +1,4 @@
-import {createUserAction} from "@/actions/user";
+import {createUserAction} from "@/actions/userActions";
 import {Button, ButtonText} from "@/components/ui/button";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
 import {SignedIn, SignedOut, useSSO, useUser} from "@clerk/clerk-expo";
@@ -13,13 +13,13 @@ export default function Page() {
     const [authenticated, setAuthenticated] = useState(false);
 
     useEffect(() => {
-        const createUser = async () => createUserAction();
+        const createUser = async () => await createUserAction();
 
         if (user || authenticated || OFFLINE_DEV_MODE) {
             if (!OFFLINE_DEV_MODE) {
                 createUser()
             }
-            router.replace("/(tabs)/home");
+            router.replace("/(tabs)/listView");
         }
     })
     const {startSSOFlow} = useSSO();

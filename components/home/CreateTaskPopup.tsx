@@ -1,4 +1,4 @@
-import {createTaskAction} from "@/actions/task";
+import {createTaskAction} from "@/actions/taskActions";
 import {Button, ButtonText} from "@/components/ui/button";
 import {Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel,} from "@/components/ui/checkbox";
 import {FormControl, FormControlLabelText,} from "@/components/ui/form-control";
@@ -7,10 +7,10 @@ import {Input, InputField} from "@/components/ui/input";
 import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
 import {Textarea, TextareaInput} from "@/components/ui/textarea";
 import {PriorityLevel} from "@/prisma/generated/prisma";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {CheckIcon, CircleIcon} from "lucide-react-native";
 import React, {useMemo} from "react";
 import {useForm} from "react-hook-form";
-import DateTimePicker from '@react-native-community/datetimepicker';
 import {Platform} from "react-native";
 
 export type TaskDataEntry = {
@@ -40,8 +40,9 @@ export default function CreateTaskPopup() {
     const { handleSubmit, watch, setValue } = useForm({ defaultValues });
 
     async function handleCreateTask(formTaskData: TaskDataEntry) {
+        console.log("Before",formTaskData)
         await createTaskAction(formTaskData)
-        console.log(formTaskData)
+        console.log("After",formTaskData)
     }
 
     return (
@@ -147,10 +148,6 @@ export default function CreateTaskPopup() {
             {/*Submission Button*/}
             <Button onPress={handleSubmit(handleCreateTask)}>
                 <ButtonText>Create Task</ButtonText>
-            </Button>
-
-            <Button onPress={handleSubmit(handleCreateTask)}>
-                <ButtonText>Create User</ButtonText>
             </Button>
         </FormControl>
     );

@@ -40,3 +40,21 @@ export async function POST(request: Request) {
 		});
 		return new Response(JSON.stringify(createdTask), { status: 201 });
 }
+
+export async function GET(request: Request) {
+    // Get userId from query params
+    const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
+
+    if (!userId) {
+        return new Response(JSON.stringify({ error: "Missing userId" }), { status: 400 });
+    }
+
+    const tasks = await prisma.task.findMany({
+        where: {
+            userId: userId,
+        }
+    });
+
+    return new Response(JSON.stringify(tasks), { status: 200 });
+}

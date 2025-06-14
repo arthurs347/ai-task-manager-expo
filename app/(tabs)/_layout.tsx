@@ -6,10 +6,10 @@ export default function TabsLayout() {
     return (
         <Tabs>
             <Tabs.Screen
-                name="home"
+                name="listView"
                 options={{
-                    tabBarIcon: () => <Ionicons name="home-sharp" size={20}/>,
-                    tabBarLabel: () => <Text> Home</Text>,
+                    tabBarIcon: () => <Ionicons name="list-sharp" size={20}/>,
+                    tabBarLabel: () => <Text> List View</Text>,
                 }}
             ></Tabs.Screen>
 

@@ -1,4 +1,4 @@
-import {authenticateUser} from "@/actions/auth";
+import {authenticateUser} from "@/actions/authActions";
 import {User} from "@/prisma/generated/prisma";
 
 /**
@@ -18,7 +18,6 @@ export async function createUserAction() {
         fullName: userFullName,
         image: userImage,
     }
-    console.log(userData);
 
     await fetch("api/users", {
         method: "POST",

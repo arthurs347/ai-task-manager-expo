@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rm -rf ./node_modules",
     "clean-install": "rm -rf ./node_modules && yarn install",
-    "reset-db":  "npx prisma db push --force-reset",
+    "reset-db": "npx prisma db push --force-reset",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "DARK_MODE=media expo start --android",
@@ -55,6 +55,7 @@
     "expo-symbols": "~0.4.4",
     "expo-system-ui": "~5.0.7",
     "expo-web-browser": "~14.1.6",
+    "express": "^5.1.0",
     "lucide-react-native": "^0.514.0",
     "nativewind": "^4.1.23",
     "react": "19.0.0",
