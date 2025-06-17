@@ -1,4 +1,4 @@
-import {Heading} from "@/components/ui/heading";
+import {Text} from "react-native";
 
 interface TaskTimeHeaderProps {
     taskStartTime: string;
@@ -11,5 +11,9 @@ export default function TaskTimeHeader({
                                            taskEndTime,
                                            taskDuration,
                                        }: TaskTimeHeaderProps) {
-    return <Heading> </Heading>;
+    return(
+        <Text className="text-lg text-gray-600">
+            {taskStartTime + " - " + taskEndTime + " : " + taskDuration}
+        </Text>
+    )
 }

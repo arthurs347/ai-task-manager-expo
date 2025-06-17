@@ -1508,6 +1508,19 @@
     "@react-native-aria/focus" "^0.2.9"
     "@react-native-aria/interactions" "0.2.16"
 
+"@gluestack-ui/modal@^0.1.41":
+  version "0.1.41"
+  resolved "https://registry.yarnpkg.com/@gluestack-ui/modal/-/modal-0.1.41.tgz#e8c04fd9ac7598dd0f2a2ff15f8526b9cceab2d2"
+  integrity sha512-pEO5h6TxEpYyU/CEhRD/pAkuBsDfqnFUe51AxK7w6FLjBuTKA5P0wsQ1pfcovJeykkpreG+MiUvNPIo3MW/Lfw==
+  dependencies:
+    "@gluestack-ui/hooks" "0.1.13"
+    "@gluestack-ui/overlay" "^0.1.22"
+    "@gluestack-ui/utils" "^0.1.15"
+    "@react-native-aria/dialog" "^0.0.5"
+    "@react-native-aria/focus" "^0.2.9"
+    "@react-native-aria/interactions" "0.2.16"
+    "@react-native-aria/overlays" "^0.3.15"
+
 "@gluestack-ui/nativewind-utils@^1.0.26":
   version "1.0.26"
   resolved "https://registry.yarnpkg.com/@gluestack-ui/nativewind-utils/-/nativewind-utils-1.0.26.tgz#1abb57a6a818da843345808216acc9d4cbc01e92"
@@ -1564,6 +1577,17 @@
     "@gluestack-ui/hooks" "0.1.13"
     "@gluestack-ui/utils" "^0.1.14"
     "@react-native-aria/focus" "^0.2.9"
+
+"@gluestack-ui/switch@^0.1.29":
+  version "0.1.29"
+  resolved "https://registry.yarnpkg.com/@gluestack-ui/switch/-/switch-0.1.29.tgz#d2a26f66cfc3065f27ea4af0206f4cb0ef34f5ca"
+  integrity sha512-swx0J20ULpN+pkHg8KioWibZETWE/6XvCBckmApNZf9RO2MiHHkNMw4Txne4u1z0OyLKGzBW1dbmkhLIOObaXg==
+  dependencies:
+    "@gluestack-ui/form-control" "^0.1.19"
+    "@gluestack-ui/utils" "^0.1.15"
+    "@react-native-aria/focus" "^0.2.9"
+    "@react-native-aria/interactions" "0.2.16"
+    "@react-stately/toggle" "^3.4.4"
 
 "@gluestack-ui/textarea@^0.1.25":
   version "0.1.25"
@@ -2383,7 +2407,7 @@
     "@react-types/shared" "^3.30.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-stately/toggle@^3.2.1", "@react-stately/toggle@^3.8.5":
+"@react-stately/toggle@^3.2.1", "@react-stately/toggle@^3.4.4", "@react-stately/toggle@^3.8.5":
   version "3.8.5"
   resolved "https://registry.yarnpkg.com/@react-stately/toggle/-/toggle-3.8.5.tgz#3dd8c8a9d425f55e4586b8de51ac4f53b6c83b46"
   integrity sha512-BSvuTDVFzIKxpNg9Slf+RdGpva7kBO8xYaec2TW9m6Ag9AOmiDwUzzDAO0DRsc7ArSaLLFaQ/pdmmT6TxAUQIA==

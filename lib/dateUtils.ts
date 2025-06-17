@@ -23,3 +23,17 @@ export function sortTasksByStartDateTime(tasks: Task[]): Task[] {
 		return aTime.valueOf() - bTime.valueOf();
 	});
 }
+
+// Assuming estimatedDuration is in minutes
+export function parseEstimatedDurationAsString(estimatedDuration: number): string {
+	const days = Math.floor(estimatedDuration / (60 * 24));
+	const hours = Math.floor((estimatedDuration % (60 * 24)) / 60);
+	const minutes = estimatedDuration % 60;
+	return `${days}:${hours}:${minutes}`;
+}
+
+export function parseStartEndTime(start: Date, end: Date){
+	const startTimeParsed = dayjs(start).format(DATETIME_FORMAT);
+	const endTimeParsed = dayjs(end).format(DATETIME_FORMAT);
+	return { startTimeParsed, endTimeParsed };
+}

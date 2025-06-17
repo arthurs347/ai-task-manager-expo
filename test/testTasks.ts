@@ -1,11 +1,8 @@
-import {
-	PriorityCategory,
-	PriorityLevel,
-	Task,
-} from "@/prisma/generated/prisma";
+import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma";
 import dayjs from "dayjs";
 
-const baseDate = dayjs().startOf("day").add(9, "hour"); // 9:00 AM today
+// Set baseDate to the start of the current week (Monday, 8:00 AM)
+const baseDate: dayjs.Dayjs = dayjs().startOf("week").add(1, "day").set('hour', 8).set('minute', 0).set('second', 0).set('millisecond', 0);
 
 export const testTasks: Task[] = [
 	{
@@ -16,9 +13,10 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.MED,
 		priorityScore: 3,
 		priorityCategory: PriorityCategory.MED,
-		start: baseDate.toISOString(),
-		end: baseDate.add(30, "minute").toISOString(),
-		estimatedDuration: "00:30",
+		start: baseDate.toDate(),
+		end: baseDate.add(30, "minute").toDate(),
+		dueDateTime: baseDate.add(30, "minute").toDate(),
+		estimatedDuration: 30,
 		isHardDeadline: true,
 		isRecurring: true,
 		completed: false,
@@ -31,9 +29,10 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.HIGH,
 		priorityScore: 5,
 		priorityCategory: PriorityCategory.HIGH,
-		start: baseDate.add(1, "hour").toISOString(),
-		end: baseDate.add(2, "hour").toISOString(),
-		estimatedDuration: "01:00",
+		start: baseDate.add(1, "day").toDate(),
+		end: baseDate.add(1, "day").add(1, "hour").toDate(),
+		dueDateTime: baseDate.add(1, "day").add(1, "hour").toDate(),
+		estimatedDuration: 60,
 		isHardDeadline: false,
 		isRecurring: false,
 		completed: false,
@@ -46,9 +45,10 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.LOW,
 		priorityScore: 1,
 		priorityCategory: PriorityCategory.LOW,
-		start: baseDate.add(2, "hour").toISOString(),
-		dueDateTime: baseDate.add(3, "hour").toISOString(),
-		estimatedDuration: "01:00",
+		start: baseDate.add(2, "day").toDate(),
+		end: baseDate.add(2, "day").add(1, "hour").toDate(),
+		dueDateTime: baseDate.add(2, "day").add(1, "hour").toDate(),
+		estimatedDuration: 60,
 		isHardDeadline: false,
 		isRecurring: false,
 		completed: false,
@@ -61,9 +61,10 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.CRIT,
 		priorityScore: 8,
 		priorityCategory: PriorityCategory.CRIT,
-		start: baseDate.add(4, "hour").toISOString(),
-		end: baseDate.add(5, "hour").toISOString(),
-		estimatedDuration: "01:00",
+		start: baseDate.add(3, "day").toDate(),
+		end: baseDate.add(3, "day").add(1, "hour").toDate(),
+		dueDateTime: baseDate.add(3, "day").add(1, "hour").toDate(),
+		estimatedDuration: 60,
 		isHardDeadline: true,
 		isRecurring: false,
 		completed: false,
@@ -76,9 +77,10 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.MED,
 		priorityScore: 2,
 		priorityCategory: PriorityCategory.MED,
-		start: baseDate.add(5, "hour").toISOString(),
-		end: baseDate.add(6, "hour").toISOString(),
-		estimatedDuration: "01:00",
+		start: baseDate.add(4, "day").toDate(),
+		end: baseDate.add(4, "day").add(1, "hour").toDate(),
+		dueDateTime: baseDate.add(4, "day").add(1, "hour").toDate(),
+		estimatedDuration: 60,
 		isHardDeadline: false,
 		isRecurring: false,
 		completed: false,

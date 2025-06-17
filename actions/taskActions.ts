@@ -1,12 +1,11 @@
 import {authenticateUser} from "@/actions/authActions";
-import {TaskDataEntry} from "@/components/home/CreateTaskPopup";
-import {ISOToDateTimeFormat, parseEstimatedDuration} from "@/lib/dateUtils";
+import {TaskDataEntry} from "@/components/home/CreateTaskForm";
+import {parseEstimatedDuration} from "@/lib/dateUtils";
 import {PriorityCategory, Task} from "@/prisma/generated/prisma";
 
 function calculateTaskStartAndEnd(task: TaskDataEntry) {
     //TODO: REPLACE WITH ACTUAL LOGIC
-    return [ISOToDateTimeFormat(new Date().toISOString())
-        , ISOToDateTimeFormat(new Date().toISOString())];
+    return [new Date(), new Date()];
 }
 function calculateTaskPriorityScore(task: TaskDataEntry) {
     //TODO: REPLACE WITH ACTUAL LOGIC
@@ -20,10 +19,10 @@ function calculateTaskPriorityCategory(priorityScore: number) {
 export async function createTaskAction(task: TaskDataEntry){
     const userId = authenticateUser().id
 
-    const parsedDueDate = ISOToDateTimeFormat(task.dueDate.toISOString());
-    const parsedEstimatedDuration = parseEstimatedDuration(task.estimatedDuration)
-    const taskPriorityScore = calculateTaskPriorityScore(task);
-    const calculatedPriorityCategory = calculateTaskPriorityCategory(taskPriorityScore)
+    const parsedDueDate: Date = task.dueDate;
+    const parsedEstimatedDuration: number = parseEstimatedDuration(task.estimatedDuration)
+    const taskPriorityScore: number = calculateTaskPriorityScore(task);
+    const calculatedPriorityCategory: PriorityCategory = calculateTaskPriorityCategory(taskPriorityScore)
     const [calculatedStart, calculatedEnd] = calculateTaskStartAndEnd(task);
 
     const taskToCreateData: Omit<Task, 'id' | 'completed'> = {
@@ -45,6 +44,20 @@ export async function createTaskAction(task: TaskDataEntry){
         method: "POST",
         body: JSON.stringify(taskToCreateData) ,
     });
+}
+
+export async function deleteTaskAction(taskId: string) {
+    authenticateUser();
+
+    const response = await fetch(`/api/tasks?taskId=${encodeURIComponent(taskId)}`, {
+        method: "DELETE",
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to delete task");
+    }
+
+    return response.json();
 }
 
 export async function getTasksAction() {

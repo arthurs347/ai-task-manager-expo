@@ -20,10 +20,10 @@ model Task {
   id                String            @id @default(cuid())
   title             String
   description       String?
-  start   String
-  end     String
-  dueDateTime       String
-  estimatedDuration Int
+  start   DateTime
+  end     DateTime
+  dueDateTime       DateTime
+  estimatedDuration Int // in minutes
   isHardDeadline    Boolean
   isRecurring       Boolean
   priorityLevel     PriorityLevel

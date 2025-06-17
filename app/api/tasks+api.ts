@@ -38,7 +38,22 @@ export async function POST(request: Request) {
 				},
 			},
 		});
+
 		return new Response(JSON.stringify(createdTask), { status: 201 });
+}
+
+export async function DELETE(request: Request) {
+	const url = new URL(request.url);
+	const taskId = url.searchParams.get("taskId");
+
+	console.log(`taskId=${taskId}`);
+	await prisma.task.delete({
+		where: {
+			id: taskId!,
+		}
+	})
+
+	return new Response(JSON.stringify(taskId), { status: 200 });
 }
 
 export async function GET(request: Request) {
@@ -56,5 +71,5 @@ export async function GET(request: Request) {
         }
     });
 
-    return new Response(JSON.stringify(tasks), { status: 200 });
+    return new Response(JSON.stringify(tasks), { status: 200, });
 }
