@@ -75,3 +75,16 @@ export async function getTasksAction() {
 
     return response.json();
 }
+
+export async function changeTaskCompletionStatusAction(taskId: string, taskCompleted: boolean) {
+    authenticateUser();
+
+    const response = await fetch(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}`, {
+        method: "PATCH",
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to change Task Completion Status");
+    }
+    return response.json();
+}

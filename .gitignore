@@ -50,3 +50,5 @@ app-example
 
 
 /prisma/migrations/migration_lock.toml
+
+.env.local

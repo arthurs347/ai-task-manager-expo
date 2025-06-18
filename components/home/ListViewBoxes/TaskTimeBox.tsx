@@ -8,9 +8,10 @@ interface TaskAndTimeBoxProps {
     taskStartTime: string;
     taskEndTime: string;
     taskDuration: string;
+    taskComplete: boolean;
 }
 
-export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTime, taskDuration}: TaskAndTimeBoxProps) {
+export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTime, taskDuration, taskComplete}: TaskAndTimeBoxProps) {
     return (
         <View className="items-start gap-y-2 mt-2">
             <TaskTimeHeader
@@ -18,7 +19,7 @@ export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTim
                 taskEndTime={taskEndTime}
                 taskDuration={taskDuration}
             />
-            <TaskBox taskId={taskId} taskName={taskName}/>
+            <TaskBox taskId={taskId} taskName={taskName} taskComplete={taskComplete}/>
         </View>
     );
 }

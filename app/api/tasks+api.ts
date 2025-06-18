@@ -46,7 +46,10 @@ export async function DELETE(request: Request) {
 	const url = new URL(request.url);
 	const taskId = url.searchParams.get("taskId");
 
-	console.log(`taskId=${taskId}`);
+	if (!taskId) {
+		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: 400 });
+	}
+
 	await prisma.task.delete({
 		where: {
 			id: taskId!,
@@ -72,4 +75,34 @@ export async function GET(request: Request) {
     });
 
     return new Response(JSON.stringify(tasks), { status: 200, });
+}
+
+export async function PATCH(request: Request) {
+	//TODO:CHECK
+	const url = new URL(request.url);
+	const taskId = url.searchParams.get("taskId");
+
+	const taskCompleted = url.searchParams.get("taskCompleted");
+	console.log(taskCompleted);
+
+	if (!taskId) {
+		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: 400 });
+	}
+
+	if (taskCompleted == null) {
+		return new Response(JSON.stringify({ error: "Missing task completion status" }), { status: 400 });
+	}
+
+	const taskCompletedParsed = Boolean(taskCompleted);
+
+	await prisma.task.update({
+		where: {
+			id: taskId,
+		},
+		data: {
+			completed: !taskCompletedParsed
+		},
+	})
+
+	return new Response(JSON.stringify(taskId), { status: 200 });
 }
