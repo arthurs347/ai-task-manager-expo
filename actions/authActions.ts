@@ -4,14 +4,14 @@ import {router} from "expo-router";
 /**
  * Authenticates session and user.
  * Routes to auth page if not authenticated or returns the user.
- * */
+ */
 export function authenticateUser() {
-    const clerkInstance = getClerkInstance();
-    const session = clerkInstance?.session;
-    const user = clerkInstance?.user;
-
-    if (!session || !user) {
-        router.replace("/(auth)/auth")
+    const clerk = getClerkInstance();
+    // Wait for Clerk to initialize
+    if (!clerk || !clerk.session || !clerk.user) {
+        router.replace("/(auth)/auth");
+        return null;
     }
-    return user!
+
+    return clerk.user!;
 }

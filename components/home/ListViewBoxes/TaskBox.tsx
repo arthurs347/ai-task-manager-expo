@@ -9,14 +9,17 @@ interface TaskBoxProps {
     taskId: string;
     taskName: string;
     taskComplete: boolean;
+    setRefreshKey: (key: (prev: number) => any) => void;
 }
 
-export default function TaskBox({ taskId, taskName, taskComplete}: TaskBoxProps) {
+export default function TaskBox({ taskId, taskName, taskComplete, setRefreshKey}: TaskBoxProps) {
     async function handleDeleteTask(){
         await deleteTaskAction(taskId);
+        setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
    }
    async function handleChangeTaskCompletionStatus() {
        await changeTaskCompletionStatusAction(taskId, taskComplete)
+       setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
    }
 
     return (

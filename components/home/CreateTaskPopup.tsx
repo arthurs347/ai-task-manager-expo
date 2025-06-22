@@ -12,7 +12,7 @@ interface CreateTaskPopupProps {
 export default function CreateTaskPopup({displayCreateTaskPopup, setDisplayCreateTaskPopup, setRefreshKey}: CreateTaskPopupProps) {
     return (
         <Drawer
-            size="lg"
+            size="md"
             anchor="bottom"
             isOpen={displayCreateTaskPopup}
             onClose={() => setDisplayCreateTaskPopup(false)}
@@ -28,7 +28,10 @@ export default function CreateTaskPopup({displayCreateTaskPopup, setDisplayCreat
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <CreateTaskForm setRefreshKey={setRefreshKey}/>
+                    <CreateTaskForm
+                        setRefreshKey={setRefreshKey}
+                        setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
+                    />
                 </DrawerBody>
                 <DrawerFooter>
                     <Button

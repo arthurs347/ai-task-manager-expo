@@ -5,8 +5,10 @@ import {Task} from "@/prisma/generated/prisma";
 
 interface ListViewBoxesProps {
     tasks: Task[]
+    setRefreshKey: (key: (prev: number) => any) => void;
+
 }
-export function ListViewBoxes({tasks}: ListViewBoxesProps) {
+export function ListViewBoxes({tasks, setRefreshKey}: ListViewBoxesProps) {
     return (
         <VStack>
             {tasks.map(({id, title, start, end, estimatedDuration, completed}) => {
@@ -22,6 +24,7 @@ export function ListViewBoxes({tasks}: ListViewBoxesProps) {
                         taskEndTime={endTimeParsed}
                         taskDuration={taskDurationParsed}
                         taskComplete={completed}
+                        setRefreshKey={setRefreshKey}
                     />
                 );
             })}

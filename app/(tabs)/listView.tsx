@@ -9,13 +9,9 @@ import {Task} from "@/prisma/generated/prisma";
 import {testTasks} from "@/test/testTasks";
 import {PlusIcon} from "lucide-react-native";
 import {useEffect, useState} from "react";
-import {authenticateUser} from "@/actions/authActions";
+import {useAuth} from "@clerk/clerk-expo";
 
 export default function ListView() {
-    const fetchTasks = async () => {
-        const fetchedTasks: Task[] = !OFFLINE_DEV_MODE ?  await getTasksAction() : testTasks
-        setTasks(fetchedTasks);
-    }
     const today = new Date();
 
     const [dayIndex, setDayIndex] = useState(today.getDay());
@@ -23,24 +19,26 @@ export default function ListView() {
     const [refreshKey, setRefreshKey] = useState(0);
     const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 
+    const {isLoaded} = useAuth()
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey allows code to run after new task creation
     useEffect(() => {
-        if (!OFFLINE_DEV_MODE) {
-            authenticateUser();
-        }
-        fetchTasks()
-    }, [refreshKey])
+        if (!isLoaded) return; // Wait until Clerk is loaded
+        getTasksAction()
+            .then((fetchedTasks: Task[]) => !OFFLINE_DEV_MODE ? setTasks(fetchedTasks) : setTasks(testTasks));
+        console.log("Ran")
+    }, [isLoaded, refreshKey])
 
     return (
         <VStack className="flex-1 items-center">
             <ListViewDayHeaders dayIndex={dayIndex} setDayIndex={setDayIndex}/>
-            <ListViewBoxes tasks={tasks}/>
+            <ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
             <Button
                 onPress={() => setDisplayCreateTaskPopup(true)}
             >
                 <ButtonIcon as={PlusIcon}/>
             </Button>
+
             <CreateTaskPopup setRefreshKey={setRefreshKey} displayCreateTaskPopup={displayCreateTaskPopup} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}/>
         </VStack>
     );

@@ -46,7 +46,8 @@
           "project": "react-native",
           "organization": "timex-4k"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
@@ -57,6 +58,12 @@
         "projectId": "164e19e4-8850-4b79-8fcf-57a0dce09690"
       }
     },
-    "owner": "arthurs347"
+    "owner": "arthurs347",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/164e19e4-8850-4b79-8fcf-57a0dce09690"
+    }
   }
 }

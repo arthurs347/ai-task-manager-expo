@@ -9,9 +9,10 @@ interface TaskAndTimeBoxProps {
     taskEndTime: string;
     taskDuration: string;
     taskComplete: boolean;
+    setRefreshKey: (key: (prev: number) => any) => void;
 }
 
-export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTime, taskDuration, taskComplete}: TaskAndTimeBoxProps) {
+export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTime, taskDuration, taskComplete, setRefreshKey}: TaskAndTimeBoxProps) {
     return (
         <View className="items-start gap-y-2 mt-2">
             <TaskTimeHeader
@@ -19,7 +20,7 @@ export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTim
                 taskEndTime={taskEndTime}
                 taskDuration={taskDuration}
             />
-            <TaskBox taskId={taskId} taskName={taskName} taskComplete={taskComplete}/>
+            <TaskBox taskId={taskId} taskName={taskName} taskComplete={taskComplete} setRefreshKey={setRefreshKey}/>
         </View>
     );
 }

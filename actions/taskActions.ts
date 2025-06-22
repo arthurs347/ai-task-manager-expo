@@ -17,7 +17,7 @@ function calculateTaskPriorityCategory(priorityScore: number) {
 }
 
 export async function createTaskAction(task: TaskDataEntry){
-    const userId = authenticateUser().id
+    const userId = authenticateUser()!.id
 
     const parsedDueDate: Date = task.dueDate;
     const parsedEstimatedDuration: number = parseEstimatedDuration(task.estimatedDuration)

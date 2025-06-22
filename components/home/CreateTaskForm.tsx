@@ -25,8 +25,9 @@ export type TaskDataEntry = {
 
 interface CreateTaskPopupProps {
     setRefreshKey: (key: (prev: number) => any) => void;
+    setDisplayCreateTaskPopup: (displayPopup: boolean) => void;
 }
-export default function CreateTaskPopup({setRefreshKey}: CreateTaskPopupProps) {
+export default function CreateTaskPopup({setRefreshKey, setDisplayCreateTaskPopup}: CreateTaskPopupProps) {
 
     // Memoize defaultValues so it doesn't change on every render
     const defaultValues = useMemo(() => ({
@@ -43,8 +44,9 @@ export default function CreateTaskPopup({setRefreshKey}: CreateTaskPopupProps) {
     const { handleSubmit, watch, setValue } = useForm({ defaultValues });
 
     async function handleCreateTask(formTaskData: TaskDataEntry) {
-        setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
         await createTaskAction(formTaskData)
+        setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
+        setDisplayCreateTaskPopup(false); // Close the popup after task creation
     }
 
     return (

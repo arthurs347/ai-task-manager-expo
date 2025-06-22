@@ -78,12 +78,10 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-	//TODO:CHECK
 	const url = new URL(request.url);
 	const taskId = url.searchParams.get("taskId");
 
 	const taskCompleted = url.searchParams.get("taskCompleted");
-	console.log(taskCompleted);
 
 	if (!taskId) {
 		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: 400 });
@@ -93,7 +91,8 @@ export async function PATCH(request: Request) {
 		return new Response(JSON.stringify({ error: "Missing task completion status" }), { status: 400 });
 	}
 
-	const taskCompletedParsed = Boolean(taskCompleted);
+	const taskCompletedParsed = JSON.parse(taskCompleted);
+	console.log(taskCompletedParsed);
 
 	await prisma.task.update({
 		where: {
