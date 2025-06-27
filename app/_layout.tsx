@@ -55,6 +55,9 @@ function InitialLayout() {
         <Stack>
             <Stack.Screen
                 name="(tabs)"
+                options={{
+                    headerShown: false,
+                }}
             />
         </Stack>
     )

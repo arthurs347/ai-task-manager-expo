@@ -1,6 +1,6 @@
 import TaskTimeBox from "@/components/home/ListViewBoxes/TaskTimeBox";
 import {VStack} from "@/components/ui/vstack";
-import {parseEstimatedDurationAsString, parseStartEndTime} from "@/lib/dateUtils";
+import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
 import {Task} from "@/prisma/generated/prisma";
 
 interface ListViewBoxesProps {

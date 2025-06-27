@@ -94,7 +94,16 @@ export default function CreateTaskPopup({setRefreshKey, setDisplayCreateTaskPopu
                             setValue('estimatedDuration', estimatedDuration);
                         }}
                     />
-                </>: <></>
+                </> :
+                <>
+                    <input type="datetime-local"/>
+                    <label>Due Date:</label>
+                    <input
+                        type="datetime-local"
+                        value={watch('dueDate') ? new Date(watch('dueDate')).toISOString().slice(0, 16) : ''}
+                    />
+                </>
+
             }
 
 

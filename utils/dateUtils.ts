@@ -37,3 +37,7 @@ export function parseStartEndTime(start: Date, end: Date){
 	const endTimeParsed = dayjs(end).format(DATETIME_FORMAT);
 	return { startTimeParsed, endTimeParsed };
 }
+
+export function isSameDay(date1: Date, date2: Date): boolean {
+	return dayjs(date1).isSame(dayjs(date2), 'day');
+}

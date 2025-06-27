@@ -1,11 +1,12 @@
 import ListViewDayHeader from "@/components/home/DayHeaders/ListViewDayHeader";
 import {HStack} from "../../ui/hstack";
+import {isSameDay} from "@/utils/dateUtils";
 
 interface ListViewDayHeadersProps {
-    dayIndex: number;
-    setDayIndex: (index: number) => void;
+    selectedDay: Date;
+    setSelectedDay: (selectedDay: Date) => void;
 }
-export default function ListViewDayHeaders({dayIndex, setDayIndex}: ListViewDayHeadersProps) {
+export default function ListViewDayHeaders({selectedDay, setSelectedDay}: ListViewDayHeadersProps) {
     const today = new Date();
     // Helper to get all days of the current week (Sunday to Saturday)
     function getCurrentWeekDays() {
@@ -18,13 +19,11 @@ export default function ListViewDayHeaders({dayIndex, setDayIndex}: ListViewDayH
             const date = new Date(weekStart);
             date.setDate(weekStart.getDate() + idx);
             return {
+                dayDate: date,
                 dayName,
                 dayNum: date.getDate(),
-                isToday:
-                    date.getDate() === today.getDate() &&
-                    date.getMonth() === today.getMonth() &&
-                    date.getFullYear() === today.getFullYear(),
-                selected: date.getDay() === dayIndex,
+                isToday: isSameDay(date, today),
+                selected: date.getDay() === selectedDay.getDay(),
             };
         });
     }
@@ -32,14 +31,14 @@ export default function ListViewDayHeaders({dayIndex, setDayIndex}: ListViewDayH
 
     return (
         <HStack className="w-full">
-            {currentWeekDays.map((day, index) => (
+            {currentWeekDays.map((day) => (
                 <ListViewDayHeader
                     key={day.dayName}
+                    dayDate={day.dayDate}
                     dayName={day.dayName}
                     dayNum={day.dayNum}
                     selected={day.selected}
-                    dayIndex={index}
-                    setDayIndex={setDayIndex}
+                    setSelectedDay={setSelectedDay}
                 />
             ))}
         </HStack>

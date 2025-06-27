@@ -1,6 +1,6 @@
 import {authenticateUser} from "@/actions/authActions";
 import {TaskDataEntry} from "@/components/home/CreateTaskForm";
-import {parseEstimatedDuration} from "@/lib/dateUtils";
+import {parseEstimatedDuration} from "@/utils/dateUtils";
 import {PriorityCategory, Task} from "@/prisma/generated/prisma";
 
 function calculateTaskStartAndEnd(task: TaskDataEntry) {
@@ -14,6 +14,14 @@ function calculateTaskPriorityScore(task: TaskDataEntry) {
 function calculateTaskPriorityCategory(priorityScore: number) {
     //TODO: REPLACE WITH ACTUAL LOGIC
     return PriorityCategory.HIGH
+}
+function calculateTaskDueDateRange() {
+    //TODO: REPLACE WITH ACTUAL LOGIC
+
+}
+function calculateTaskDueDate() {
+    //TODO: REPLACE WITH ACTUAL LOGIC
+
 }
 
 export async function createTaskAction(task: TaskDataEntry){

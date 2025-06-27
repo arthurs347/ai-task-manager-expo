@@ -1,23 +1,26 @@
 import {Pressable, Text, View} from "react-native";
 
 interface ListViewDayHeaderProps {
+    dayDate: Date;
     dayName: string;
     dayNum: number;
     selected: boolean;
-    dayIndex: number;
-    setDayIndex: (index: number) => void;
+    setSelectedDay: (selectedDay: Date) => void;
 
 }
 
-export default function ListViewDayHeader({dayName, dayNum, selected, dayIndex, setDayIndex} : ListViewDayHeaderProps) {
+export default function ListViewDayHeader({dayDate, dayName, dayNum, selected, setSelectedDay} : ListViewDayHeaderProps) {
+
     return (
-        <Pressable className="w-full flex-1" onPress={() => setDayIndex(dayIndex)}>
+        <Pressable className="w-full flex-1" onPress={() => {
+            setSelectedDay(dayDate)
+        }}>
             <View className="border items-center">
                 <Text className="font-bold">{dayName}</Text>
                 <View
                     style={{
-                        width:30,
-                        height:30,
+                        width:40,
+                        height:40,
                         borderRadius: 20,
                         justifyContent: 'center',
                         alignItems: 'center',
