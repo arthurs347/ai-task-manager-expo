@@ -12,7 +12,7 @@ interface CreateTaskPopupProps {
 export default function CreateTaskPopup({displayCreateTaskPopup, setDisplayCreateTaskPopup, setRefreshKey}: CreateTaskPopupProps) {
     return (
         <Drawer
-            size="md"
+            size="lg"
             anchor="bottom"
             isOpen={displayCreateTaskPopup}
             onClose={() => setDisplayCreateTaskPopup(false)}

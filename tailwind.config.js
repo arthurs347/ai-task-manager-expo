@@ -1,9 +1,14 @@
+const {heroui} = require('@heroui/theme');
 import gluestackPlugin from '@gluestack-ui/nativewind-utils/tailwind-plugin';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "media",
-  content: ["app/**/*.{tsx,jsx,ts,js}", "components/**/*.{tsx,jsx,ts,js}"],
+  content: [
+    "app/**/*.{tsx,jsx,ts,js}",
+    "components/**/*.{tsx,jsx,ts,js}",
+    "./node_modules/@heroui/theme/dist/components/(date-input|date-picker|number-input|form|button|ripple|spinner|calendar|popover).js"
+  ],
   presets: [require('nativewind/preset')],
   safelist: [
     {
@@ -194,5 +199,5 @@ module.exports = {
       },
     },
   },
-  plugins: [gluestackPlugin],
+  plugins: [gluestackPlugin,heroui()],
 };

@@ -1,6 +1,6 @@
 import {getTasksAction} from "@/actions/taskActions";
-import CreateTaskPopup from "@/components/home/CreateTaskPopup";
-import {ListViewBoxes} from "@/components/home/ListViewBoxes/ListViewBoxes";
+import CreateTaskPopup from "@/components/home/CreateTaskPopup/_CreateTaskPopup";
+import {_ListViewBoxes} from "@/components/home/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
@@ -12,16 +12,14 @@ import {useAuth} from "@clerk/clerk-expo";
 import {useFocusEffect} from "expo-router";
 
 export default function ListView() {
-    const today = new Date();
-
     const [tasks, setTasks] = useState<Task[]>([]); // Replace with useState if not using test data
     const [refreshKey, setRefreshKey] = useState(0);
     const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 
     const {isLoaded} = useAuth()
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey allows code to run after new task creation
     useFocusEffect(
+        // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey allows code to run after new task creation
         useCallback(() => {
             if (!isLoaded) return; // Wait until Clerk is loaded
             getTasksAction()
@@ -33,7 +31,7 @@ export default function ListView() {
 
     return (
         <VStack className="flex-1 items-center">
-            <ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
+            <_ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
             <Button
                 onPress={() => setDisplayCreateTaskPopup(true)}
             >

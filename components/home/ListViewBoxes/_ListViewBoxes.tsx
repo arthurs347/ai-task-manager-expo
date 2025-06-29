@@ -8,7 +8,7 @@ interface ListViewBoxesProps {
     setRefreshKey: (key: (prev: number) => any) => void;
 
 }
-export function ListViewBoxes({tasks, setRefreshKey}: ListViewBoxesProps) {
+export function _ListViewBoxes({tasks, setRefreshKey}: ListViewBoxesProps) {
     return (
         <VStack>
             {tasks.map(({id, title, start, end, estimatedDuration, completed}) => {

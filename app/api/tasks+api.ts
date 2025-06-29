@@ -1,5 +1,5 @@
 import {prisma} from "@/lib/prisma";
-import {Task} from "@/prisma/generated/prisma";
+import {ManualTask} from "@/actions/taskActions";
 
 // creates a new task with given info
 export async function POST(request: Request) {
@@ -8,15 +8,10 @@ export async function POST(request: Request) {
 			description,
 			start,
 			end,
-			dueDateTime,
 			estimatedDuration,
-			isHardDeadline,
 			isRecurring,
-			priorityLevel,
-			priorityScore,
-			priorityCategory,
 			userId,
-		}: Task & string = await request.json();
+		}: ManualTask & string = await request.json();
 
 		const createdTask = await prisma.task.create({
 			data: {
@@ -24,13 +19,8 @@ export async function POST(request: Request) {
 				description,
 				start,
 				end,
-				dueDateTime,
 				estimatedDuration,
-				isHardDeadline,
 				isRecurring,
-				priorityLevel,
-				priorityScore,
-				priorityCategory,
 				user: {
 					connect: {
 						id: userId!,

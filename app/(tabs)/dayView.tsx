@@ -1,7 +1,7 @@
 import {getTasksAction} from "@/actions/taskActions";
-import CreateTaskPopup from "@/components/home/CreateTaskPopup";
-import ListViewDayHeaders from "@/components/home/DayHeaders/ListViewDayHeaders";
-import {ListViewBoxes} from "@/components/home/ListViewBoxes/ListViewBoxes";
+import CreateTaskPopup from "@/components/home/CreateTaskPopup/_CreateTaskPopup";
+import ListViewDayHeaders from "@/components/home/DayHeaders/_ListViewDayHeaders";
+import {_ListViewBoxes} from "@/components/home/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
@@ -30,7 +30,7 @@ export default function DayView() {
             .then((fetchedTasks: Task[]) => {
                 const tasksToDisplay = !OFFLINE_DEV_MODE ? fetchedTasks:  testTasks;
                 const tasksFilteredByDay = tasksToDisplay.filter(task => {
-                    return isSameDay(selectedDay, task.end);
+                    return isSameDay(selectedDay, task.start);
                 })
                 setTasks(tasksFilteredByDay);
             })
@@ -40,7 +40,7 @@ export default function DayView() {
     return (
         <VStack className="flex-1 items-center">
             <ListViewDayHeaders selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
-            <ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
+            <_ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
             <Button
                 onPress={() => setDisplayCreateTaskPopup(true)}
             >

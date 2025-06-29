@@ -1,57 +1,66 @@
 import {authenticateUser} from "@/actions/authActions";
-import {TaskDataEntry} from "@/components/home/CreateTaskForm";
-import {parseEstimatedDuration} from "@/utils/dateUtils";
-import {PriorityCategory, Task} from "@/prisma/generated/prisma";
+import {TaskDataEntry} from "@/components/home/CreateTaskPopup/CreateTaskForm";
+import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
+import {Task} from "@/prisma/generated/prisma";
+import {Time} from "@internationalized/date";
 
-function calculateTaskStartAndEnd(task: TaskDataEntry) {
-    //TODO: REPLACE WITH ACTUAL LOGIC
-    return [new Date(), new Date()];
-}
-function calculateTaskPriorityScore(task: TaskDataEntry) {
-    //TODO: REPLACE WITH ACTUAL LOGIC
-    return 500;
-}
-function calculateTaskPriorityCategory(priorityScore: number) {
-    //TODO: REPLACE WITH ACTUAL LOGIC
-    return PriorityCategory.HIGH
-}
-function calculateTaskDueDateRange() {
-    //TODO: REPLACE WITH ACTUAL LOGIC
-
-}
-function calculateTaskDueDate() {
-    //TODO: REPLACE WITH ACTUAL LOGIC
-
-}
-
+export type ManualTask = Omit<Task, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline'>
 export async function createTaskAction(task: TaskDataEntry){
-    const userId = authenticateUser()!.id
+    const userId = authenticateUser()!.id;
 
-    const parsedDueDate: Date = task.dueDate;
-    const parsedEstimatedDuration: number = parseEstimatedDuration(task.estimatedDuration)
-    const taskPriorityScore: number = calculateTaskPriorityScore(task);
-    const calculatedPriorityCategory: PriorityCategory = calculateTaskPriorityCategory(taskPriorityScore)
-    const [calculatedStart, calculatedEnd] = calculateTaskStartAndEnd(task);
+    if (task.automatic) {
+        //TODO: Handle automatic task creation logic
 
-    const taskToCreateData: Omit<Task, 'id' | 'completed'> = {
-        title: task.title,
-        description: task.description,
-        start: calculatedStart,
-        end: calculatedEnd,
-        dueDateTime: parsedDueDate,
-        estimatedDuration: parsedEstimatedDuration,
-        isRecurring: task.recurring,
-        isHardDeadline: task.hardDeadline,
-        priorityLevel: task.priority,
-        priorityScore: taskPriorityScore,
-        priorityCategory: calculatedPriorityCategory,
-        userId,
+    } else {
+        const startParsedDate: Date = task.start.toDate();
+        const estimatedDurationTime: Time = task.estimatedHoursAndMinutes;
+        const parsedEstimatedDuration: number = convertDurationTimeToMinutes(task.estimatedHoursAndMinutes);
+        const calculatedEnd = addTimeToDate(startParsedDate, estimatedDurationTime); // Convert minutes to milliseconds
+
+        const taskToCreateData: ManualTask = {
+            title: task.title,
+            description: task.description,
+            start: startParsedDate,
+            end: calculatedEnd,
+            estimatedDuration: parsedEstimatedDuration,
+            isRecurring: task.recurring,
+            userId,
+        }
+
+        await fetch("api/tasks", {
+            method: "POST",
+            body: JSON.stringify(taskToCreateData) ,
+        });
     }
-
-    await fetch("api/tasks", {
-        method: "POST",
-        body: JSON.stringify(taskToCreateData) ,
-    });
+    // let startParsed: Date = task.start.toDate();
+    // let dueDateParsed: Date = task.dueDate.toDate();
+    //
+    // let taskStart: Date = task.start;
+    //
+    // const parsedDueDate: Date = task.dueDate;
+    // const parsedEstimatedDuration: number = convertDurationTimeToMinutes(task.estimatedHoursAndMinutes)
+    // const taskPriorityScore: number = calculateTaskPriorityScore(task);
+    // const calculatedPriorityCategory: PriorityCategory = calculateTaskPriorityCategory(taskPriorityScore)
+    //
+    // const taskToCreateData: Omit<Task, 'id' | 'completed'> = {
+    //     title: task.title,
+    //     description: task.description,
+    //     start: calculatedStart,
+    //     end: calculatedEnd,
+    //     dueDateTime: parsedDueDate,
+    //     estimatedDuration: parsedEstimatedDuration,
+    //     isRecurring: task.recurring,
+    //     isHardDeadline: task.hardDeadline,
+    //     priorityLevel: task.priority,
+    //     priorityScore: taskPriorityScore,
+    //     priorityCategory: calculatedPriorityCategory,
+    //     userId,
+    // }
+    //
+    // await fetch("api/tasks", {
+    //     method: "POST",
+    //     body: JSON.stringify(taskToCreateData) ,
+    // });
 }
 
 export async function deleteTaskAction(taskId: string) {
