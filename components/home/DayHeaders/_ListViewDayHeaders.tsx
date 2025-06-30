@@ -8,11 +8,11 @@ interface ListViewDayHeadersProps {
 }
 export default function ListViewDayHeaders({selectedDay, setSelectedDay}: ListViewDayHeadersProps) {
     const today = new Date();
-    // Helper to get all days of the current week (Sunday to Saturday)
+    // Helper to get all days of the week based on selectedDay (Sunday to Saturday)
     function getCurrentWeekDays() {
-        const currentDay = today.getDay(); // 0 (Sun) - 6 (Sat)
-        const weekStart = new Date(today);
-        weekStart.setDate(today.getDate() - currentDay); // Set to Sunday
+        const currentDay = selectedDay.getDay(); // 0 (Sun) - 6 (Sat)
+        const weekStart = new Date(selectedDay);
+        weekStart.setDate(selectedDay.getDate() - currentDay); // Set to Sunday of selected week
 
         const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
         return daysOfWeek.map((dayName, idx) => {
@@ -23,7 +23,7 @@ export default function ListViewDayHeaders({selectedDay, setSelectedDay}: ListVi
                 dayName,
                 dayNum: date.getDate(),
                 isToday: isSameDay(date, today),
-                selected: date.getDay() === selectedDay.getDay(),
+                selected: isSameDay(date, selectedDay),
             };
         });
     }
