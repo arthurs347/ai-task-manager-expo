@@ -1,5 +1,5 @@
-import ListViewDayHeader from "@/components/home/DayHeaders/ListViewDayHeader";
-import {HStack} from "../../ui/hstack";
+import ListViewDayHeader from "@/components/DayHeaders/ListViewDayHeader";
+import {HStack} from "../ui/hstack";
 import {isSameDay} from "@/utils/dateUtils";
 
 interface ListViewDayHeadersProps {

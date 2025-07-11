@@ -12,9 +12,12 @@ import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
 import {TimeInput} from "@heroui/date-input";
 import {DatePicker} from "@heroui/date-picker";
-import {getLocalTimeZone, now, Time, ZonedDateTime} from "@internationalized/date";
+import {Time, ZonedDateTime} from "@internationalized/date";
 import {Switch} from "@/components/ui/switch";
 import {createTaskAction} from "@/actions/taskActions";
+import {toZonedTime} from 'date-fns-tz';
+import {addTimeToDate} from "@/utils/dateUtils";
+
 
 export type TaskDataEntry = {
     title: string;
@@ -29,18 +32,23 @@ export type TaskDataEntry = {
 }
 
 interface CreateTaskPopupProps {
+    selectedDay: Date
     setRefreshKey: (key: (prev: number) => any) => void;
     setDisplayCreateTaskPopup: (displayPopup: boolean) => void;
 }
 
-export default function CreateTaskPopup({setRefreshKey, setDisplayCreateTaskPopup}: CreateTaskPopupProps) {
+export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayCreateTaskPopup}: CreateTaskPopupProps) {
     // Memoize defaultValues so it doesn't change on every render
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const defaultEstimatedHoursAndMinutes = new Time(0, 30)
+    const selectedDayPlusDefaultEstimated = addTimeToDate(selectedDay, defaultEstimatedHoursAndMinutes);
+
     const defaultValues: TaskDataEntry = useMemo(() => ({
         title: "",
         description: "",
-        start: now(getLocalTimeZone()),
-        dueDate: now(getLocalTimeZone()),
-        estimatedHoursAndMinutes: new Time(0, 0),
+        start: toZonedTime(selectedDay, userTimeZone),
+        dueDate: toZonedTime(selectedDayPlusDefaultEstimated, userTimeZone),
+        estimatedHoursAndMinutes: defaultEstimatedHoursAndMinutes,
         priority: PriorityLevel.LOW,
         recurring: false,
         hardDeadline: false,

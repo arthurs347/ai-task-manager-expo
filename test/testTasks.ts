@@ -1,8 +1,8 @@
 import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma";
 import dayjs from "dayjs";
 
-// Set baseDate to the start of the current week (Monday, 8:00 AM)
-const baseDate: dayjs.Dayjs = dayjs().startOf("week").add(1, "day").set('hour', 8).set('minute', 0).set('second', 0).set('millisecond', 0);
+// Set baseDate to today
+const baseDate: dayjs.Dayjs = dayjs().set('hour', 8).set('minute', 0).set('second', 0).set('millisecond', 0);
 
 export const testTasks: Task[] = [
 	{
@@ -29,7 +29,7 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.HIGH,
 		priorityScore: 5,
 		priorityCategory: PriorityCategory.HIGH,
-		start: baseDate.add(1, "day").toDate(),
+		start: baseDate.add(1, "hour").toDate(),
 		end: baseDate.add(1, "day").add(1, "hour").toDate(),
 		dueDateTime: baseDate.add(1, "day").add(1, "hour").toDate(),
 		estimatedDuration: 60,
@@ -45,7 +45,7 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.LOW,
 		priorityScore: 1,
 		priorityCategory: PriorityCategory.LOW,
-		start: baseDate.add(2, "day").toDate(),
+		start: baseDate.add(2, "hour").toDate(),
 		end: baseDate.add(2, "day").add(1, "hour").toDate(),
 		dueDateTime: baseDate.add(2, "day").add(1, "hour").toDate(),
 		estimatedDuration: 60,
@@ -61,7 +61,7 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.CRIT,
 		priorityScore: 8,
 		priorityCategory: PriorityCategory.CRIT,
-		start: baseDate.add(3, "day").toDate(),
+		start: baseDate.add(3, "hour").toDate(),
 		end: baseDate.add(3, "day").add(1, "hour").toDate(),
 		dueDateTime: baseDate.add(3, "day").add(1, "hour").toDate(),
 		estimatedDuration: 60,
@@ -77,7 +77,7 @@ export const testTasks: Task[] = [
 		priorityLevel: PriorityLevel.MED,
 		priorityScore: 2,
 		priorityCategory: PriorityCategory.MED,
-		start: baseDate.add(4, "day").toDate(),
+		start: baseDate.add(4, "hour").toDate(),
 		end: baseDate.add(4, "day").add(1, "hour").toDate(),
 		dueDateTime: baseDate.add(4, "day").add(1, "hour").toDate(),
 		estimatedDuration: 60,

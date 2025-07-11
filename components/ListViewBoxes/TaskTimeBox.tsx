@@ -1,5 +1,5 @@
-import TaskBox from "@/components/home/ListViewBoxes/TaskBox";
-import TaskTimeHeader from "@/components/home/ListViewBoxes/TaskTimeHeader";
+import TaskBox from "@/components/ListViewBoxes/TaskBox";
+import TaskTimeHeader from "@/components/ListViewBoxes/TaskTimeHeader";
 import {View} from "react-native";
 
 interface TaskAndTimeBoxProps {
@@ -14,7 +14,7 @@ interface TaskAndTimeBoxProps {
 
 export default function TaskTimeBox({taskId, taskName, taskStartTime, taskEndTime, taskDuration, taskComplete, setRefreshKey}: TaskAndTimeBoxProps) {
     return (
-        <View className="items-start gap-y-2 mt-2">
+        <View className="items-start gap-y-2 mt-2\">
             <TaskTimeHeader
                 taskStartTime={taskStartTime}
                 taskEndTime={taskEndTime}

@@ -4,12 +4,13 @@ import {Button, ButtonText} from "@/components/ui/button";
 import CreateTaskForm from "./CreateTaskForm";
 
 interface CreateTaskPopupProps {
+    selectedDay: Date
     displayCreateTaskPopup: boolean;
     setDisplayCreateTaskPopup: (displayPopup: boolean) => void;
     setRefreshKey: (key: (prev: number) => any) => void;
 }
 
-export default function CreateTaskPopup({displayCreateTaskPopup, setDisplayCreateTaskPopup, setRefreshKey}: CreateTaskPopupProps) {
+export default function CreateTaskPopup({selectedDay, displayCreateTaskPopup, setDisplayCreateTaskPopup, setRefreshKey}: CreateTaskPopupProps) {
     return (
         <Drawer
             size="lg"
@@ -29,6 +30,7 @@ export default function CreateTaskPopup({displayCreateTaskPopup, setDisplayCreat
 
                 <DrawerBody>
                     <CreateTaskForm
+                        selectedDay={selectedDay}
                         setRefreshKey={setRefreshKey}
                         setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
                     />
