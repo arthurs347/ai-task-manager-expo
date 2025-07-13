@@ -6,7 +6,7 @@ import {VStack} from "@/components/ui/vstack";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
 import {Task} from "@/prisma/generated/prisma/index";
 import {testTasks} from "@/test/testTasks";
-import {PlusIcon} from "lucide-react-native";
+import { Plus as PlusIcon } from "lucide-react-native";
 import {useCallback, useState} from "react";
 import {useAuth} from "@clerk/clerk-expo";
 import {useFocusEffect} from "expo-router";

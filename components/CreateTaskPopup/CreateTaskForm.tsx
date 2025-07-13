@@ -6,7 +6,7 @@ import {Input, InputField} from "@/components/ui/input";
 import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
 import {Textarea, TextareaInput} from "@/components/ui/textarea";
 import {PriorityLevel} from "@/prisma/generated/prisma/index";
-import {CheckIcon, CircleIcon} from "lucide-react-native";
+import { Check as CheckIcon, Circle as CircleIcon } from "lucide-react-native";
 import React, {useMemo} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
