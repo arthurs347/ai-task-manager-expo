@@ -5,7 +5,7 @@ import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
 import {MONTH_NAMES_FULL, OFFLINE_DEV_MODE} from "@/lib/constants";
-import {Task} from "@/prisma/generated/prisma";
+import {Task} from "@/prisma/generated/prisma/index";
 import {testTasks} from "@/test/testTasks";
 import {ArrowLeft, ArrowRight, CloudLightning, PlusIcon} from "lucide-react-native";
 import {useEffect, useState} from "react";

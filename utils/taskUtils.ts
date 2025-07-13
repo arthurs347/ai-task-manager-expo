@@ -1,5 +1,5 @@
 import {TaskDataEntry} from "@/components/home/CreateTaskPopup/CreateTaskForm";
-import {PriorityCategory} from "@/prisma/generated/prisma";
+import {PriorityCategory} from "@/prisma/generated/prisma/index";
 
 export function calculateTaskStartAndEnd(task: TaskDataEntry) {
     //TODO: REPLACE WITH ACTUAL LOGIC

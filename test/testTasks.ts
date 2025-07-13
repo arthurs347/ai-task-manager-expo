@@ -1,4 +1,4 @@
-import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma";
+import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma/index";
 import dayjs from "dayjs";
 
 // Set baseDate to today

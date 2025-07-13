@@ -1,7 +1,7 @@
 import {authenticateUser} from "@/actions/authActions";
 import {TaskDataEntry} from "@/components/home/CreateTaskPopup/CreateTaskForm";
 import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
-import {Task} from "@/prisma/generated/prisma";
+import {Task} from "@/prisma/generated/prisma/index";
 import {Time} from "@internationalized/date";
 
 export type ManualTask = Omit<Task, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline'>

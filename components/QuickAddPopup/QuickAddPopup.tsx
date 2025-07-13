@@ -1,7 +1,7 @@
 import {Text} from "react-native";
 import {Button, ButtonText} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
-import {Task} from "@/prisma/generated/prisma";
+import {Task} from "@/prisma/generated/prisma/index";
 import QuickAddList from "@/components/QuickAddPopup/QuickAddList";
 
 interface QuickAddPopupProps {
