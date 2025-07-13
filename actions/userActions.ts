@@ -1,5 +1,5 @@
 import {authenticateUser} from "@/actions/authActions";
-import {User} from "@/prisma/generated/prisma/index";
+import {User} from "@/prisma/generated/prisma/edge";
 import {getClerkInstance} from "@clerk/clerk-expo";
 
 /**
