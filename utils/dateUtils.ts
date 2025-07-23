@@ -79,5 +79,8 @@ export function toZonedTime(date: Date, timeZone: string): ZonedDateTime {
 	const millisecond = date.getMilliseconds();
 
 	return new ZonedDateTime(year, month, day, timeZone, offset, hour, minute, second, millisecond);
-
+}
+export function fromZonedTime(zonedDateTime: ZonedDateTime): Date {
+	const { year, month, day, hour, minute, second, millisecond } = zonedDateTime;
+	return new Date(Date.UTC(year, month - 1, day, hour, minute, second, millisecond));
 }

@@ -44,7 +44,7 @@ export default function ListView() {
                 <ButtonIcon as={PlusIcon}/>
             </Button>
 
-            <CreateTaskPopup setRefreshKey={setRefreshKey} displayCreateTaskPopup={displayCreateTaskPopup} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}/>
+            <CreateTaskPopup selectedDay={new Date()} setRefreshKey={setRefreshKey} displayCreateTaskPopup={displayCreateTaskPopup} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}/>
         </VStack>
     );
 }

@@ -30,8 +30,7 @@ export default function DayView() {
     const { data, isLoading } = useQuery({
         queryFn: async () => {
             if (OFFLINE_DEV_MODE) {
-                const tasksFilteredByDay = filterTasksByStartDate(testTasks, selectedDay);
-                return tasksFilteredByDay;
+                return filterTasksByStartDate(testTasks, selectedDay);
             } else {
                  const fetchedTasks = await getTasksAction()
                  return filterTasksByStartDate(fetchedTasks, selectedDay);
@@ -41,6 +40,7 @@ export default function DayView() {
     })
     // For when the tab is pressed, while on dayView reset the selected day to today
     useEffect(() => {
+        // @ts-ignore
         return navigation.addListener('tabPress', () => {
             setSelectedDay(new Date());
         });
