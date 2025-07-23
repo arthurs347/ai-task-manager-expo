@@ -1,5 +1,5 @@
 import {VStack} from "@/components/ui/vstack";
-import {Task} from "@/prisma/generated/prisma";
+import {Task} from "@/prisma/generated/prisma/edge";
 import QuickAddItem from "@/components/QuickAddItem/QuickAddItem";
 
 interface QuickAddListProps {
