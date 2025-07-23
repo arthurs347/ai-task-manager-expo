@@ -6,16 +6,16 @@ import {Input, InputField} from "@/components/ui/input";
 import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
 import {Textarea, TextareaInput} from "@/components/ui/textarea";
 import {PriorityLevel} from "@/prisma/generated/prisma/edge";
-import { Check as CheckIcon, Circle as CircleIcon } from "lucide-react-native";
+import {Check as CheckIcon, Circle as CircleIcon} from "lucide-react-native";
 import React, {useMemo} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
 import {TimeInput} from "@heroui/date-input";
 import {DatePicker} from "@heroui/date-picker";
-import {Time, ZonedDateTime} from "@internationalized/date";
+import {fromDate, Time, ZonedDateTime} from "@internationalized/date";
 import {Switch} from "@/components/ui/switch";
 import {createTaskAction} from "@/actions/taskActions";
-import {addTimeToDate, toZonedTime} from "@/utils/dateUtils";
+import {addTimeToDate} from "@/utils/dateUtils";
 
 
 export type TaskDataEntry = {
@@ -45,8 +45,8 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
     const defaultValues: TaskDataEntry = useMemo(() => ({
         title: "",
         description: "",
-        start: toZonedTime(selectedDay, userTimeZone),
-        dueDate: toZonedTime(selectedDayPlusDefaultEstimated, userTimeZone),
+        start: fromDate(selectedDay, userTimeZone),
+        dueDate: fromDate(selectedDayPlusDefaultEstimated, userTimeZone),
         estimatedHoursAndMinutes: defaultEstimatedHoursAndMinutes,
         priority: PriorityLevel.LOW,
         recurring: false,
@@ -72,7 +72,6 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
     }
 
     return (
-
         <FormControl className="gap-2">
             <HStack className="gap-2">
                 <FormControlLabelText>Automatic Task?:</FormControlLabelText>
