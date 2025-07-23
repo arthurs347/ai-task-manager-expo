@@ -7,7 +7,7 @@ import axios from "axios";
 
 export type ManualTask = Omit<Task, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline'>
 export async function createTaskAction(task: TaskDataEntry){
-    const userId = authenticateUser()!.id;
+    const userId = authenticateUser().id;
 
     if (task.automatic) {
         //TODO: Handle automatic task creation logic
@@ -32,39 +32,10 @@ export async function createTaskAction(task: TaskDataEntry){
             .then((response) => {
                 return response.data as Task
             })
-            .catch((err) => {
+            .catch(() => {
                 throw new Error("Failed to create task");
             })
     }
-    // let startParsed: Date = task.start.toDate();
-    // let dueDateParsed: Date = task.dueDate.toDate();
-    //
-    // let taskStart: Date = task.start;
-    //
-    // const parsedDueDate: Date = task.dueDate;
-    // const parsedEstimatedDuration: number = convertDurationTimeToMinutes(task.estimatedHoursAndMinutes)
-    // const taskPriorityScore: number = calculateTaskPriorityScore(task);
-    // const calculatedPriorityCategory: PriorityCategory = calculateTaskPriorityCategory(taskPriorityScore)
-    //
-    // const taskToCreateData: Omit<Task, 'id' | 'completed'> = {
-    //     title: task.title,
-    //     description: task.description,
-    //     start: calculatedStart,
-    //     end: calculatedEnd,
-    //     dueDateTime: parsedDueDate,
-    //     estimatedDuration: parsedEstimatedDuration,
-    //     isRecurring: task.recurring,
-    //     isHardDeadline: task.hardDeadline,
-    //     priorityLevel: task.priority,
-    //     priorityScore: taskPriorityScore,
-    //     priorityCategory: calculatedPriorityCategory,
-    //     userId,
-    // }
-    //
-    // await fetch("api/tasks", {
-    //     method: "POST",
-    //     body: JSON.stringify(taskToCreateData) ,
-    // });
 }
 
 export async function deleteTaskAction(taskId: string) {
@@ -74,7 +45,7 @@ export async function deleteTaskAction(taskId: string) {
         .then(res => {
             return res.data as string
         })
-        .catch(err => {
+        .catch(() => {
             throw new Error("Failed to delete task");
         })
 }
@@ -88,7 +59,7 @@ export async function getTasksAction() {
         .then(res => {
             return res.data as Task[]
         })
-        .catch(err => {
+        .catch(() => {
             throw new Error("Failed to fetch tasks");
         });
 }
@@ -99,7 +70,7 @@ export async function changeTaskCompletionStatusAction(taskId: string, taskCompl
     return axios.patch(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}`)
         .then(res => {
             return res.data as boolean
-        }).catch(err => {
+        }).catch(() => {
             throw new Error("Failed to change task completion status");
         });
 }

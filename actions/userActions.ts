@@ -1,6 +1,5 @@
 import {authenticateUser} from "@/actions/authActions";
 import {User} from "@/prisma/generated/prisma/edge";
-import {getClerkInstance} from "@clerk/clerk-expo";
 import axios from "axios";
 
 /**
@@ -8,28 +7,25 @@ import axios from "axios";
  * */
 export async function createUserAction() {
     const user = authenticateUser();
-    const userId = user.id;
-    const userEmail = user.emailAddresses[0].emailAddress;
-    const userFullName = user.fullName;
-    const userImage = user.imageUrl;
 
     const userData: User = {
-        id: userId,
-        email: userEmail,
-        fullName: userFullName,
-        image: userImage,
+        id: user.id,
+        email: user.emailAddresses[0].emailAddress,
+        fullName: user.fullName,
+        image: user.imageUrl,
     }
 
     return axios.post("api/users", JSON.stringify(userData))
         .then((response) => {
             return response.data;
         })
-        .catch((err) => {
+        .catch(() => {
             throw new Error("Failed to create user");
         })
 }
 
-export function getCurrentUserId(): string | null {
-    const clerk = getClerkInstance();
-    return clerk?.user?.id ?? null;
+export function getCurrentUserId(): string {
+    const user = authenticateUser();
+
+    return user.id;
 }
