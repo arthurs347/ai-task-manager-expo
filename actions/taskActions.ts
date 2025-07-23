@@ -28,10 +28,13 @@ export async function createTaskAction(task: TaskDataEntry){
             userId,
         }
 
-        await fetch("api/tasks", {
-            method: "POST",
-            body: JSON.stringify(taskToCreateData) ,
-        });
+        axios.post('/api/tasks', JSON.stringify(taskToCreateData))
+            .then((response) => {
+                return response.data as Task
+            })
+            .catch((err) => {
+                throw new Error("Failed to create task");
+            })
     }
     // let startParsed: Date = task.start.toDate();
     // let dueDateParsed: Date = task.dueDate.toDate();
@@ -67,15 +70,13 @@ export async function createTaskAction(task: TaskDataEntry){
 export async function deleteTaskAction(taskId: string) {
     authenticateUser();
 
-    const response = await fetch(`/api/tasks?taskId=${encodeURIComponent(taskId)}`, {
-        method: "DELETE",
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to delete task");
-    }
-
-    return response.json();
+    return axios.delete(`/api/tasks?taskId=${encodeURIComponent(taskId)}`)
+        .then(res => {
+            return res.data as string
+        })
+        .catch(err => {
+            throw new Error("Failed to delete task");
+        })
 }
 
 export async function getTasksAction() {
@@ -87,7 +88,7 @@ export async function getTasksAction() {
         .then(res => {
             return res.data as Task[]
         })
-        .catch(() => {
+        .catch(err => {
             throw new Error("Failed to fetch tasks");
         });
 }
@@ -95,12 +96,10 @@ export async function getTasksAction() {
 export async function changeTaskCompletionStatusAction(taskId: string, taskCompleted: boolean) {
     authenticateUser();
 
-    const response = await fetch(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}`, {
-        method: "PATCH",
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to change Task Completion Status");
-    }
-    return response.json();
+    return axios.patch(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}`)
+        .then(res => {
+            return res.data as boolean
+        }).catch(err => {
+            throw new Error("Failed to change task completion status");
+        });
 }
