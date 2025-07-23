@@ -10,7 +10,6 @@ export function authenticateUser() {
     // Wait for Clerk to initialize
     if (!clerk || !clerk.session || !clerk.user) {
         router.replace("/(auth)/auth");
-        return null;
     }
 
     return clerk.user!;

@@ -24,7 +24,7 @@ export async function createUserAction() {
         .then((response) => {
             return response.data;
         })
-        .catch((err) => {
+        .catch(() => {
             throw new Error("Failed to create user");
         })
 }
