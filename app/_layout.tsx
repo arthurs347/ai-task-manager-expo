@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/react-native';
 import {Stack, useRouter, useSegments} from "expo-router";
 import {useEffect} from "react";
 import * as SecureStore from "expo-secure-store";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -64,10 +65,13 @@ function InitialLayout() {
 }
 
 export default Sentry.wrap(function RootLayout() {
+    const queryClient = new QueryClient()
     return (
         <GluestackUIProvider mode="light">
             <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
-                <InitialLayout/>
+                <QueryClientProvider client={queryClient}>
+                    <InitialLayout/>
+                </QueryClientProvider>
             </ClerkProvider>
         </GluestackUIProvider>
     );

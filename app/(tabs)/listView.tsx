@@ -3,39 +3,41 @@ import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
 import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
-import {OFFLINE_DEV_MODE} from "@/lib/constants";
-import {Task} from "@/prisma/generated/prisma/edge";
-import {testTasks} from "@/test/testTasks";
-import { Plus as PlusIcon } from "lucide-react-native";
-import {useCallback, useState} from "react";
+import {Plus as PlusIcon} from "lucide-react-native";
 import {useAuth} from "@clerk/clerk-expo";
+import {useQuery} from "@tanstack/react-query";
+import {useCallback, useState} from "react";
+import {testTasks} from "@/test/testTasks";
 import {useFocusEffect} from "expo-router";
+import {Text} from "react-native";
+import {OFFLINE_DEV_MODE} from "@/lib/constants";
 
 export default function ListView() {
-    const [tasks, setTasks] = useState<Task[]>([]); // Replace with useState if not using test data
     const [refreshKey, setRefreshKey] = useState(0);
     const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 
     const {isLoaded} = useAuth()
-
+    const { data, isLoading } = useQuery({
+        queryFn: () => OFFLINE_DEV_MODE ? testTasks : getTasksAction(),
+        queryKey: ['tasks', refreshKey],
+    })
     useFocusEffect(
-        // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey allows code to run after new task creation
+        // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey for debugging
         useCallback(() => {
-            if (OFFLINE_DEV_MODE) {
-                setTasks(testTasks)
-            } else {
-                if (!isLoaded) return; // Wait until Clerk is loaded
-                getTasksAction()
-                    .then((fetchedTasks: Task[]) => setTasks(fetchedTasks));
-                console.log("Ran")
+            if (isLoaded) {
+                setRefreshKey(prev => prev + 1 );
+                console.log(refreshKey);
             }
-        }, [isLoaded, refreshKey])
+        }, [isLoaded])
     );
-
+    if (!isLoaded) return;
 
     return (
         <VStack className="flex-1 items-center">
-            <_ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
+            {isLoading ? (<Text className="text-2xl">Loading...</Text>) :
+                <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/>
+
+            }
             <Button
                 onPress={() => setDisplayCreateTaskPopup(true)}
             >

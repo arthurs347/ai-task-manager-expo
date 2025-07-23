@@ -1,5 +1,6 @@
 import {TaskDataEntry} from "@/components/home/CreateTaskPopup/CreateTaskForm";
 import {PriorityCategory} from "@/prisma/generated/prisma/index";
+import {isSameDay} from "@/utils/dateUtils";
 
 export function calculateTaskStartAndEnd(task: TaskDataEntry) {
     //TODO: REPLACE WITH ACTUAL LOGIC
@@ -20,4 +21,10 @@ export function calculateTaskDueDateRange() {
 export function calculateTaskDueDate() {
     //TODO: REPLACE WITH ACTUAL LOGIC
 
+}
+
+export function filterTasksByStartDate(tasks: TaskDataEntry[], selectedDay: Date) {
+    return tasks.filter(task => {
+        return isSameDay(task.start, selectedDay);
+    });
 }

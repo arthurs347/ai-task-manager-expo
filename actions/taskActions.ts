@@ -1,8 +1,9 @@
 import {authenticateUser} from "@/actions/authActions";
-import {TaskDataEntry} from "@/components/home/CreateTaskPopup/CreateTaskForm";
+import {TaskDataEntry} from "@/components/CreateTaskPopup/CreateTaskForm";
 import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
 import {Task} from "@/prisma/generated/prisma/edge";
 import {Time} from "@internationalized/date";
+import axios from "axios";
 
 export type ManualTask = Omit<Task, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline'>
 export async function createTaskAction(task: TaskDataEntry){
@@ -82,15 +83,13 @@ export async function getTasksAction() {
     const userId = user?.id;
     if (!userId) throw new Error("User not authenticated");
 
-    const response = await fetch(`/api/tasks?userId=${encodeURIComponent(userId)}`, {
-        method: "GET",
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch tasks");
-    }
-
-    return response.json();
+    return axios.get(`/api/tasks?userId=${encodeURIComponent(userId)}`)
+        .then(res => {
+            return res.data as Task[]
+        })
+        .catch(() => {
+            throw new Error("Failed to fetch tasks");
+        });
 }
 
 export async function changeTaskCompletionStatusAction(taskId: string, taskCompleted: boolean) {

@@ -5,21 +5,20 @@ import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
 import {MONTH_NAMES_FULL, OFFLINE_DEV_MODE} from "@/lib/constants";
-import {Task} from "@/prisma/generated/prisma";
 import {testTasks} from "@/test/testTasks";
 import {ArrowLeft, ArrowRight, PlusIcon} from "lucide-react-native";
 import {useEffect, useState} from "react";
 import {useAuth} from "@clerk/clerk-expo";
-import {isSameDay} from "@/utils/dateUtils";
 import {HStack} from "@/components/ui/hstack";
 import {Text} from "react-native";
 import {useNavigation} from "@react-navigation/native";
+import {filterTasksByStartDate} from "@/utils/taskUtils";
+import {useQuery} from "@tanstack/react-query";
 
 export default function DayView() {
     const today = new Date();
 
     const [selectedDay, setSelectedDay] = useState<Date>(today);
-    const [tasks, setTasks] = useState<Task[]>([]); // Replace with useState if not using test data
     const [refreshKey, setRefreshKey] = useState<number>(0);
 
     const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
@@ -28,32 +27,28 @@ export default function DayView() {
     const {isLoaded} = useAuth()
     const navigation = useNavigation();
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey allows code to run after new task creation
-    useEffect(() => {
-        if (!OFFLINE_DEV_MODE) {
-            if (!isLoaded) return; // Wait until Clerk is loaded
-            getTasksAction()
-                .then((fetchedTasks: Task[]) => {
-                    const tasksFilteredByDay = fetchedTasks.filter(task => {
-                        return isSameDay(selectedDay, task.start);
-                    })
-                    setTasks(tasksFilteredByDay);
-                })
-        } else {
-            const tasksFilteredByDay = testTasks.filter(task => {
-                return isSameDay(selectedDay, task.start);
-            })
-            setTasks(tasksFilteredByDay);
-        }
-        console.log("Ran")
-    }, [isLoaded, refreshKey, selectedDay]);
-
+    const { data, isLoading } = useQuery({
+        queryFn: async () => {
+            if (OFFLINE_DEV_MODE) {
+                const tasksFilteredByDay = filterTasksByStartDate(testTasks, selectedDay);
+                return tasksFilteredByDay;
+            } else {
+                 const fetchedTasks = await getTasksAction()
+                 return filterTasksByStartDate(fetchedTasks, selectedDay);
+            }
+        },
+        queryKey: ['tasks', refreshKey, selectedDay],
+    })
     // For when the tab is pressed, while on dayView reset the selected day to today
     useEffect(() => {
         return navigation.addListener('tabPress', () => {
             setSelectedDay(new Date());
         });
     }, [navigation]);
+
+    if (!isLoaded) return; // Wait until Clerk is loaded
+
+
 
     return (
             <VStack className="flex-1 items-center">
@@ -71,7 +66,10 @@ export default function DayView() {
                     </Button>
                 </HStack>
 
-                <_ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
+                {isLoading ? (
+                    <Text>Loading...</Text>) :
+                    <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/>
+                }
                 <HStack>
                     {/*<Button*/}
                     {/*    onPress={() => setDisplayQuickAddPopup(true)}*/}
