@@ -7,14 +7,13 @@ import {VStack} from "@/components/ui/vstack";
 import {MONTH_NAMES_FULL, OFFLINE_DEV_MODE} from "@/lib/constants";
 import {Task} from "@/prisma/generated/prisma";
 import {testTasks} from "@/test/testTasks";
-import {ArrowLeft, ArrowRight, CloudLightning, PlusIcon} from "lucide-react-native";
+import {ArrowLeft, ArrowRight, PlusIcon} from "lucide-react-native";
 import {useEffect, useState} from "react";
 import {useAuth} from "@clerk/clerk-expo";
 import {isSameDay} from "@/utils/dateUtils";
 import {HStack} from "@/components/ui/hstack";
 import {Text} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import QuickAddPopup from "@/components/QuickAddPopup/QuickAddPopup";
 
 export default function DayView() {
     const today = new Date();
@@ -57,8 +56,6 @@ export default function DayView() {
     }, [navigation]);
 
     return (
-        <HStack>
-            <QuickAddPopup quickAddItems={tasks} displayQuickAddPopup={displayQuickAddPopup} setDisplayQuickAddPopup={setDisplayQuickAddPopup}/>
             <VStack className="flex-1 items-center">
                 <Text className="text-2xl">{MONTH_NAMES_FULL[selectedDay.getMonth()] + " " + selectedDay.getFullYear()}</Text>
                 <HStack className="w-full">
@@ -76,11 +73,11 @@ export default function DayView() {
 
                 <_ListViewBoxes tasks={tasks} setRefreshKey={setRefreshKey}/>
                 <HStack>
-                    <Button
-                        onPress={() => setDisplayQuickAddPopup(true)}
-                    >
-                        <ButtonIcon as={CloudLightning}/>
-                    </Button>
+                    {/*<Button*/}
+                    {/*    onPress={() => setDisplayQuickAddPopup(true)}*/}
+                    {/*>*/}
+                    {/*    <ButtonIcon as={CloudLightning}/>*/}
+                    {/*</Button>*/}
                     <Button
                         onPress={() => setDisplayCreateTaskPopup(true)}
                     >
@@ -91,6 +88,5 @@ export default function DayView() {
 
                 <CreateTaskPopup selectedDay={selectedDay} setRefreshKey={setRefreshKey} displayCreateTaskPopup={displayCreateTaskPopup} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}/>
             </VStack>
-        </HStack>
     );
 }

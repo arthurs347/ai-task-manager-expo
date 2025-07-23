@@ -15,8 +15,7 @@ import {DatePicker} from "@heroui/date-picker";
 import {Time, ZonedDateTime} from "@internationalized/date";
 import {Switch} from "@/components/ui/switch";
 import {createTaskAction} from "@/actions/taskActions";
-import {toZonedTime} from 'date-fns-tz';
-import {addTimeToDate} from "@/utils/dateUtils";
+import {addTimeToDate, toZonedTime} from "@/utils/dateUtils";
 
 
 export type TaskDataEntry = {

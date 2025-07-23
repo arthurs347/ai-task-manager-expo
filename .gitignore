@@ -41,7 +41,6 @@ yarn-error.*
 prisma/generated/
 prisma/migration_lock.toml
 
-app-example
 /.idea/ai-task-manager.iml
 /.idea/modules.xml
 /.idea/inspectionProfiles/Project_Default.xml
@@ -50,3 +49,5 @@ app-example
 
 
 /prisma/migrations/migration_lock.toml
+
+/ios

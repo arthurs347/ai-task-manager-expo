@@ -2,7 +2,7 @@ import {DATETIME_FORMAT, DURATION_FORMAT} from "@/lib/constants";
 import {Task} from "@/prisma/generated/prisma";
 import dayjs from "dayjs";
 import {TimeValue} from "@react-types/datepicker";
-import {Time} from "@internationalized/date";
+import {Time, ZonedDateTime} from "@internationalized/date";
 
 export function ISOToDateTimeFormat(dateTime: string) {
 	return dayjs(dateTime).format(DATETIME_FORMAT);
@@ -66,4 +66,18 @@ export function addTimeToDate(date: Date, time: Time): Date {
 		(time.second * 1000) +
 		(time.millisecond || 0);
 	return new Date(date.getTime() + timeMs);
+}
+
+export function toZonedTime(date: Date, timeZone: string): ZonedDateTime {
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const offset = date.getTimezoneOffset() * 60 * 1000; // Convert to milliseconds
+	const hour = date.getHours();
+	const minute = date.getMinutes();
+	const second = date.getSeconds();
+	const millisecond = date.getMilliseconds();
+
+	return new ZonedDateTime(year, month, day, timeZone, offset, hour, minute, second, millisecond);
+
 }

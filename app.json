@@ -59,9 +59,7 @@
       }
     },
     "owner": "arthurs347",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/164e19e4-8850-4b79-8fcf-57a0dce09690"
     }
