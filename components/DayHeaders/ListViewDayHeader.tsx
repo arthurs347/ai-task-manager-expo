@@ -11,10 +11,10 @@ interface ListViewDayHeaderProps {
 export default function ListViewDayHeader({dayDate, dayName, dayNum, selected, setSelectedDay} : ListViewDayHeaderProps) {
 
     return (
-        <Pressable className="w-full flex-1" onPress={() => {
+        <Pressable className="flex-1" onPress={() => {
             setSelectedDay(dayDate)
         }}>
-            <View className="border-1 items-center rounded-xl">
+            <View className="items-center" style={{borderRadius: 20}}>
                 <Text className="font-bold">{dayName}</Text>
                 <View
                     style={{

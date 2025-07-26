@@ -27,7 +27,6 @@ export default function ListView() {
         useCallback(() => {
             if (isLoaded) {
                 setRefreshKey(prev => prev + 1 );
-                console.log(refreshKey);
             }
         }, [isLoaded])
     );
