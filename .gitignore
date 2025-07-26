@@ -46,8 +46,13 @@ prisma/migration_lock.toml
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
 /.idea/biome.xml
-
+/.idea/misc.xml
 
 /prisma/migrations/migration_lock.toml
 
 /ios
+
+/venv
+
+/android
+

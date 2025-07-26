@@ -14,6 +14,7 @@ import {Text} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
 import {useQuery} from "@tanstack/react-query";
+import DraggableBox from "@/components/ui/DraggableBox";
 
 export default function DayView() {
     const today = new Date();
@@ -53,6 +54,8 @@ export default function DayView() {
 
 
     return (
+        <HStack>
+            <DraggableBox/>
             <VStack className="flex-1 items-center">
                 <Text className="text-2xl">{MONTH_NAMES_FULL[selectedDay.getMonth()] + " " + selectedDay.getFullYear()}</Text>
                 <HStack className="w-full">
@@ -70,7 +73,8 @@ export default function DayView() {
 
                 {isLoading ? (
                     <Text>Loading...</Text>) :
-                    <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/>
+                    data && data.length > 0 ? <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/> :
+                        <Text className="text-2xl">Create Your First Task!</Text>
                 }
                 <HStack>
                     {/*<Button*/}
@@ -84,9 +88,8 @@ export default function DayView() {
                         <ButtonIcon as={PlusIcon}/>
                     </Button>
                 </HStack>
-
-
                 <CreateTaskPopup selectedDay={selectedDay} setRefreshKey={setRefreshKey} displayCreateTaskPopup={displayCreateTaskPopup} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}/>
             </VStack>
+        </HStack>
     );
 }

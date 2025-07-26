@@ -2,6 +2,7 @@ import TaskTimeBox from "@/components/ListViewBoxes/TaskTimeBox";
 import {VStack} from "@/components/ui/vstack";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
 import {Task} from "@/prisma/generated/prisma/edge";
+import {View} from "react-native";
 
 interface ListViewBoxesProps {
     tasks: Task[]
@@ -16,16 +17,19 @@ export function _ListViewBoxes({tasks, setRefreshKey}: ListViewBoxesProps) {
                 const taskDurationParsed = parseEstimatedDurationAsString(estimatedDuration);
 
                 return (
-                    <TaskTimeBox
-                        key={id}
-                        taskId={id}
-                        taskName={title}
-                        taskStartTime={startTimeParsed}
-                        taskEndTime={endTimeParsed}
-                        taskDuration={taskDurationParsed}
-                        taskComplete={completed}
-                        setRefreshKey={setRefreshKey}
-                    />
+                    <>
+                        <TaskTimeBox
+                            key={id}
+                            taskId={id}
+                            taskName={title}
+                            taskStartTime={startTimeParsed}
+                            taskEndTime={endTimeParsed}
+                            taskDuration={taskDurationParsed}
+                            taskComplete={completed}
+                            setRefreshKey={setRefreshKey}
+                        />
+                        <View key={id+"divider"} className="h-8 w-full border hover:bg-blue-500"/>
+                    </>
                 );
             })}
         </VStack>

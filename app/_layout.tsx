@@ -6,6 +6,7 @@ import {Stack, useRouter, useSegments} from "expo-router";
 import {useEffect} from "react";
 import * as SecureStore from "expo-secure-store";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -46,7 +47,7 @@ function InitialLayout() {
         console.log("isSignedIn:", isSignedIn);
 
         if (isSignedIn && !inTabsGroup) {
-            router.replace("/(tabs)/listView");
+            router.replace("/(tabs)/dayView");
         } else if (!isSignedIn) {
             router.replace("/(auth)/auth");
         }
@@ -70,7 +71,9 @@ export default Sentry.wrap(function RootLayout() {
         <GluestackUIProvider mode="light">
             <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
                 <QueryClientProvider client={queryClient}>
-                    <InitialLayout/>
+                    <GestureHandlerRootView>
+                        <InitialLayout/>
+                    </GestureHandlerRootView>
                 </QueryClientProvider>
             </ClerkProvider>
         </GluestackUIProvider>

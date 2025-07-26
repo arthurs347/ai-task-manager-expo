@@ -21,6 +21,7 @@ export default function ListView() {
         queryFn: () => OFFLINE_DEV_MODE ? testTasks : getTasksAction(),
         queryKey: ['tasks', refreshKey],
     })
+
     useFocusEffect(
         // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey for debugging
         useCallback(() => {
@@ -35,8 +36,8 @@ export default function ListView() {
     return (
         <VStack className="flex-1 items-center">
             {isLoading ? (<Text className="text-2xl">Loading...</Text>) :
-                <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/>
-
+                data && data.length > 0 ? <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/> :
+                    <Text className="text-2xl">Create Your First Task!</Text>
             }
             <Button
                 onPress={() => setDisplayCreateTaskPopup(true)}
