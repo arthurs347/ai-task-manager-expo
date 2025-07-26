@@ -7,6 +7,7 @@ import {useEffect} from "react";
 import * as SecureStore from "expo-secure-store";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -68,14 +69,17 @@ function InitialLayout() {
 export default Sentry.wrap(function RootLayout() {
     const queryClient = new QueryClient()
     return (
+        <SafeAreaProvider>
         <GluestackUIProvider mode="light">
             <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
                 <QueryClientProvider client={queryClient}>
                     <GestureHandlerRootView>
-                        <InitialLayout/>
-                    </GestureHandlerRootView>
+                        <SafeAreaView style={{ flex: 1 }}>
+                            <InitialLayout/>
+                        </SafeAreaView>                    </GestureHandlerRootView>
                 </QueryClientProvider>
             </ClerkProvider>
         </GluestackUIProvider>
+        </SafeAreaProvider>
     );
 });
