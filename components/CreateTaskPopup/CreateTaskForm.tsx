@@ -13,11 +13,16 @@ import {Platform} from "react-native";
 import {TimeInput} from "@heroui/date-input";
 import {DatePicker} from "@heroui/date-picker";
 import {fromDate, Time, ZonedDateTime} from "@internationalized/date";
-import {Switch} from "@/components/ui/switch";
 import {createTaskAction} from "@/actions/taskActions";
-import {addTimeToDate} from "@/utils/dateUtils";
+import {addTimeToDate, timeToDate} from "@/utils/dateUtils";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-
+export enum TaskType {
+    AUTOMATIC = "automatic",
+    MANUAL = "manual",
+    HABIT = "habit",
+    LISTED = "listed"
+}
 export type TaskDataEntry = {
     title: string;
     description: string;
@@ -27,7 +32,7 @@ export type TaskDataEntry = {
     priority: PriorityLevel;
     recurring: boolean;
     hardDeadline: boolean;
-    automatic: boolean;
+    taskType: TaskType;
 }
 
 interface CreateTaskPopupProps {
@@ -42,6 +47,7 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
     const defaultEstimatedHoursAndMinutes = new Time(0, 30)
     const selectedDayPlusDefaultEstimated = addTimeToDate(selectedDay, defaultEstimatedHoursAndMinutes);
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     const defaultValues: TaskDataEntry = useMemo(() => ({
         title: "",
         description: "",
@@ -51,7 +57,7 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
         priority: PriorityLevel.LOW,
         recurring: false,
         hardDeadline: false,
-        automatic: false,
+        taskType: TaskType.MANUAL
     }), []);
 
     // Remove useState for formData and use react-hook-form for state management
@@ -62,10 +68,9 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
         setValue,
     } = useForm<TaskDataEntry>({ defaultValues })
 
-    const automatic = watch('automatic');
+    const taskType = watch('taskType');
 
     async function handleCreateTask(formTaskData: TaskDataEntry) {
-        console.log(formTaskData);
         await createTaskAction(formTaskData)
         setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
         setDisplayCreateTaskPopup(false); // Close the popup after task creation
@@ -73,17 +78,49 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
 
     return (
         <FormControl className="gap-2">
-            <HStack className="gap-2">
-                <FormControlLabelText>Automatic Task?:</FormControlLabelText>
+            <HStack className="gap-2 w-full">
                 <Controller
-                    name="automatic"
+                    name="taskType"
                     control={control}
-                    render={({ field: { value, onChange } }) => (
-                        <Switch
-                            size="md"
-                            value={value}
-                            onToggle={() => onChange(!value)}
-                        />
+                    render={({ field: { onChange } }) => (
+                        <Button
+                            size="lg"
+                            onPress={() => onChange(TaskType.MANUAL)}
+                            className="w-1/3"
+                            variant={taskType === TaskType.MANUAL ? "solid" : "outline"}
+                        >
+                            <ButtonText>Manual</ButtonText>
+                        </Button>
+                    )}
+                />
+                <Controller
+                    name="taskType"
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                        <Button
+                            size="lg"
+                            onPress={() => onChange(TaskType.HABIT)}
+                            className="w-1/3"
+                            variant={taskType === TaskType.HABIT ? "solid" : "outline"}
+
+                        >
+                            <ButtonText>Habit</ButtonText>
+                        </Button>
+                    )}
+                />
+                <Controller
+                    name="taskType"
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                        <Button
+                            size="lg"
+                            onPress={() => onChange(TaskType.AUTOMATIC)}
+                            className="w-1/3"
+                            variant={taskType === TaskType.AUTOMATIC ? "solid" : "outline"}
+
+                        >
+                            <ButtonText>Automatic</ButtonText>
+                        </Button>
                     )}
                 />
             </HStack>
@@ -121,31 +158,45 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
 
             {Platform.OS === 'ios' || Platform.OS === 'android' ?
                 <>
-                    {/*/!*Mobile Due Date*!/*/}
-                    {/*<FormControlLabelText>Due Date</FormControlLabelText>*/}
-                    {/*<DateTimePicker*/}
-                    {/*    value={watch('dueDate')}*/}
-                    {/*    mode="datetime"*/}
-                    {/*    display="default"*/}
-                    {/*    onChange={(_, dueDate) => dueDate && setValue('dueDate', dueDate)}*/}
-                    {/*/>*/}
+                    {/*Mobile Start Date*/}
+                    <FormControlLabelText>Start Date</FormControlLabelText>
+                    <Controller
+                        control={control}
+                        name="start"
+                        render={({ field: { onChange, value } }) => (
+                            <DateTimePicker
+                                value={value.toDate()}
+                                onChange={() => {
+                                    onChange(fromDate(value.toDate(), userTimeZone));
+                                }}
+                                display="default"
+                                mode="datetime"
+                            />
+                        )}
+                    />
 
                     {/*/!*Mobile Estimated Duration*!/*/}
-                    {/*<FormControlLabelText>Estimated Duration</FormControlLabelText>*/}
-                    {/*<DateTimePicker*/}
-                    {/*    value={watch('estimatedDuration')}*/}
-                    {/*    mode="time"*/}
-                    {/*    is24Hour={true} // Explicitly set 24-hour format*/}
-                    {/*    locale="en_GB" // Use a locale that defaults to 24-hour format*/}
-                    {/*    onChange={(_, estimatedDuration) => {*/}
-                    {/*        if (!estimatedDuration) return;*/}
-                    {/*        setValue('estimatedDuration', estimatedDuration);*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <FormControlLabelText>Estimated Duration</FormControlLabelText>
+                    <Controller
+                        control={control}
+                        name="estimatedHoursAndMinutes"
+                        render={({ field: { onChange, value } }) => (
+                            <DateTimePicker
+                                value={timeToDate(value)}
+                                onChange={() => {
+                                    const timeFromDate = new Time(value.hour, value.minute)
+                                    onChange(timeFromDate);
+                                }}
+                                locale={"en-GB"}
+                                mode="time"
+                                is24Hour={true} // Explicitly set 24-hour format
+                            />
+                        )}
+                    />
                 </> :
                     <HStack className="gap-2">
                     {/*Web Start Date*/}
-                        {!automatic && (
+                        {(taskType === TaskType.MANUAL || taskType === TaskType.HABIT) && (
                             <Controller
                             control={control}
                             name="start"
@@ -163,7 +214,7 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
                         )}
 
                     {/*Web Due Date*/}
-                        {automatic && (
+                        {taskType === TaskType.AUTOMATIC && (
                             <Controller
                                 control={control}
                                 name="dueDate"
@@ -202,7 +253,7 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
 
 
             {/*Priority*/}
-            {automatic && (
+            {taskType === TaskType.AUTOMATIC && (
                 <>
                     <FormControlLabelText>Priority</FormControlLabelText>
                     <RadioGroup
@@ -241,7 +292,7 @@ export default function CreateTaskPopup({selectedDay, setRefreshKey, setDisplayC
             </HStack>
 
             {/*Hard Deadline*/}
-            {automatic && (
+            {taskType === TaskType.AUTOMATIC && (
                 <HStack>
                 <Checkbox
                     value={"hardDeadline"}

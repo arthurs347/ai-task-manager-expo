@@ -1,4 +1,4 @@
-import {getTasksAction} from "@/actions/taskActions";
+import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
 import ListViewDayHeaders from "@/components/DayHeaders/_ListViewDayHeaders";
 import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
@@ -33,7 +33,7 @@ export default function DayView() {
                 const filteredTasks = filterTasksByStartDate(testTasks, selectedDay)
                 return sortTasksByStartDateTime(filteredTasks)
             } else {
-                const fetchedTasks = await getTasksAction()
+                const fetchedTasks = await getListedTasksAction()
                 const filteredTasks = filterTasksByStartDate(fetchedTasks, selectedDay)
                 return sortTasksByStartDateTime(filteredTasks);
             }
@@ -74,7 +74,7 @@ export default function DayView() {
 
                 {isLoading ? (
                     <Text>Loading...</Text>) :
-                    data && data.length > 0 ? <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/> :
+                    data && data.length > 0 ? <_ListViewBoxes listedTasks={data!} setRefreshKey={setRefreshKey}/> :
                         <Text className="text-2xl">Create Your First Task!</Text>
                 }
                 <HStack>

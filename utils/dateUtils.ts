@@ -58,3 +58,8 @@ export function addTimeToDate(date: Date, time: Time): Date {
 		(time.millisecond || 0);
 	return new Date(date.getTime() + timeMs);
 }
+
+export function timeToDate(time: Time): Date {
+	const today = new Date();
+	return new Date(today.getFullYear(), today.getMonth(), today.getDate(), time.hour, time.minute);
+}

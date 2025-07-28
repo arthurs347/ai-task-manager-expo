@@ -1,9 +1,9 @@
 import {VStack} from "@/components/ui/vstack";
-import {Task} from "@/prisma/generated/prisma/edge";
+import {Habit} from "@/prisma/generated/prisma/edge";
 import QuickAddItem from "@/components/QuickAddItem/QuickAddItem";
 
 interface QuickAddListProps {
-    quickAddItems: Task[]
+    quickAddItems: Habit[]
 }
 
 export default function QuickAddList({quickAddItems}: QuickAddListProps) {

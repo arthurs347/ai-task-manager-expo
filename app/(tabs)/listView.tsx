@@ -1,4 +1,4 @@
-import {getTasksAction} from "@/actions/taskActions";
+import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
 import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
@@ -18,7 +18,7 @@ export default function ListView() {
 
     const {isLoaded} = useAuth()
     const { data, isLoading } = useQuery({
-        queryFn: () => OFFLINE_DEV_MODE ? testTasks : getTasksAction(),
+        queryFn: () => OFFLINE_DEV_MODE ? testTasks : getListedTasksAction(),
         queryKey: ['tasks', refreshKey],
     })
 
@@ -35,7 +35,7 @@ export default function ListView() {
     return (
         <VStack className="flex-1 items-center">
             {isLoading ? (<Text className="text-2xl">Loading...</Text>) :
-                data && data.length > 0 ? <_ListViewBoxes tasks={data!} setRefreshKey={setRefreshKey}/> :
+                data && data.length > 0 ? <_ListViewBoxes listedTasks={data!} setRefreshKey={setRefreshKey}/> :
                     <Text className="text-2xl">Create Your First Task!</Text>
             }
             <Button

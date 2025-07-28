@@ -1,35 +1,82 @@
 import {prisma} from "@/lib/prisma";
-import {ManualTask} from "@/actions/taskActions";
+import {AutomaticEntry, HabitEntry, ManualEntry} from "@/actions/taskActions";
+import {TaskType} from "@/components/CreateTaskPopup/CreateTaskForm";
+
+import {StatusCodes} from 'http-status-codes';
+import {manualHabitAutomaticToListedTask} from "@/utils/taskUtils";
+
+export type ListedTask = {
+	id: string;
+	title: string;
+	description?: string;
+	taskType: TaskType;
+	start: Date;
+	end: Date;
+	estimatedDuration: number; // in minutes
+	completed: boolean;
+}
 
 // creates a new task with given info
 export async function POST(request: Request) {
-		const {
-			title,
-			description,
-			start,
-			end,
-			estimatedDuration,
-			isRecurring,
-			userId,
-		}: ManualTask & string = await request.json();
+	const url = new URL(request.url);
+	const taskType = url.searchParams.get("taskType");
+	const taskEntry: ManualEntry | AutomaticEntry | HabitEntry & string = await request.json();
 
-		const createdTask = await prisma.task.create({
-			data: {
-				title,
-				description,
-				start,
-				end,
-				estimatedDuration,
-				isRecurring,
-				user: {
-					connect: {
-						id: userId!,
+	let createdTask;
+
+	const title = taskEntry.title;
+	const description = taskEntry.description;
+	const start = taskEntry.start;
+	const end = taskEntry.end;
+	const estimatedDuration = taskEntry.estimatedDuration;
+	const userId = taskEntry.userId;
+
+	switch (taskType) {
+		case TaskType.MANUAL:
+			const manualEntry: ManualEntry = taskEntry as ManualEntry;
+			const isRecurring = manualEntry.isRecurring;
+
+			createdTask = await prisma.manualTask.create({
+				data: {
+					title,
+					description,
+					start,
+					end,
+					estimatedDuration,
+					isRecurring,
+					user: {
+						connect: {
+							id: userId!,
+						},
 					},
 				},
-			},
-		});
+			});
 
-		return new Response(JSON.stringify(createdTask), { status: 201 });
+			break;
+		case TaskType.AUTOMATIC:
+			//TODO: Implement automatic task creation
+			break;
+		case TaskType.HABIT:
+			createdTask = await prisma.habit.create({
+				data: {
+					title,
+					description,
+					start,
+					end,
+					estimatedDuration,
+					user: {
+						connect: {
+							id: userId!,
+						},
+					},
+				},
+			});
+			break;
+		default:
+			return new Response(JSON.stringify({ error: "Invalid task type" }), { status: StatusCodes.BAD_REQUEST });
+	}
+
+		return new Response(JSON.stringify(createdTask), { status: StatusCodes.CREATED });
 }
 
 export async function DELETE(request: Request) {
@@ -37,16 +84,17 @@ export async function DELETE(request: Request) {
 	const taskId = url.searchParams.get("taskId");
 
 	if (!taskId) {
-		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: 400 });
+		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: StatusCodes.BAD_REQUEST });
 	}
+	//TODO: fix this to delete the correct task type
 
-	await prisma.task.delete({
+	await prisma.manualTask.delete({
 		where: {
 			id: taskId!,
 		}
 	})
 
-	return new Response(JSON.stringify(taskId), { status: 200 });
+	return new Response(JSON.stringify(taskId), { status: StatusCodes.OK });
 }
 
 export async function GET(request: Request) {
@@ -55,43 +103,77 @@ export async function GET(request: Request) {
     const userId = url.searchParams.get("userId");
 
     if (!userId) {
-        return new Response(JSON.stringify({ error: "Missing userId" }), { status: 400 });
+        return new Response(JSON.stringify({ error: "Missing userId" }), { status: StatusCodes.BAD_REQUEST });
     }
 
-    const tasks = await prisma.task.findMany({
-        where: {
-            userId: userId,
-        }
-    });
+	const [manualTasks, habits, automaticTasks] = await Promise.all([
+		prisma.manualTask.findMany({ where: { userId } }),
+		prisma.habit.findMany({ where: { userId, currentlyUsed: false } }),
+		prisma.automaticTask.findMany({ where: { userId } }),
+	]);
 
-    return new Response(JSON.stringify(tasks), { status: 200, });
+	const listedTasks: ListedTask[] = manualHabitAutomaticToListedTask(manualTasks, habits, automaticTasks);
+
+
+    return new Response(JSON.stringify(listedTasks), { status: StatusCodes.OK });
 }
 
 export async function PATCH(request: Request) {
 	const url = new URL(request.url);
 	const taskId = url.searchParams.get("taskId");
+	const taskType = url.searchParams.get("taskType");
 
 	const taskCompleted = url.searchParams.get("taskCompleted");
 
 	if (!taskId) {
-		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: 400 });
+		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: StatusCodes.BAD_REQUEST });
 	}
 
-	if (taskCompleted == null) {
-		return new Response(JSON.stringify({ error: "Missing task completion status" }), { status: 400 });
+	if (taskCompleted === null) {
+		return new Response(JSON.stringify({ error: "Missing task completion status" }), { status: StatusCodes.BAD_REQUEST });
+	}
+
+	if (!taskType) {
+		return new Response(JSON.stringify({ error: "Missing task type" }), { status: StatusCodes.BAD_REQUEST });
 	}
 
 	const taskCompletedParsed = JSON.parse(taskCompleted);
-	console.log(taskCompletedParsed);
 
-	await prisma.task.update({
-		where: {
-			id: taskId,
-		},
-		data: {
-			completed: !taskCompletedParsed
-		},
-	})
+	console.log(taskType)
+	switch (taskType) {
+		case TaskType.MANUAL:
+			await prisma.manualTask.update({
+				where: {
+					id: taskId,
+				},
+				data: {
+					completed: !taskCompletedParsed
+				},
+			})
+			break;
+		case TaskType.HABIT:
+			await prisma.habit.update({
+				where: {
+					id: taskId,
+				},
+				data: {
+					completed: !taskCompletedParsed
+				},
+			})
+			break;
+		case TaskType.AUTOMATIC:
+			await prisma.automaticTask.update({
+				where: {
+					id: taskId,
+				},
+				data: {
+					completed: !taskCompletedParsed
+				},
+			})
+			break;
+		default:
+			return new Response(JSON.stringify({ error: "Invalid task type" }), { status: StatusCodes.BAD_REQUEST });
+	}
 
-	return new Response(JSON.stringify(taskId), { status: 200 });
+	return new Response(JSON.stringify(taskId), { status: StatusCodes.OK });
 }

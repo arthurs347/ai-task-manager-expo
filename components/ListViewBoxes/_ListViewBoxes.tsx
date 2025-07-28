@@ -1,18 +1,19 @@
 import TaskTimeBox from "@/components/ListViewBoxes/TaskTimeBox";
 import {VStack} from "@/components/ui/vstack";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
-import {Task} from "@/prisma/generated/prisma/edge";
 import {View} from "react-native";
+import {ListedTask} from "@/app/api/tasks+api";
 
 interface ListViewBoxesProps {
-    tasks: Task[]
+    listedTasks: ListedTask[];
     setRefreshKey: (key: (prev: number) => any) => void;
 
 }
-export function _ListViewBoxes({tasks, setRefreshKey}: ListViewBoxesProps) {
+export function _ListViewBoxes({listedTasks, setRefreshKey}: ListViewBoxesProps) {
     return (
         <VStack>
-            {tasks.map(({id, title, start, end, estimatedDuration, completed}) => {
+            {listedTasks.map((listedTask: ListedTask) => {
+                const {id, title, taskType, start, end, estimatedDuration, completed} = listedTask;
                 const {startTimeParsed, endTimeParsed} = parseStartEndTime(start, end);
                 const taskDurationParsed = parseEstimatedDurationAsString(estimatedDuration);
 
@@ -22,10 +23,11 @@ export function _ListViewBoxes({tasks, setRefreshKey}: ListViewBoxesProps) {
                             key={id}
                             taskId={id}
                             taskName={title}
+                            taskType={taskType}
                             taskStartTime={startTimeParsed}
                             taskEndTime={endTimeParsed}
                             taskDuration={taskDurationParsed}
-                            taskComplete={completed}
+                            taskCompleted={completed}
                             setRefreshKey={setRefreshKey}
                         />
                         <View key={id+"divider"} className="h-8 w-full border hover:bg-blue-500"/>

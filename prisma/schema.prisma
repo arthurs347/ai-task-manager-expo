@@ -9,62 +9,57 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(cuid())
-  email String  @unique
-  fullName  String?
-  image String?
-  tasks Task[]
-  manualTasks ManualTask[]
+  id             String          @id @default(cuid())
+  email          String          @unique
+  fullName       String?
+  image          String?
+  manualTasks    ManualTask[]
   automaticTasks AutomaticTask[]
-}
-
-model Task {
-  id                String            @id @default(cuid())
-  title             String
-  description       String?
-  start   DateTime
-  end     DateTime
-  dueDateTime       DateTime?
-  estimatedDuration Int // in minutes
-  isHardDeadline    Boolean?
-  isRecurring       Boolean
-  priorityLevel     PriorityLevel?
-  priorityScore     Int?
-  priorityCategory  PriorityCategory?
-  completed         Boolean           @default(false)
-  user              User             @relation(fields: [userId], references: [id])
-  userId            String
+  Habit          Habit[]
 }
 
 model ManualTask {
-  id                String            @id @default(cuid())
+  id                String   @id @default(cuid())
   title             String
   description       String?
-  start   DateTime
-  end     DateTime
+  start             DateTime
+  end               DateTime
   estimatedDuration Int // in minutes
   isRecurring       Boolean
-  completed         Boolean           @default(false)
-  user              User             @relation(fields: [userId], references: [id])
+  completed         Boolean  @default(false)
+  user              User     @relation(fields: [userId], references: [id])
   userId            String
 }
 
 model AutomaticTask {
-  id                String            @id @default(cuid())
+  id                String           @id @default(cuid())
   title             String
   description       String?
-  start   DateTime
-  end     DateTime
+  start             DateTime
+  end               DateTime
   dueDateTime       DateTime
   estimatedDuration Int // in minutes
   isHardDeadline    Boolean
   isRecurring       Boolean
-  isStatic Boolean
+  isStatic          Boolean
   priorityLevel     PriorityLevel
   priorityScore     Int
   priorityCategory  PriorityCategory
-  completed         Boolean           @default(false)
+  completed         Boolean          @default(false)
   user              User             @relation(fields: [userId], references: [id])
+  userId            String
+}
+
+model Habit {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  start             DateTime
+  end               DateTime
+  estimatedDuration Int // in minutes
+  completed         Boolean  @default(false)
+  currentlyUsed     Boolean @default(false)
+  user              User     @relation(fields: [userId], references: [id])
   userId            String
 }
 

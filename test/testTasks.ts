@@ -1,10 +1,10 @@
-import {PriorityCategory, PriorityLevel, Task,} from "@/prisma/generated/prisma/edge";
+import {AutomaticTask, PriorityCategory, PriorityLevel,} from "@/prisma/generated/prisma/edge";
 import dayjs from "dayjs";
 
 // Set baseDate to today
 const baseDate: dayjs.Dayjs = dayjs().set('hour', 8).set('minute', 0).set('second', 0).set('millisecond', 0);
 
-export const testTasks: Task[] = [
+export const testTasks: AutomaticTask[] = [
 	{
 		id: "1",
 		userId: "1",
@@ -20,6 +20,7 @@ export const testTasks: Task[] = [
 		isHardDeadline: true,
 		isRecurring: true,
 		completed: false,
+		isStatic: true
 	},
 	{
 		id: "2",
@@ -36,6 +37,7 @@ export const testTasks: Task[] = [
 		isHardDeadline: false,
 		isRecurring: false,
 		completed: false,
+		isStatic: true
 	},
 	{
 		id: "3",
@@ -52,6 +54,7 @@ export const testTasks: Task[] = [
 		isHardDeadline: false,
 		isRecurring: false,
 		completed: false,
+		isStatic: true
 	},
 	{
 		id: "4",
@@ -68,6 +71,7 @@ export const testTasks: Task[] = [
 		isHardDeadline: true,
 		isRecurring: false,
 		completed: false,
+		isStatic: true
 	},
 	{
 		id: "5",
@@ -84,5 +88,6 @@ export const testTasks: Task[] = [
 		isHardDeadline: false,
 		isRecurring: false,
 		completed: false,
+		isStatic: true
 	},
 ];

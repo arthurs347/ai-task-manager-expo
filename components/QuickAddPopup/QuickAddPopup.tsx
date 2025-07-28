@@ -1,11 +1,11 @@
 import {Text} from "react-native";
 import {Button, ButtonText} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
-import {Task} from "@/prisma/generated/prisma/edge";
+import {Habit} from "@/prisma/generated/prisma/edge";
 import QuickAddList from "@/components/QuickAddPopup/QuickAddList";
 
 interface QuickAddPopupProps {
-    quickAddItems: Task[];
+    quickAddItems: Habit[];
     displayQuickAddPopup: boolean;
     setDisplayQuickAddPopup: (displayPopup: boolean) => void;
 }
