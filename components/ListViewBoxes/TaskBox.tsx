@@ -16,7 +16,7 @@ interface TaskBoxProps {
 
 export default function TaskBox({ taskId, taskName, taskType, taskCompleted, setRefreshKey}: TaskBoxProps) {
     async function handleDeleteTask(){
-        await deleteTaskAction(taskId);
+        await deleteTaskAction(taskId, taskType);
         setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
    }
    async function handleChangeTaskCompletionStatus() {

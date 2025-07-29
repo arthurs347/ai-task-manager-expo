@@ -62,10 +62,9 @@ export async function createTaskAction(task: TaskDataEntry){
         })
 }
 
-export async function deleteTaskAction(taskId: string): Promise<string> {
+export async function deleteTaskAction(taskId: string, taskType: TaskType): Promise<string> {
     authenticateUser();
-
-    return axios.delete(`/api/tasks?taskId=${encodeURIComponent(taskId)}`)
+    return axios.delete(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskType=${encodeURIComponent(taskType)}`)
         .then(res => {
             return res.data as string
         })

@@ -82,17 +82,40 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
 	const url = new URL(request.url);
 	const taskId = url.searchParams.get("taskId");
+	const taskType = url.searchParams.get("taskType");
+	console.log("Task", taskType);
 
 	if (!taskId) {
 		return new Response(JSON.stringify({ error: "Missing taskId" }), { status: StatusCodes.BAD_REQUEST });
 	}
-	//TODO: fix this to delete the correct task type
-
-	await prisma.manualTask.delete({
-		where: {
-			id: taskId!,
-		}
-	})
+	if (!taskType) {
+		return new Response(JSON.stringify({ error: "Missing task type" }), { status: StatusCodes.BAD_REQUEST });
+	}
+	switch (taskType) {
+		case TaskType.MANUAL:
+			await prisma.manualTask.delete({
+				where: {
+					id: taskId,
+				},
+			});
+			break;
+		case TaskType.HABIT:
+			await prisma.habit.delete({
+				where: {
+					id: taskId,
+				},
+			});
+			break;
+		case TaskType.AUTOMATIC:
+			await prisma.automaticTask.delete({
+				where: {
+					id: taskId,
+				},
+			});
+			break;
+		default:
+			return new Response(JSON.stringify({ error: "Invalid task type" }), { status: StatusCodes.BAD_REQUEST });
+	}
 
 	return new Response(JSON.stringify(taskId), { status: StatusCodes.OK });
 }
