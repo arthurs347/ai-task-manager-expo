@@ -1,4 +1,4 @@
-import {AutomaticTask, PriorityCategory, PriorityLevel,} from "@/prisma/generated/prisma/edge";
+import {AutomaticTask, PriorityCategory, PriorityLevel, TaskType,} from "@/prisma/generated/prisma/edge";
 import dayjs from "dayjs";
 
 // Set baseDate to today
@@ -8,6 +8,7 @@ export const testTasks: AutomaticTask[] = [
 	{
 		id: "1",
 		userId: "1",
+		taskType: TaskType.AUTOMATIC,
 		title: "Morning Standup",
 		description: "Daily team sync meeting",
 		priorityLevel: PriorityLevel.MED,
@@ -25,6 +26,7 @@ export const testTasks: AutomaticTask[] = [
 	{
 		id: "2",
 		userId: "1",
+		taskType: TaskType.AUTOMATIC,
 		title: "Code Review",
 		description: "Review PRs assigned to you",
 		priorityLevel: PriorityLevel.HIGH,
@@ -42,6 +44,7 @@ export const testTasks: AutomaticTask[] = [
 	{
 		id: "3",
 		userId: "1",
+		taskType: TaskType.AUTOMATIC,
 		title: "Write Documentation",
 		description: "Update API docs for new endpoints",
 		priorityLevel: PriorityLevel.LOW,
@@ -59,6 +62,7 @@ export const testTasks: AutomaticTask[] = [
 	{
 		id: "4",
 		userId: "1",
+		taskType: TaskType.AUTOMATIC,
 		title: "Client Call",
 		description: "Discuss project requirements",
 		priorityLevel: PriorityLevel.CRIT,
@@ -76,6 +80,7 @@ export const testTasks: AutomaticTask[] = [
 	{
 		id: "5",
 		userId: "1",
+		taskType: TaskType.AUTOMATIC,
 		title: "Design Review",
 		description: "Review new UI mockups",
 		priorityLevel: PriorityLevel.MED,

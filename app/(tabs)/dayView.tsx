@@ -12,7 +12,7 @@ import {useAuth} from "@clerk/clerk-expo";
 import {HStack} from "@/components/ui/hstack";
 import {Text} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
+import {filterTasksByStartDate, sortTasksByStartDateTime, toListedTasks} from "@/utils/taskUtils";
 import {useQuery} from "@tanstack/react-query";
 
 export default function DayView() {
@@ -30,7 +30,7 @@ export default function DayView() {
     const { data, isLoading } = useQuery({
         queryFn: async () => {
             if (OFFLINE_DEV_MODE) {
-                const filteredTasks = filterTasksByStartDate(testTasks, selectedDay)
+                const filteredTasks = filterTasksByStartDate(toListedTasks(testTasks), selectedDay)
                 return sortTasksByStartDateTime(filteredTasks)
             } else {
                 const fetchedTasks = await getListedTasksAction()

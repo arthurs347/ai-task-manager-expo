@@ -11,6 +11,7 @@ import {testTasks} from "@/test/testTasks";
 import {useFocusEffect} from "expo-router";
 import {Text} from "react-native";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
+import {toListedTasks} from "@/utils/taskUtils";
 
 export default function ListView() {
     const [refreshKey, setRefreshKey] = useState(0);
@@ -18,7 +19,7 @@ export default function ListView() {
 
     const {isLoaded} = useAuth()
     const { data, isLoading } = useQuery({
-        queryFn: () => OFFLINE_DEV_MODE ? testTasks : getListedTasksAction(),
+        queryFn: () => OFFLINE_DEV_MODE ? toListedTasks(testTasks) : getListedTasksAction(),
         queryKey: ['tasks', refreshKey],
     })
 

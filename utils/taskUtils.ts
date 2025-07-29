@@ -100,3 +100,7 @@ export function toListedTask(task: ManualTask | AutomaticTask | Habit): ListedTa
             throw new Error("Invalid task type");
     }
 }
+
+export function toListedTasks(tasks: (ManualTask | AutomaticTask | Habit)[]): ListedTask[] {
+    return tasks.map(toListedTask);
+}
