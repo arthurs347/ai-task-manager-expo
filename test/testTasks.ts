@@ -20,7 +20,7 @@ export const testTasks: AutomaticTask[] = [
 		isHardDeadline: true,
 		isRecurring: true,
 		completed: false,
-		isStatic: true
+		isStatic: true,
 	},
 	{
 		id: "2",

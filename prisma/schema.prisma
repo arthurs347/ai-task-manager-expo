@@ -15,11 +15,12 @@ model User {
   image          String?
   manualTasks    ManualTask[]
   automaticTasks AutomaticTask[]
-  Habit          Habit[]
+  habits          Habit[]
 }
 
 model ManualTask {
   id                String   @id @default(cuid())
+  taskType          TaskType @default(MANUAL)
   title             String
   description       String?
   start             DateTime
@@ -33,6 +34,7 @@ model ManualTask {
 
 model AutomaticTask {
   id                String           @id @default(cuid())
+  taskType          TaskType @default(AUTOMATIC)
   title             String
   description       String?
   start             DateTime
@@ -52,6 +54,7 @@ model AutomaticTask {
 
 model Habit {
   id                String   @id @default(cuid())
+  taskType          TaskType @default(HABIT)
   title             String
   description       String?
   start             DateTime
@@ -75,4 +78,10 @@ enum PriorityCategory {
   MED
   HIGH
   CRIT
+}
+
+enum TaskType {
+  MANUAL
+  AUTOMATIC
+  HABIT
 }

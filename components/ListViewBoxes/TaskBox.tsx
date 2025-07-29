@@ -4,7 +4,7 @@ import {Heading} from "@/components/ui/heading";
 import {HStack} from "@/components/ui/hstack";
 import {CircleIcon, XIcon} from "lucide-react-native";
 import {Button, ButtonIcon} from "@/components/ui/button";
-import {TaskType} from "@/components/CreateTaskPopup/CreateTaskForm";
+import {TaskType} from "@/prisma/generated/prisma";
 
 interface TaskBoxProps {
     taskId: string;

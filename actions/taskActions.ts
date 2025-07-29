@@ -1,14 +1,14 @@
 import {authenticateUser} from "@/actions/authActions";
-import {TaskDataEntry, TaskType} from "@/components/CreateTaskPopup/CreateTaskForm";
+import {TaskDataEntry} from "@/components/CreateTaskPopup/CreateTaskForm";
 import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
-import {AutomaticTask, Habit, ManualTask} from "@/prisma/generated/prisma/edge";
+import {AutomaticTask, Habit, ManualTask, TaskType} from "@/prisma/generated/prisma/edge";
 import {Time} from "@internationalized/date";
 import axios from "axios";
 import {ListedTask} from "@/app/api/tasks+api";
 
-export type ManualEntry = Omit<ManualTask, 'id' | 'completed'>;
-export type AutomaticEntry = Omit<AutomaticTask, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline'>;
-export type HabitEntry = Omit<Habit, 'id' | 'completed' | 'currentlyUsed'>;
+export type ManualEntry = Omit<ManualTask, 'id' | 'completed' | 'taskType'>;
+export type AutomaticEntry = Omit<AutomaticTask, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline' | 'taskType'>;
+export type HabitEntry = Omit<Habit, 'id' | 'completed' | 'currentlyUsed' | 'taskType'>;
 
 export async function createTaskAction(task: TaskDataEntry){
     const userId = authenticateUser().id;

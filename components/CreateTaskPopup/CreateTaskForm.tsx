@@ -5,7 +5,7 @@ import {HStack} from "@/components/ui/hstack";
 import {Input, InputField} from "@/components/ui/input";
 import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
 import {Textarea, TextareaInput} from "@/components/ui/textarea";
-import {PriorityLevel} from "@/prisma/generated/prisma/edge";
+import {PriorityLevel, TaskType} from "@/prisma/generated/prisma/edge";
 import {Check as CheckIcon, Circle as CircleIcon} from "lucide-react-native";
 import React, {useMemo} from "react";
 import {Controller, useForm} from "react-hook-form";
@@ -17,12 +17,6 @@ import {createTaskAction} from "@/actions/taskActions";
 import {addTimeToDate, timeToDate} from "@/utils/dateUtils";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export enum TaskType {
-    AUTOMATIC = "automatic",
-    MANUAL = "manual",
-    HABIT = "habit",
-    LISTED = "listed"
-}
 export type TaskDataEntry = {
     title: string;
     description: string;

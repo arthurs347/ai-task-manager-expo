@@ -1,5 +1,5 @@
-import {TaskDataEntry, TaskType} from "@/components/CreateTaskPopup/CreateTaskForm";
-import {AutomaticTask, Habit, ManualTask, PriorityCategory} from "@/prisma/generated/prisma";
+import {TaskDataEntry} from "@/components/CreateTaskPopup/CreateTaskForm";
+import {AutomaticTask, Habit, ManualTask, PriorityCategory, TaskType} from "@/prisma/generated/prisma";
 import {isSameDay} from "@/utils/dateUtils";
 import dayjs from "dayjs";
 import {DATETIME_FORMAT} from "@/lib/constants";
@@ -79,11 +79,24 @@ export function habitToListedTask(habit: Habit): ListedTask {
     }
 }
 
-export function manualHabitAutomaticToListedTask(manualTasks: ManualTask[], habits: Habit[], automaticTasks: AutomaticTask[]): ListedTask[] {
+export function allTypesToListedTask(manualTasks: ManualTask[], habits: Habit[], automaticTasks: AutomaticTask[]): ListedTask[] {
     const manualToListed = manualTasks.map(manualTaskToListedTask);
     const habitToListed = habits.map(habitToListedTask)
     const automaticToListed = automaticTasks.map(automaticTaskToListedTask);
 
     return [...manualToListed, ...habitToListed, ...automaticToListed]
 
+}
+
+export function toListedTask(task: ManualTask | AutomaticTask | Habit): ListedTask {
+    switch (task.taskType) {
+        case TaskType.MANUAL:
+            return manualTaskToListedTask(task as ManualTask);
+        case TaskType.AUTOMATIC:
+            return automaticTaskToListedTask(task as AutomaticTask);
+        case TaskType.HABIT:
+            return habitToListedTask(task as Habit);
+        default:
+            throw new Error("Invalid task type");
+    }
 }

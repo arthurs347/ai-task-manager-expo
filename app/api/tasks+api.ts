@@ -1,9 +1,8 @@
 import {prisma} from "@/lib/prisma";
 import {AutomaticEntry, HabitEntry, ManualEntry} from "@/actions/taskActions";
-import {TaskType} from "@/components/CreateTaskPopup/CreateTaskForm";
-
+import {TaskType} from "@/prisma/generated/prisma";
 import {StatusCodes} from 'http-status-codes';
-import {manualHabitAutomaticToListedTask} from "@/utils/taskUtils";
+import {allTypesToListedTask} from "@/utils/taskUtils";
 
 export type ListedTask = {
 	id: string;
@@ -135,7 +134,7 @@ export async function GET(request: Request) {
 		prisma.automaticTask.findMany({ where: { userId } }),
 	]);
 
-	const listedTasks: ListedTask[] = manualHabitAutomaticToListedTask(manualTasks, habits, automaticTasks);
+	const listedTasks: ListedTask[] = allTypesToListedTask(manualTasks, habits, automaticTasks);
 
 
     return new Response(JSON.stringify(listedTasks), { status: StatusCodes.OK });
