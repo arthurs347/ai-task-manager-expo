@@ -1,6 +1,7 @@
 import {authenticateUser} from "@/actions/authActions";
 import {User} from "@/prisma/generated/prisma/edge";
 import axios from "axios";
+import {API_BASE_URL} from "@/lib/constants";
 
 /**
  * Creates a user if no user is found in the db with the same email
@@ -15,7 +16,7 @@ export async function createUserAction() {
         image: user.imageUrl,
     }
 
-    return axios.post("api/users", JSON.stringify(userData))
+    return axios.post(`${API_BASE_URL}/api/users`, JSON.stringify(userData))
         .then((response) => {
             return response.data;
         })

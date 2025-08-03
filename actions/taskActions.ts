@@ -5,6 +5,7 @@ import {AutomaticTask, Habit, ManualTask, TaskType} from "@/prisma/generated/pri
 import {Time} from "@internationalized/date";
 import axios from "axios";
 import {ListedTask} from "@/app/api/tasks+api";
+import {API_BASE_URL} from "@/lib/constants";
 
 export type ManualEntry = Omit<ManualTask, 'id' | 'completed' | 'taskType'>;
 export type AutomaticEntry = Omit<AutomaticTask, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline' | 'taskType'>;
@@ -53,7 +54,7 @@ export async function createTaskAction(task: TaskDataEntry){
         default:
             throw new Error("Invalid task type");
     }
-    axios.post(`/api/tasks?taskType=${encodeURIComponent(taskType)}`, JSON.stringify(taskToCreateData!))
+    axios.post(`${API_BASE_URL}/api/tasks?taskType=${encodeURIComponent(taskType)}`, JSON.stringify(taskToCreateData!))
         .then((response) => {
             return response.data as ManualTask | AutomaticTask | HabitEntry;
         })
@@ -64,7 +65,7 @@ export async function createTaskAction(task: TaskDataEntry){
 
 export async function deleteTaskAction(taskId: string, taskType: TaskType): Promise<string> {
     authenticateUser();
-    return axios.delete(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskType=${encodeURIComponent(taskType)}`)
+    return axios.delete(`${API_BASE_URL}/api/tasks?taskId=${encodeURIComponent(taskId)}&taskType=${encodeURIComponent(taskType)}`)
         .then(res => {
             return res.data as string
         })
@@ -77,7 +78,7 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
     const user = authenticateUser();
     const userId = user.id;
 
-    return axios.get(`/api/tasks?userId=${encodeURIComponent(userId)}`)
+    return axios.get(`${API_BASE_URL}/api/tasks?userId=${encodeURIComponent(userId)}`)
         .then(res => {
             return res.data as ListedTask[];
         })
@@ -89,7 +90,7 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 export async function changeTaskCompletionStatusAction(taskId: string, taskCompleted: boolean, taskType: TaskType): Promise<boolean> {
     authenticateUser();
 
-    return axios.patch(`/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}&taskType=${encodeURIComponent(taskType)}`)
+    return axios.patch(`${API_BASE_URL}/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}&taskType=${encodeURIComponent(taskType)}`)
         .then(res => {
             return res.data as boolean
         }).catch((reason) => {
