@@ -44,12 +44,11 @@
     "@prisma/extension-accelerate": "^2.0.1",
     "@react-aria/i18n": "3.12.10",
     "@react-native-async-storage/async-storage": "2.1.2",
-    "@react-native-community/datetimepicker": "^8.4.2",
+    "@react-native-community/datetimepicker": "8.4.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
-    "@rneui/themed": "^4.0.0-rc.8",
     "@sentry/cli": "^2.46.0",
     "@sentry/react-native": "~6.14.0",
     "@tanstack/react-query": "^5.83.0",
@@ -89,8 +88,8 @@
     "react-native": "^0.79.3",
     "react-native-css-interop": "^0.1.22",
     "react-native-gesture-handler": "~2.24.0",
-    "react-native-reanimated": "^4.0.0",
-    "react-native-safe-area-context": "^5.5.2",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "react-native-svg": "15.11.2",
     "react-native-url-polyfill": "^2.0.0",
@@ -106,10 +105,16 @@
     "@types/express": "^5.0.3",
     "@types/luxon": "^3.6.2",
     "@types/react": "~19.0.10",
-    "@types/react-native": "^0.73.0",
     "jscodeshift": "0.15.2",
     "prisma": "^6.9.0",
     "typescript": "~5.8.3"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
   },
   "private": true,
   "proxy": "http://localhost:8081"
