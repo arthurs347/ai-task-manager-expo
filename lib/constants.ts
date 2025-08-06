@@ -2,7 +2,7 @@ export const DATETIME_FORMAT = "hh:mm a";
 export const DURATION_FORMAT = "dd:hh:mm";
 export const OFFLINE_DEV_MODE = false;
 
-export const API_BASE_URL = "https://taskdone.expo.app";
+export const API_BASE_URL = "https://taskdone.expo.app/api";
 
 export const MONTH_NAMES_FULL = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];

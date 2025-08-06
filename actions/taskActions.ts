@@ -58,7 +58,7 @@ export async function createTaskAction(task: TaskDataEntry){
         default:
             throw new Error("Invalid task type");
     }
-    axios.post(generateAPIUrl("/api/tasks"), JSON.stringify(taskToCreateData!))
+    axios.post(generateAPIUrl("/tasks"), JSON.stringify(taskToCreateData!))
         .then((response) => {
             return response.data as TaskEntry;
         })
@@ -69,7 +69,7 @@ export async function createTaskAction(task: TaskDataEntry){
 
 export async function deleteTaskAction(taskId: string, taskType: TaskType): Promise<string> {
     authenticateUser();
-    return axios.delete(`${API_BASE_URL}/api/tasks?taskId=${encodeURIComponent(taskId)}&taskType=${encodeURIComponent(taskType)}`)
+    return axios.delete(generateAPIUrl(`${API_BASE_URL}/tasks?taskId=${encodeURIComponent(taskId)}&taskType=${encodeURIComponent(taskType)}`))
         .then(res => {
             return res.data as string
         })
@@ -82,7 +82,7 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
     const user = authenticateUser();
     const userId = user.id;
 
-    return axios.get(`${API_BASE_URL}/api/tasks?userId=${encodeURIComponent(userId)}`)
+    return axios.get(generateAPIUrl(`${API_BASE_URL}/tasks?userId=${encodeURIComponent(userId)}`))
         .then(res => {
             return res.data as ListedTask[];
         })
@@ -94,7 +94,7 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 export async function changeTaskCompletionStatusAction(taskId: string, taskCompleted: boolean, taskType: TaskType): Promise<boolean> {
     authenticateUser();
 
-    return axios.patch(`${API_BASE_URL}/api/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}&taskType=${encodeURIComponent(taskType)}`)
+    return axios.patch(generateAPIUrl(`${API_BASE_URL}/tasks?taskId=${encodeURIComponent(taskId)}&taskCompleted=${encodeURIComponent(taskCompleted)}&taskType=${encodeURIComponent(taskType)}`))
         .then(res => {
             return res.data as boolean
         }).catch((reason) => {

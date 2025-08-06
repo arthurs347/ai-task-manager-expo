@@ -16,7 +16,7 @@ export async function createUserAction() {
         image: user.imageUrl,
     }
 
-    return axios.post(`${API_BASE_URL}/api/users`, JSON.stringify(userData))
+    return axios.post(`${API_BASE_URL}/users`, JSON.stringify(userData))
         .then((response) => {
             return response.data;
         })
