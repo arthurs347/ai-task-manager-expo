@@ -1,5 +1,5 @@
 import {prisma} from "@/lib/prisma";
-import {AutomaticEntry, HabitEntry, ManualEntry} from "@/actions/taskActions";
+import {ManualEntry, TaskEntry} from "@/actions/taskActions";
 import {TaskType} from "@/prisma/generated/prisma";
 import {StatusCodes} from 'http-status-codes';
 import {allTypesToListedTask} from "@/utils/taskUtils";
@@ -17,11 +17,10 @@ export type ListedTask = {
 
 // creates a new task with given info
 export async function POST(request: Request) {
-	const url = new URL(request.url);
-	const taskType = url.searchParams.get("taskType");
-	const taskEntry: ManualEntry | AutomaticEntry | HabitEntry & string = await request.json();
+	const taskEntry: TaskEntry & string = await request.json();
 
 	let createdTask;
+
 
 	const title = taskEntry.title;
 	const description = taskEntry.description;
@@ -29,6 +28,7 @@ export async function POST(request: Request) {
 	const end = taskEntry.end;
 	const estimatedDuration = taskEntry.estimatedDuration;
 	const userId = taskEntry.userId;
+	const taskType = taskEntry.taskType
 
 	switch (taskType) {
 		case TaskType.MANUAL:

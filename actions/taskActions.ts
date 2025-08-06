@@ -6,16 +6,18 @@ import {Time} from "@internationalized/date";
 import axios from "axios";
 import {ListedTask} from "@/app/api/tasks+api";
 import {API_BASE_URL} from "@/lib/constants";
+import {generateAPIUrl} from "@/utils/apiUtils";
 
-export type ManualEntry = Omit<ManualTask, 'id' | 'completed' | 'taskType'>;
-export type AutomaticEntry = Omit<AutomaticTask, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline' | 'taskType'>;
-export type HabitEntry = Omit<Habit, 'id' | 'completed' | 'currentlyUsed' | 'taskType'>;
+export type ManualEntry = Omit<ManualTask, 'id' | 'completed'>;
+export type AutomaticEntry = Omit<AutomaticTask, 'id' | 'completed' | 'priorityCategory' | 'priorityScore' | 'priorityLevel' | 'dueDateTime' | 'isHardDeadline'>;
+export type HabitEntry = Omit<Habit, 'id' | 'completed' | 'currentlyUsed'>;
+export type TaskEntry = ManualEntry | AutomaticEntry | HabitEntry;
 
 export async function createTaskAction(task: TaskDataEntry){
-    const userId = authenticateUser().id;
-    const taskType = task.taskType;
+    const userId: string = authenticateUser().id;
+    const taskType: TaskType = task.taskType;
 
-    let taskToCreateData: ManualTask | AutomaticTask | HabitEntry;
+    let taskToCreateData: TaskEntry;
 
     const title = task.title;
     const description = task.description;
@@ -27,6 +29,7 @@ export async function createTaskAction(task: TaskDataEntry){
     switch (taskType) {
         case TaskType.MANUAL:
             const manualTaskToCreateData: ManualEntry = {
+                taskType: taskType,
                 title: title,
                 description: description,
                 start: startParsedDate,
@@ -42,6 +45,7 @@ export async function createTaskAction(task: TaskDataEntry){
             throw new Error("Automatic task creation is not implemented yet");
         case TaskType.HABIT:
             const habitToCreateData: HabitEntry = {
+                taskType: taskType,
                 title: title,
                 description: description,
                 start: startParsedDate,
@@ -54,9 +58,9 @@ export async function createTaskAction(task: TaskDataEntry){
         default:
             throw new Error("Invalid task type");
     }
-    axios.post(`${API_BASE_URL}/api/tasks?taskType=${encodeURIComponent(taskType)}`, JSON.stringify(taskToCreateData!))
+    axios.post(generateAPIUrl("/api/tasks"), JSON.stringify(taskToCreateData!))
         .then((response) => {
-            return response.data as ManualTask | AutomaticTask | HabitEntry;
+            return response.data as TaskEntry;
         })
         .catch((reason) => {
             throw new Error(`Failed to create task: ${reason}`);

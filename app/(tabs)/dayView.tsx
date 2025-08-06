@@ -15,7 +15,7 @@ import {useNavigation} from "@react-navigation/native";
 import {filterTasksByStartDate, sortTasksByStartDateTime, toListedTasks} from "@/utils/taskUtils";
 import {useQuery} from "@tanstack/react-query";
 
-export default function DayView() {
+export default function DayView(){
     const today = new Date();
 
     const [selectedDay, setSelectedDay] = useState<Date>(today);
