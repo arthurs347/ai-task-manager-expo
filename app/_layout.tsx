@@ -75,7 +75,8 @@ export default Sentry.wrap(function RootLayout() {
                     <GestureHandlerRootView>
                         <SafeAreaView style={{ flex: 1 }}>
                             <InitialLayout/>
-                        </SafeAreaView>                    </GestureHandlerRootView>
+                        </SafeAreaView>
+                    </GestureHandlerRootView>
                 </QueryClientProvider>
             </ClerkProvider>
         </GluestackUIProvider>

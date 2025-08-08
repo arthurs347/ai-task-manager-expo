@@ -19,7 +19,7 @@ export default function Page() {
             if (!OFFLINE_DEV_MODE) {
                 createUser()
             }
-            router.replace("/(tabs)/listView");
+            router.replace("/(tabs)/listView/index");
         }
     })
     const {startSSOFlow} = useSSO();

@@ -9,7 +9,7 @@ export default function LandingPage() {
     return (
         <View className="items-center justify-center flex-1">
             <Text className="text-2xl"> Welcome {userFirstName} to your new AI Task Manager</Text>
-            <Link href={OFFLINE_DEV_MODE ? "/(tabs)/listView" : "/(auth)/auth"} className="border rounded text-xl">
+            <Link href={OFFLINE_DEV_MODE ? "/(tabs)/listView/index" : "/(auth)/auth"} className="border rounded text-xl">
                     <Text>Get Started </Text>
             </Link>
         </View>
