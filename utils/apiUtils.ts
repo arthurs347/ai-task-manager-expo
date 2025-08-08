@@ -1,7 +1,11 @@
-import Constants from "expo-constants"
+import Constants from "expo-constants";
 import {API_BASE_URL} from "@/lib/constants";
 
 export function generateAPIUrl(relativePath: string): string {
+    //TODO: Handle SO DIRECTS TO PREVIEW ENV taskdone.dev.expo.app or something like that
+    console.log(process.env.NODE_ENV)
+    console.log(Constants.experienceUrl)
+
     const origin = Constants?.experienceUrl?.replace("exp://", "https://") || API_BASE_URL;
 
     const path = relativePath.startsWith("/") ? relativePath : `/${relativePath}`;

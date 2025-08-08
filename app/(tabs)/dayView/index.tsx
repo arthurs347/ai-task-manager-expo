@@ -6,16 +6,18 @@ import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
 import {MONTH_NAMES_FULL, OFFLINE_DEV_MODE, WEEK_IN_MS} from "@/lib/constants";
 import {testTasks} from "@/test/testTasks";
-import {PlusIcon} from "lucide-react-native";
+import {ArrowLeft, ArrowRight, PlusIcon} from "lucide-react-native";
 import {useEffect, useState} from "react";
 import {useAuth} from "@clerk/clerk-expo";
 import {HStack} from "@/components/ui/hstack";
-import {Text} from "react-native";
+import {Platform, Text} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {filterTasksByStartDate, sortTasksByStartDateTime, toListedTasks} from "@/utils/taskUtils";
 import {useQuery} from "@tanstack/react-query";
 
 export default function DayView(){
+    const isWeb = Platform.OS === 'web';
+
     const today = new Date();
 
     const [selectedDay, setSelectedDay] = useState<Date>(today);
@@ -63,13 +65,18 @@ export default function DayView(){
             <VStack className="flex-1 items-center">
                 <Text className="text-2xl">{MONTH_NAMES_FULL[selectedDay.getMonth()] + " " + selectedDay.getFullYear()}</Text>
                 <HStack className="w-full">
-                    {/*<Button onPress={() => handleGoToPreviousWeek(setSelectedDay)}>*/}
-                    {/*    <ButtonIcon as={ArrowLeft}/>*/}
-                    {/*</Button>*/}
+
+                    {isWeb && (
+                        <Button onPress={() => handleGoToPreviousWeek()}>
+                            <ButtonIcon as={ArrowLeft}/>
+                        </Button>
+                    )}
                     <ListViewDayHeaders selectedDay={selectedDay} setSelectedDay={setSelectedDay} handleGoToPreviousWeek={handleGoToPreviousWeek} handleGoToNextWeek={handleGoToNextWeek}/>
-                    {/*<Button onPress={() => handleGoToNextWeek(setSelectedDay)}>*/}
-                    {/*    <ButtonIcon as={ArrowRight}/>*/}
-                    {/*</Button>*/}
+                    {isWeb && (
+                        <Button onPress={() => handleGoToNextWeek()}>
+                            <ButtonIcon as={ArrowRight}/>
+                        </Button>
+                    )}
                 </HStack>
 
                 {isLoading ? (

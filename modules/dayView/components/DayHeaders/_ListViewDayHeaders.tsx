@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
-import {Dimensions, NativeScrollEvent, NativeSyntheticEvent, ScrollView} from "react-native";
+import {Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView} from "react-native";
 import ListViewDayHeader from "@/modules/dayView/components/DayHeaders/ListViewDayHeader";
-import {HStack} from "../../../../components/ui/hstack";
+import {HStack} from "@/components/ui/hstack";
 import {isSameDay} from "@/utils/dateUtils";
 
 interface ListViewDayHeadersProps {
@@ -10,8 +10,9 @@ interface ListViewDayHeadersProps {
     handleGoToPreviousWeek: () => void;
     handleGoToNextWeek: () => void;
 }
+const isWeb = Platform.OS === 'web';
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH = isWeb ? Dimensions.get("window").width - 100 : Dimensions.get("window").width;
 const SCREEN_OFFSET = SCREEN_WIDTH / 3; // Offset to start in the middle of the week
 const PREV_WEEK_OFFSET = SCREEN_WIDTH + SCREEN_OFFSET*0.5; // Offset for previous week
 const NEXT_WEEK_OFFSET = SCREEN_WIDTH + SCREEN_OFFSET*1.5; // Offset for next week
