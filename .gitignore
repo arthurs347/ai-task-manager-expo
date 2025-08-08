@@ -40,19 +40,12 @@ yarn-error.*
 # prisma gen and mig files
 prisma/generated/
 prisma/migration_lock.toml
-
-/.idea/ai-task-manager.iml
-/.idea/modules.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/vcs.xml
-/.idea/biome.xml
-/.idea/misc.xml
-
 /prisma/migrations/migration_lock.toml
 
+# Build outputs
 /ios
+/android
 
 /venv
 
-/android
 
