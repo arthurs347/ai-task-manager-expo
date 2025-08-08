@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "expo start",
-    "clean": "rm -rf ./node_modules",
-    "clean-install": "rm -rf ./node_modules && yarn install",
+    "clean": "rm -rf ./node_modules && rm -rf ./yarn.lock",
+    "clean-install": "yarn clean && yarn install",
     "reset-db": "npx prisma db push --force-reset",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",

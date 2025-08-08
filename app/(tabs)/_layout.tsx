@@ -6,7 +6,7 @@ export default function TabsLayout() {
     return (
         <Tabs>
             <Tabs.Screen
-                name="dayView"
+                name="dayView/index"
                 options={{
                     tabBarIcon: () => <Ionicons name="calendar" size={20}/>,
                     tabBarLabel: () => <Text> Day View</Text>,
@@ -15,7 +15,7 @@ export default function TabsLayout() {
             ></Tabs.Screen>
 
             <Tabs.Screen
-                name="listView"
+                name="listView/index"
                 options={{
                     tabBarIcon: () => <Ionicons name="list-sharp" size={20}/>,
                     tabBarLabel: () => <Text> List View</Text>,
@@ -24,7 +24,7 @@ export default function TabsLayout() {
             ></Tabs.Screen>
 
             <Tabs.Screen
-                name="settings"
+                name="settings/index"
                 options={{
                     tabBarIcon: () => <Ionicons name="settings-sharp" size={20}/>,
                     tabBarLabel: () => <Text> Settings</Text>,
