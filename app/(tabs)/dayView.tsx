@@ -1,6 +1,6 @@
 import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
-import ListViewDayHeaders from "@/components/DayHeaders/_ListViewDayHeaders";
+import ListViewDayHeaders from "@/modules/dayView/components/DayHeaders/_ListViewDayHeaders";
 import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";

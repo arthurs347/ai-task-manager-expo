@@ -1,6 +1,6 @@
 import {VStack} from "@/components/ui/vstack";
 import {Habit} from "@/prisma/generated/prisma/edge";
-import QuickAddItem from "@/components/QuickAddItem/QuickAddItem";
+import QuickAddItem from "@/modules/dayView/components/QuickAddItem/QuickAddItem";
 
 interface QuickAddListProps {
     quickAddItems: Habit[]

@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import {Dimensions, NativeScrollEvent, NativeSyntheticEvent, ScrollView} from "react-native";
-import ListViewDayHeader from "@/components/DayHeaders/ListViewDayHeader";
-import {HStack} from "../ui/hstack";
+import ListViewDayHeader from "@/modules/dayView/components/DayHeaders/ListViewDayHeader";
+import {HStack} from "../../../../components/ui/hstack";
 import {isSameDay} from "@/utils/dateUtils";
 
 interface ListViewDayHeadersProps {

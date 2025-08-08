@@ -2,7 +2,7 @@ import {Text} from "react-native";
 import {Button, ButtonText} from "@/components/ui/button";
 import {VStack} from "@/components/ui/vstack";
 import {Habit} from "@/prisma/generated/prisma/edge";
-import QuickAddList from "@/components/QuickAddPopup/QuickAddList";
+import QuickAddList from "@/modules/dayView/components/QuickAddPopup/QuickAddList";
 
 interface QuickAddPopupProps {
     quickAddItems: Habit[];

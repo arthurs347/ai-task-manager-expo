@@ -1,5 +1,5 @@
 import {View} from "react-native";
-import {SignOutButton} from "@/components/auth/SignOutButton";
+import {SignOutButton} from "@/modules/settings/components/SignOutButton";
 
 export default function Settings() {
   return (
