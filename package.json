@@ -8,7 +8,7 @@
     "clean-install": "yarn clean && yarn install",
     "reset-db": "npx prisma db push --force-reset",
     "start": "expo start",
-    "clear-start" : "expo start --clear",
+    "clear-start": "expo start --clear",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "DARK_MODE=media expo start --android",
     "ios": "DARK_MODE=media expo start --ios",
@@ -103,7 +103,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/luxon": "^3.6.2",
