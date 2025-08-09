@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 			return new Response(JSON.stringify({ error: "Invalid task type" }), { status: StatusCodes.BAD_REQUEST });
 	}
 
-		return new Response(JSON.stringify(createdTask), { status: StatusCodes.CREATED });
+	return new Response(JSON.stringify(createdTask), { status: StatusCodes.CREATED });
 }
 
 export async function DELETE(request: Request) {
