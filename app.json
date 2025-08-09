@@ -1,74 +1,74 @@
 {
-  "expo": {
-    "name": "ai-task-manager",
-    "slug": "ai-task-manager",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "aitaskmanager",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.arthurs347.aitaskmanager",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "package": "com.arthurs347.aitaskmanager"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-router",
-        {
-          "origin": "https://taskdone.expo.app"
-        }
-      ],
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      [
-        "@sentry/react-native/expo",
-        {
-          "url": "https://sentry.io/",
-          "project": "react-native",
-          "organization": "timex-4k"
-        }
-      ],
-      "expo-secure-store",
-      "expo-web-browser"
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactServerFunctions": true
-    },
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "164e19e4-8850-4b79-8fcf-57a0dce09690"
-      }
-    },
-    "owner": "arthurs347",
-    "runtimeVersion": "1.0.0",
-    "updates": {
-      "url": "https://u.expo.dev/164e19e4-8850-4b79-8fcf-57a0dce09690"
-    }
-  }
+	"expo": {
+		"name": "ai-task-manager",
+		"slug": "ai-task-manager",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/images/icon.png",
+		"scheme": "aitaskmanager",
+		"userInterfaceStyle": "automatic",
+		"newArchEnabled": true,
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.arthurs347.aitaskmanager",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/images/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"edgeToEdgeEnabled": true,
+			"package": "com.arthurs347.aitaskmanager"
+		},
+		"web": {
+			"bundler": "metro",
+			"output": "server",
+			"favicon": "./assets/images/favicon.png"
+		},
+		"plugins": [
+			[
+				"expo-router",
+				{
+					"origin": "https://taskdone.expo.app"
+				}
+			],
+			[
+				"expo-splash-screen",
+				{
+					"image": "./assets/images/splash-icon.png",
+					"imageWidth": 200,
+					"resizeMode": "contain",
+					"backgroundColor": "#ffffff"
+				}
+			],
+			[
+				"@sentry/react-native/expo",
+				{
+					"url": "https://sentry.io/",
+					"project": "react-native",
+					"organization": "timex-4k"
+				}
+			],
+			"expo-secure-store",
+			"expo-web-browser"
+		],
+		"experiments": {
+			"typedRoutes": true,
+			"reactServerFunctions": true
+		},
+		"extra": {
+			"router": {},
+			"eas": {
+				"projectId": "164e19e4-8850-4b79-8fcf-57a0dce09690"
+			}
+		},
+		"owner": "arthurs347",
+		"runtimeVersion": "1.0.0",
+		"updates": {
+			"url": "https://u.expo.dev/164e19e4-8850-4b79-8fcf-57a0dce09690"
+		}
+	}
 }

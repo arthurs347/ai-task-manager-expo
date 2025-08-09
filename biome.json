@@ -21,7 +21,8 @@
 			"!**/ios/Pods/**",
 			"!**/ios/Podfile.lock",
 			"!**/ios/build/**",
-			"!**/prisma/generated/**"
+			"!**/prisma/generated/**",
+			"!**/components/ui/**"
 		]
 	},
 	"formatter": {

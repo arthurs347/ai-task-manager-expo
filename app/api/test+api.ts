@@ -1,5 +1,5 @@
-import {StatusCodes} from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 
 export async function GET(req: Request) {
-    return new Response("TEST API", { status: StatusCodes.OK });
+	return new Response("TEST API", { status: StatusCodes.OK });
 }

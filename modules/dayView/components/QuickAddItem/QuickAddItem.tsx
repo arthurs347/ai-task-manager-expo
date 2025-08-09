@@ -1,11 +1,9 @@
-import {Habit} from "@/prisma/generated/prisma";
 import DraggableBox from "@/components/ui/DraggableBox";
+import type { Habit } from "@/prisma/generated/prisma";
 
 interface QuickAddItemProps {
-    quickAddItem: Habit;
+	quickAddItem: Habit;
 }
-export default function QuickAddItem({quickAddItem}: QuickAddItemProps) {
-    return (
-        <DraggableBox/>
-    )
+export default function QuickAddItem({ quickAddItem }: QuickAddItemProps) {
+	return <DraggableBox />;
 }

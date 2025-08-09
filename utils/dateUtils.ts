@@ -1,7 +1,7 @@
-import {DATETIME_FORMAT, DURATION_FORMAT} from "@/lib/constants";
+import type { Time } from "@internationalized/date";
+import type { TimeValue } from "@react-types/datepicker";
 import dayjs from "dayjs";
-import {TimeValue} from "@react-types/datepicker";
-import {Time} from "@internationalized/date";
+import { DATETIME_FORMAT, DURATION_FORMAT } from "@/lib/constants";
 
 export function ISOToDateTimeFormat(dateTime: string) {
 	return dayjs(dateTime).format(DATETIME_FORMAT);
@@ -24,11 +24,13 @@ export function convertDurationDateToMinutes(duration: Date): number {
 }
 
 // Assuming estimatedDuration is in minutes
-export function parseEstimatedDurationAsString(estimatedDuration: number): string {
+export function parseEstimatedDurationAsString(
+	estimatedDuration: number,
+): string {
 	const hours = Math.floor((estimatedDuration % (60 * 24)) / 60);
 	const minutes = estimatedDuration % 60;
 
-	let parsedString = ""
+	let parsedString = "";
 	if (hours > 0) {
 		parsedString += `${hours}h `;
 	}
@@ -38,28 +40,32 @@ export function parseEstimatedDurationAsString(estimatedDuration: number): strin
 	return parsedString;
 }
 
-
-
-export function parseStartEndTime(start: Date, end: Date){
+export function parseStartEndTime(start: Date, end: Date) {
 	const startTimeParsed = dayjs(start).format(DATETIME_FORMAT);
 	const endTimeParsed = dayjs(end).format(DATETIME_FORMAT);
 	return { startTimeParsed, endTimeParsed };
 }
 
 export function isSameDay(date1: Date, date2: Date): boolean {
-	return dayjs(date1).isSame(dayjs(date2), 'day');
+	return dayjs(date1).isSame(dayjs(date2), "day");
 }
 
-
 export function addTimeToDate(date: Date, time: Time): Date {
-	const timeMs = (time.hour * 60 * 60 * 1000) +
-		(time.minute * 60 * 1000) +
-		(time.second * 1000) +
+	const timeMs =
+		time.hour * 60 * 60 * 1000 +
+		time.minute * 60 * 1000 +
+		time.second * 1000 +
 		(time.millisecond || 0);
 	return new Date(date.getTime() + timeMs);
 }
 
 export function timeToDate(time: Time): Date {
 	const today = new Date();
-	return new Date(today.getFullYear(), today.getMonth(), today.getDate(), time.hour, time.minute);
+	return new Date(
+		today.getFullYear(),
+		today.getMonth(),
+		today.getDate(),
+		time.hour,
+		time.minute,
+	);
 }
