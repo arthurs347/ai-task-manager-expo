@@ -1,27 +1,19 @@
-import { useAuth } from "@clerk/clerk-expo";
-import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react-native";
-import { useEffect, useState } from "react";
-import { Platform, Text } from "react-native";
-import { getListedTasksAction } from "@/actions/taskActions";
+import {useAuth} from "@clerk/clerk-expo";
+import {useNavigation} from "@react-navigation/native";
+import {useQuery} from "@tanstack/react-query";
+import {ArrowLeft, ArrowRight, PlusIcon} from "lucide-react-native";
+import {useEffect, useState} from "react";
+import {Platform, Text} from "react-native";
+import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
-import { _ListViewBoxes } from "@/components/ListViewBoxes/_ListViewBoxes";
-import { Button, ButtonIcon } from "@/components/ui/button";
-import { HStack } from "@/components/ui/hstack";
-import { VStack } from "@/components/ui/vstack";
-import {
-	MONTH_NAMES_FULL,
-	OFFLINE_DEV_MODE,
-	WEEK_IN_MS,
-} from "@/lib/constants";
-import ListViewDayHeaders from "@/modules/dayView/components/DayHeaders/_ListViewDayHeaders";
-import { testTasks } from "@/test/testTasks";
-import {
-	filterTasksByStartDate,
-	sortTasksByStartDateTime,
-	toListedTasks,
-} from "@/utils/taskUtils";
+import {_ListViewBoxes} from "@/components/ListViewBoxes/_ListViewBoxes";
+import {Button, ButtonIcon} from "@/components/ui/button";
+import {HStack} from "@/components/ui/hstack";
+import {VStack} from "@/components/ui/vstack";
+import {MONTH_NAMES_FULL, OFFLINE_DEV_MODE, WEEK_IN_MS,} from "@/lib/constants";
+import ListViewDayHeaders from "@/modules/dayView/components/dayHeaders/_ListViewDayHeaders";
+import {testTasks} from "@/test/testTasks";
+import {filterTasksByStartDate, sortTasksByStartDateTime, toListedTasks,} from "@/utils/taskUtils";
 
 export default function DayView() {
 	const isWeb = Platform.OS === "web";

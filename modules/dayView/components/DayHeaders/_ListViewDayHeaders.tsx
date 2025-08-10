@@ -1,14 +1,8 @@
-import React, { useRef } from "react";
-import {
-	Dimensions,
-	type NativeScrollEvent,
-	type NativeSyntheticEvent,
-	Platform,
-	ScrollView,
-} from "react-native";
-import { HStack } from "@/components/ui/hstack";
-import ListViewDayHeader from "@/modules/dayView/components/DayHeaders/ListViewDayHeader";
-import { isSameDay } from "@/utils/dateUtils";
+import React, {useRef} from "react";
+import {Dimensions, type NativeScrollEvent, type NativeSyntheticEvent, Platform, ScrollView,} from "react-native";
+import {HStack} from "@/components/ui/hstack";
+import ListViewDayHeader from "@/modules/dayView/components/dayHeaders/ListViewDayHeader";
+import {isSameDay} from "@/utils/dateUtils";
 
 interface ListViewDayHeadersProps {
 	selectedDay: Date;
