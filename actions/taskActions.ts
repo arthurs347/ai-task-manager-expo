@@ -1,16 +1,11 @@
-import type { Time } from "@internationalized/date";
+import type {Time} from "@internationalized/date";
 import axios from "axios";
-import { authenticateUser } from "@/actions/authActions";
-import type { ListedTask } from "@/app/api/tasks+api";
-import type { TaskDataEntry } from "@/components/CreateTaskPopup/CreateTaskForm";
-import {
-	type AutomaticTask,
-	type Habit,
-	type ManualTask,
-	TaskType,
-} from "@/prisma/generated/prisma/edge";
-import { generateAPIUrl } from "@/utils/apiUtils";
-import { addTimeToDate, convertDurationTimeToMinutes } from "@/utils/dateUtils";
+import {authenticateUser} from "@/actions/authActions";
+import type {ListedTask} from "@/app/api/tasks+api";
+import type {TaskDataEntry} from "@/components/CreateTaskPopup/CreateTaskForm";
+import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/prisma/edge";
+import {generateAPIUrl} from "@/utils/apiUtils";
+import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
 
 export type ManualEntry = Omit<ManualTask, "id" | "completed">;
 export type AutomaticEntry = Omit<
@@ -113,7 +108,7 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 	const userId = user.id;
 
 	return axios
-		.get(generateAPIUrl(`/api/tasks?userId=${encodeURIComponent(userId)}`))
+		.get(generateAPIUrl(`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.LISTED)}`))
 		.then((res) => {
 			return res.data as ListedTask[];
 		})
@@ -121,6 +116,21 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 			throw new Error("Failed to fetch tasks");
 		});
 }
+
+export async function getHabitsAction(): Promise<Habit[]> {
+    const user = authenticateUser();
+    const userId = user.id;
+
+    return axios
+        .get(generateAPIUrl(`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.HABIT)}`))
+        .then((res) => {
+            return res.data as Habit[];
+        })
+        .catch(() => {
+            throw new Error("Failed to fetch habits");
+        });
+}
+
 
 export async function changeTaskCompletionStatusAction(
 	taskId: string,
