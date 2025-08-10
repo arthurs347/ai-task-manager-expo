@@ -73,9 +73,13 @@ export async function createTaskAction(task: TaskDataEntry) {
 		default:
 			throw new Error("Invalid task type");
 	}
-	console.log("API ROUTE", generateAPIUrl("api/tasks"));
 	axios
-		.post(generateAPIUrl("/api/tasks"), JSON.stringify(taskToCreateData!))
+		.post(
+            generateAPIUrl(
+            "/api/tasks"
+            ),
+            JSON.stringify(taskToCreateData!)
+        )
 		.then((response) => {
 			return response.data as TaskEntry;
 		})
@@ -84,10 +88,7 @@ export async function createTaskAction(task: TaskDataEntry) {
 		});
 }
 
-export async function deleteTaskAction(
-	taskId: string,
-	taskType: TaskType,
-): Promise<string> {
+export async function deleteTaskAction(taskId: string, taskType: TaskType): Promise<string> {
 	authenticateUser();
 	return axios
 		.delete(
@@ -98,8 +99,8 @@ export async function deleteTaskAction(
 		.then((res) => {
 			return res.data as string;
 		})
-		.catch(() => {
-			throw new Error("Failed to delete task");
+		.catch((reason) => {
+			throw new Error(`Failed to delete task: ${reason}`);
 		});
 }
 
