@@ -1,10 +1,22 @@
-import DraggableBox from "@/components/DraggableBox";
-import type {Habit} from "@/prisma/generated/prisma";
+import {DraggableBox} from "@/components/DraggableBox";
+import {Text} from "react-native";
+import {parseEstimatedDurationAsString} from "@/utils/dateUtils";
 
 interface HabitItemProps {
-    habit: Habit
+    habitTitle: string
+    habitDuration: number // Assuming duration is in minutes
 }
 
-export default function HabitItem({ habit }: HabitItemProps) {
-    return <DraggableBox />;
+export default function HabitItem({ habitTitle, habitDuration }: HabitItemProps) {
+    const durationParsed = parseEstimatedDurationAsString(habitDuration)
+
+    return (
+        <DraggableBox>
+            <Text>
+                {habitTitle}
+                {"    "}
+                {`(${durationParsed})`}
+            </Text>
+        </DraggableBox>
+    )
 }

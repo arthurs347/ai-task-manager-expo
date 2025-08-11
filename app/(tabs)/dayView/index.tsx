@@ -2,15 +2,15 @@ import {useAuth} from "@clerk/clerk-expo";
 import {useNavigation} from "@react-navigation/native";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
-import {getListedTasksAction} from "@/actions/taskActions";
+import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
 import {HStack} from "@/components/ui/hstack";
 import {VStack} from "@/components/ui/vstack";
-import {OFFLINE_DEV_MODE} from "@/lib/constants";
-import {testTasks} from "@/test/testTasks";
-import {filterTasksByStartDate, sortTasksByStartDateTime, toListedTasks} from "@/utils/taskUtils";
+import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import DayViewBody from "@/modules/dayView/components/DayViewBody";
+import type {Habit} from "@/prisma/generated/prisma";
+import type {ListedTask} from "@/app/api/tasks+api";
 
 export default function DayView() {
 	const today = new Date();
@@ -25,20 +25,21 @@ export default function DayView() {
 
 	const { data, isLoading } = useQuery({
 		queryFn: async () => {
-			if (OFFLINE_DEV_MODE) {
-				const filteredTasks = filterTasksByStartDate(
-					toListedTasks(testTasks),
-					selectedDay,
-				);
-				return sortTasksByStartDateTime(filteredTasks);
-			} else {
-				const fetchedTasks = await getListedTasksAction();
-				const filteredTasks = filterTasksByStartDate(fetchedTasks, selectedDay);
-				return sortTasksByStartDateTime(filteredTasks);
-			}
+            const fetchedTasks: ListedTask[] = await getListedTasksAction();
+            const filteredTasks: ListedTask[] = filterTasksByStartDate(fetchedTasks, selectedDay);
+            const fetchedHabits: Habit[] = await getHabitsAction();
+
+            return {
+                listedTasks: sortTasksByStartDateTime(filteredTasks),
+                habits: fetchedHabits
+            };
 		},
 		queryKey: ["tasks", refreshKey, selectedDay],
-	});
+	})
+
+    const listedTasks = data ? data.listedTasks : null;
+    const habits = data ? data.habits : null;
+    
 	// For when the tab is pressed, while on dayView reset the selected day to today
 	useEffect(() => {
 		// @ts-ignore
@@ -55,7 +56,7 @@ export default function DayView() {
 			<VStack className="flex-1 items-center">
 				<DayViewHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
 
-				<DayViewBody isLoading={isLoading} setRefreshKey={setRefreshKey} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup} listedTasks={data!}></DayViewBody>
+				<DayViewBody isLoading={isLoading} setRefreshKey={setRefreshKey} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup} listedTasks={listedTasks} habits={habits}></DayViewBody>
 
                 <CreateTaskPopup
 					selectedDay={selectedDay}

@@ -1,17 +1,17 @@
-import { useAuth } from "@clerk/clerk-expo";
-import { useQuery } from "@tanstack/react-query";
-import { useFocusEffect } from "expo-router";
-import { Plus as PlusIcon } from "lucide-react-native";
-import { useCallback, useState } from "react";
-import { Text } from "react-native";
-import { getListedTasksAction } from "@/actions/taskActions";
+import {useAuth} from "@clerk/clerk-expo";
+import {useQuery} from "@tanstack/react-query";
+import {useFocusEffect} from "expo-router";
+import {Plus as PlusIcon} from "lucide-react-native";
+import {useCallback, useState} from "react";
+import {Text} from "react-native";
+import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
-import { _ListViewBoxes } from "@/components/ListViewBoxes/_ListViewBoxes";
-import { Button, ButtonIcon } from "@/components/ui/button";
-import { VStack } from "@/components/ui/vstack";
-import { OFFLINE_DEV_MODE } from "@/lib/constants";
-import { testTasks } from "@/test/testTasks";
-import { toListedTasks } from "@/utils/taskUtils";
+import {ListViewBoxes} from "@/components/ListViewBoxes/ListViewBoxes";
+import {Button, ButtonIcon} from "@/components/ui/button";
+import {VStack} from "@/components/ui/vstack";
+import {OFFLINE_DEV_MODE} from "@/lib/constants";
+import {testTasks} from "@/test/testTasks";
+import {toListedTasks} from "@/utils/taskUtils";
 
 export default function ListView() {
 	const [refreshKey, setRefreshKey] = useState(0);
@@ -39,7 +39,7 @@ export default function ListView() {
 			{isLoading ? (
 				<Text className="text-2xl">Loading...</Text>
 			) : data && data.length > 0 ? (
-				<_ListViewBoxes listedTasks={data!} setRefreshKey={setRefreshKey} />
+				<ListViewBoxes listedTasks={data!} setRefreshKey={setRefreshKey} />
 			) : (
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}

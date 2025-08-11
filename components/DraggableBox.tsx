@@ -1,9 +1,13 @@
-import React from 'react';
 import {StyleSheet} from 'react-native';
 import Animated, {useAnimatedStyle, useSharedValue, withSpring} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from "react-native-gesture-handler";
+import {Card} from "@/components/ui/card";
 
-export default function DraggableBox() {
+interface DraggableBoxProps {
+    children: React.ReactNode;
+}
+
+export const DraggableBox: React.FC<DraggableBoxProps> = ({children}: DraggableBoxProps) => {
     const isPressed = useSharedValue(false);
     const offset = useSharedValue({ x: 0, y: 0 });
 
@@ -14,7 +18,6 @@ export default function DraggableBox() {
                 { translateY: offset.value.y },
                 { scale: withSpring(isPressed.value ? 1.2 : 1) },
             ],
-            backgroundColor: 'blue',
         };
     });
 
@@ -41,16 +44,21 @@ export default function DraggableBox() {
         <GestureDetector gesture={gesture}>
             <Animated.View
                 style={[styles.box, animatedStyles]}
-            />
+            >
+                <Card className="h-full">
+                    {children}
+                </Card>
+            </Animated.View>
         </GestureDetector>
     );
 }
 
 const styles = StyleSheet.create({
     box: {
-        width: 100,
-        height: 100,
+        height: 60,
+        width: 150,
         borderRadius: 8,
+        borderWidth: 2,
         zIndex: 100, // ensures it's on top
     },
 });

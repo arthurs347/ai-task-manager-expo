@@ -1,12 +1,12 @@
-import { Text } from "react-native";
-import { Button, ButtonText } from "@/components/ui/button";
+import {Text} from "react-native";
+import {Button, ButtonText} from "@/components/ui/button";
 import {
-	Drawer,
-	DrawerBody,
-	DrawerCloseButton,
-	DrawerContent,
-	DrawerFooter,
-	DrawerHeader,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
 } from "@/components/ui/drawer";
 import CreateTaskForm from "./CreateTaskForm";
 
@@ -14,7 +14,7 @@ interface CreateTaskPopupProps {
 	selectedDay: Date;
 	displayCreateTaskPopup: boolean;
 	setDisplayCreateTaskPopup: (displayPopup: boolean) => void;
-	setRefreshKey: (key: (prev: number) => any) => void;
+	setRefreshKey: (key: (prev: number) => number) => void;
 }
 
 export default function CreateTaskPopup({

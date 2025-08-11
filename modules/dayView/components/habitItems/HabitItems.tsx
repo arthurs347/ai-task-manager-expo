@@ -7,8 +7,8 @@ interface HabitItemProps {
 
 export default function HabitItems({ habits }: HabitItemProps) {
     return (
-        habits.map((habit) => (
-            <HabitItem key={habit.id} habit={habit} />
+        habits.map(({id, title, estimatedDuration}: Habit) => (
+            <HabitItem key={id} habitTitle={title} habitDuration={estimatedDuration} />
         ))
     )
 }
