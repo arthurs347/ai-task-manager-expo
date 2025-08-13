@@ -1,6 +1,6 @@
-import {DraggableBox} from "@/components/DraggableBox";
 import {Text} from "react-native";
 import {parseEstimatedDurationAsString} from "@/utils/dateUtils";
+import {Box} from "@/components/ui/box";
 
 interface HabitItemProps {
     habitTitle: string
@@ -11,12 +11,12 @@ export default function HabitItem({ habitTitle, habitDuration }: HabitItemProps)
     const durationParsed = parseEstimatedDurationAsString(habitDuration)
 
     return (
-        <DraggableBox>
+        <Box>
             <Text>
                 {habitTitle}
                 {"    "}
                 {`(${durationParsed})`}
             </Text>
-        </DraggableBox>
+        </Box>
     )
 }

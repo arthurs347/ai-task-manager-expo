@@ -16,6 +16,9 @@ Tips:
 - _tostring or obscure error: check configs/dependencies
 - Route not found: might be error in that page, therefore not rendering
 - Mobile Crashing on load: run npx expo-doctor and run npx expo install --check
+- dependicies that require other dependies: yarn why <dependency_name>
+- cache-reseting: yarn start --reset-cache -> reset metro cache
+
 Important CMD's:
 
 
