@@ -13,3 +13,11 @@ Deploying to Web
 
 Tips:
 - when changing any config, package.json, or app.json, PLEASE run yarn clear-start to clear cache.
+- _tostring or obscure error: check configs/dependencies
+- Route not found: might be error in that page, therefore not rendering
+- Mobile Crashing on load: run npx expo-doctor and run npx expo install --check
+Important CMD's:
+
+
+TODO:
+- Use react-native-pager-view for dayheader swiping
