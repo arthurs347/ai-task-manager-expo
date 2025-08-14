@@ -8,8 +8,10 @@ import {DraggableTestBox} from "../../../modules/testView/components/DraggableTe
 export default function TestView(): JSX.Element {
     const isPressed = useSharedValue(false);
 
-    const [dropZoneLayout, setDropZoneLayout] = useState<LayoutRectangle | null>(null);
-    const [isBoxHovering, setIsBoxHovering] = useState(false);
+    // Multiple dropzones
+    const dropZones = [0, 1, 2];
+    const [dropZoneLayouts, setDropZoneLayouts] = useState<LayoutRectangle[]>([]);
+    const [highlightedDropZoneIndex, setHighlightedDropZoneIndex] = useState<number | null>(null);
 
     const boxTranslateX = useSharedValue(0);
     const boxTranslateY = useSharedValue(0);
@@ -28,6 +30,15 @@ export default function TestView(): JSX.Element {
         );
     }, []);
 
+    // Helper to update a specific dropzone layout by index
+    const handleDropZoneLayout = (index: number, layout: LayoutRectangle) => {
+        setDropZoneLayouts(prev => {
+            const next = [...prev];
+            next[index] = layout;
+            return next;
+        });
+    };
+
     const panGesture = Gesture.Pan()
         .onChange((event) => {
             boxTranslateX.value += event.changeX;
@@ -36,15 +47,20 @@ export default function TestView(): JSX.Element {
             const boxCenterX = BOX_START_X + boxTranslateX.value + BOX_SIZE / 2;
             const boxCenterY = BOX_START_Y + boxTranslateY.value + BOX_SIZE / 2;
 
-            if (dropZoneLayout) {
-                const isInside = isPointInsideRectangle(boxCenterX, boxCenterY, dropZoneLayout);
-                runOnJS(setIsBoxHovering)(isInside);
+            let foundIndex: number | null = null;
+            for (let i = 0; i < dropZoneLayouts.length; i++) {
+                const layout = dropZoneLayouts[i];
+                if (layout && isPointInsideRectangle(boxCenterX, boxCenterY, layout)) {
+                    foundIndex = i;
+                    break;
+                }
             }
+            runOnJS(setHighlightedDropZoneIndex)(foundIndex);
         })
         .onEnd(() => {
             boxTranslateX.value = withSpring(0);
             boxTranslateY.value = withSpring(0);
-            runOnJS(setIsBoxHovering)(false);
+            runOnJS(setHighlightedDropZoneIndex)(null);
         });
 
     const animatedBoxStyle = useAnimatedStyle(() => ({
@@ -57,11 +73,14 @@ export default function TestView(): JSX.Element {
     return (
         <GestureHandlerRootView style={styles.root}>
             <View style={styles.container}>
-                {/*Dropzone*/}
-                <DropZone
-                    onLayout={(event) => setDropZoneLayout(event.nativeEvent.layout)}
-                    isHighlighted={isBoxHovering}
-                />
+                {/* Multiple Dropzones */}
+                {dropZones.map((_, i) => (
+                    <DropZone
+                        key={i}
+                        onLayout={event => handleDropZoneLayout(i, event.nativeEvent.layout)}
+                        isHighlighted={highlightedDropZoneIndex === i}
+                    />
+                ))}
                 {/*Draggable*/}
                 <DraggableTestBox
                     gesture={panGesture}

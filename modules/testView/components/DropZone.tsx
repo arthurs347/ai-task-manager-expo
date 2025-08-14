@@ -1,5 +1,5 @@
-import React from "react";
-import {LayoutChangeEvent, StyleSheet, View} from "react-native";
+import type React from "react";
+import {type LayoutChangeEvent, StyleSheet, View} from "react-native";
 
 interface DropZoneProps {
   onLayout: (event: LayoutChangeEvent) => void;
