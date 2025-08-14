@@ -1,5 +1,7 @@
-import HabitItem from "@/modules/dayView/components/habitItems/HabitItem";
 import type {Habit} from "@/prisma/generated/prisma";
+import {parseEstimatedDurationAsString} from "@/utils/dateUtils";
+import {DraggableBox} from "@/components/DraggableBox";
+import {Text} from "react-native";
 
 interface HabitItemProps {
     habits: Habit[]
@@ -7,8 +9,17 @@ interface HabitItemProps {
 
 export default function HabitItems({ habits }: HabitItemProps) {
     return (
-        habits.map(({id, title, estimatedDuration}: Habit) => (
-            <HabitItem key={id} habitTitle={title} habitDuration={estimatedDuration} />
-        ))
+        habits.map(({id, title, estimatedDuration}: Habit) => {
+            const durationParsed = parseEstimatedDurationAsString(estimatedDuration)
+
+            return(
+                <DraggableBox key={id}>
+                    <Text>
+                        {title}
+                        {"    "}
+                        {`(${durationParsed})`}
+                    </Text>
+                </DraggableBox>
+        )})
     )
 }
