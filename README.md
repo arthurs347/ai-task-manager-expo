@@ -11,15 +11,25 @@ Deploying to Web
 2. eas deploy --alias preview
 3. eas deploy --prod
 
+
+Creating build:
+1. For ios:
+- npx expo run:ios #prebuild included, local build
+-  
+
 Tips:
-- when changing any config, package.json, or app.json, PLEASE run yarn clear-start to clear cache.
-- _tostring or obscure error: check configs/dependencies
+- when changing any config or app.json, PLEASE run yarn clear-start to clear cache.
+- _tostring or obscure method not found: check dependencies
 - Route not found: might be error in that page, therefore not rendering
 - Mobile Crashing on load: run npx expo-doctor and run npx expo install --check
-- dependicies that require other dependies: yarn why <dependency_name>
 - cache-reseting: yarn start --reset-cache -> reset metro cache
-
+- Make sure when installing packages look at correct versions, use npx expo-doctor
 Important CMD's:
+- yarn remove <package_name> -> remove package from project
+- yarn add <package_name> -> add package to project
+  yarn why <dependency_name> -> shows why package installed and which packages depend on it
+- npx expo run:ios -> locally builds on ios, prebuild included
+
 
 
 TODO:

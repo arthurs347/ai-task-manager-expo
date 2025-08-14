@@ -13,7 +13,8 @@
 		"android": "DARK_MODE=media expo start --android",
 		"ios": "DARK_MODE=media expo start --ios",
 		"web": "DARK_MODE=media expo start --web",
-		"lint": "expo lint"
+		"lint": "expo lint",
+		"einstall": "npx expo install"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -97,7 +98,6 @@
 		"react-native-url-polyfill": "^2.0.0",
 		"react-native-web": "~0.20.0",
 		"react-native-webview": "13.13.5",
-		"react-native-worklets": "^0.4.1",
 		"react-server-dom-webpack": "~19.0.0",
 		"tailwindcss": "3.4.17"
 	},
