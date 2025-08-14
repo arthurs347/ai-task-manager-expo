@@ -4,7 +4,6 @@ import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
 import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
-import {HStack} from "@/components/ui/hstack";
 import {VStack} from "@/components/ui/vstack";
 import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
@@ -51,8 +50,6 @@ export default function DayView() {
 	if (!isLoaded) return; // Wait until Clerk is loaded
 
 	return (
-		<HStack>
-			{/*<DraggableBox/>*/}
 			<VStack className="flex-1 items-center">
 				<DayViewHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
 
@@ -65,6 +62,5 @@ export default function DayView() {
 					setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
 				/>
 			</VStack>
-		</HStack>
 	);
 }
