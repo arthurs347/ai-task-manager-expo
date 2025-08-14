@@ -14,6 +14,7 @@ module.exports = (api) => {
                 "tailwind.config": "./tailwind.config.js"
             }
         }],
+            '@babel/plugin-proposal-export-namespace-from',
             'react-native-worklets/plugin',
         ]
     };
