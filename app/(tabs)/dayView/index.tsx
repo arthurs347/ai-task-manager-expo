@@ -1,4 +1,3 @@
-import {useAuth} from "@clerk/clerk-expo";
 import {useNavigation} from "@react-navigation/native";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
@@ -12,16 +11,16 @@ import type {Habit} from "@/prisma/generated/prisma";
 import type {ListedTask} from "@/app/api/tasks+api";
 
 export default function DayView() {
+    // Initialize state variables
 	const today = new Date();
-
 	const [selectedDay, setSelectedDay] = useState<Date>(today);
 	const [refreshKey, setRefreshKey] = useState<number>(0);
 	const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 	const [displayQuickAddPopup, setDisplayQuickAddPopup] = useState(false);
+    const navigation = useNavigation();
 
-	const { isLoaded } = useAuth();
-	const navigation = useNavigation();
 
+    // Fetch tasks and habits for the selected day
 	const { data, isLoading } = useQuery({
 		queryFn: async () => {
             const fetchedTasks: ListedTask[] = await getListedTasksAction();
@@ -35,7 +34,6 @@ export default function DayView() {
 		},
 		queryKey: ["tasks", refreshKey, selectedDay],
 	})
-
     const listedTasks = data ? data.listedTasks : null;
     const habits = data ? data.habits : null;
     
@@ -46,8 +44,6 @@ export default function DayView() {
 			setSelectedDay(new Date());
 		});
 	}, [navigation]);
-
-	if (!isLoaded) return; // Wait until Clerk is loaded
 
 	return (
 			<VStack className="flex-1 items-center">
