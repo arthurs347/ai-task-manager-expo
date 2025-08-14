@@ -1,39 +1,70 @@
-import {ScrollView, View} from "react-native";
-import DayHeader from "@/modules/plannerView/components/DayHeader";
-import TaskList from "@/modules/plannerView/components/TaskList";
+import {useAuth} from "@clerk/clerk-expo";
+import {useNavigation} from "@react-navigation/native";
+import {useQuery} from "@tanstack/react-query";
+import {useEffect, useState} from "react";
+import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
+import {HStack} from "@/components/ui/hstack";
+import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
+import type {Habit} from "@/prisma/generated/prisma";
+import type {ListedTask} from "@/app/api/tasks+api";
+import {ScrollView, Text} from "react-native";
+import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
+import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import TimeSlots from "@/modules/plannerView/components/TimeSlots";
 
-const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sat"];
-const timeSlots = Array.from({ length: 24 }, (_, i) => {
-    const hour = i + 7; // Start from 7:00 AM
-    return `${hour}:00`;
-});
-
-const tasks = [
-    { id: "1", title: "Meeting" },
-    { id: "2", title: "Workout" },
-    { id: "3", title: "Lunch" },
-    { id: "4", title: "Design Review" },
-];
-
-const scheduledTasks = [
-    { id: "5", title: "Do Laundry", day: "Mon", time: "9:00", duration: 1 }
-];
-
 export default function PlannerView() {
-    // Only show one day (e.g., first day in days array)
-    const day = days[0];
-    // Filter scheduledTasks for this day only
-    const dayScheduledTasks = scheduledTasks.filter(task => task.day === day);
+    const today = new Date();
+
+    const [selectedDay, setSelectedDay] = useState<Date>(today);
+    const [refreshKey, setRefreshKey] = useState<number>(0);
+    const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
+    const [displayQuickAddPopup, setDisplayQuickAddPopup] = useState(false);
+
+    const { isLoaded } = useAuth();
+    const navigation = useNavigation();
+
+    const { data, isLoading } = useQuery({
+        queryFn: async () => {
+            const fetchedTasks: ListedTask[] = await getListedTasksAction();
+            const filteredTasks: ListedTask[] = filterTasksByStartDate(fetchedTasks, selectedDay);
+            const fetchedHabits: Habit[] = await getHabitsAction();
+
+            return {
+                listedTasks: sortTasksByStartDateTime(filteredTasks),
+                habits: fetchedHabits
+            };
+        },
+        queryKey: ["tasks", refreshKey, selectedDay],
+    })
+
+    const listedTasks = data ? data.listedTasks : null;
+    const habits = data ? data.habits : null;
+
+    // For when the tab is pressed, while on dayView reset the selected day to today
+    useEffect(() => {
+        // @ts-ignore
+        return navigation.addListener("tabPress", () => {
+            setSelectedDay(new Date());
+        });
+    }, [navigation]);
+
+    if (!isLoaded) return; // Wait until Clerk is loaded
+
     return (
-        <View className="flex-1 bg-blue-50">
-            <DayHeader days={[day]} />
-            <View className="flex-row flex-1">
-                <TaskList tasks={tasks} />
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <TimeSlots days={[day]} timeSlots={timeSlots} scheduledTasks={dayScheduledTasks} />
-                </ScrollView>
-            </View>
-        </View>
+        <ScrollView>
+            <DayViewHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
+
+            <HStack className="justify-between p-2">
+                {isLoading ? (
+                    <Text>Loading Habits...</Text>
+                ) : habits && habits.length > 0 ? (
+                    <HabitItems habits={habits} />
+                ) : (
+                    <Text className="text-2xl">Create Your First Habit!</Text>
+                )
+                }
+                <TimeSlots/>
+            </HStack>
+        </ScrollView>
     );
 }

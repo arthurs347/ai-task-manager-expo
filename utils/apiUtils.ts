@@ -6,8 +6,6 @@ export function generateAPIUrl(relativePath: string): string {
         // For web, we can use the full URL directly
         return relativePath
     }
-	console.log(process.env.NODE_ENV);
-	console.log(Constants.expoConfig?.extra?.baseUrl);
 
 	return Constants.expoConfig?.extra?.baseUrl.concat(relativePath);
 }
