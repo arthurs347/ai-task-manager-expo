@@ -7,6 +7,7 @@ import * as SecureStore from "expo-secure-store";
 import {useEffect} from "react";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {GluestackUIProvider} from "@/components/ui/gluestack-ui-provider";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -77,9 +78,11 @@ export default Sentry.wrap(function RootLayout() {
 					tokenCache={tokenCache}
 				>
 					<QueryClientProvider client={queryClient}>
+                        <GestureHandlerRootView>
 							<SafeAreaView style={{ flex: 1 }}>
 								<InitialLayout />
 							</SafeAreaView>
+                        </GestureHandlerRootView>
 					</QueryClientProvider>
 				</ClerkProvider>
 			</GluestackUIProvider>
