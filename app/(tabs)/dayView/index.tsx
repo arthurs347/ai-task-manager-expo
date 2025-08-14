@@ -6,9 +6,9 @@ import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
 import {VStack} from "@/components/ui/vstack";
 import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
-import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import type {Habit} from "@/prisma/generated/prisma";
 import type {ListedTask} from "@/app/api/tasks+api";
+import DayViewBody from "@/modules/dayView/components/DayViewBody";
 
 export default function DayView() {
     // Initialize state variables
@@ -18,7 +18,6 @@ export default function DayView() {
 	const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 	const [displayQuickAddPopup, setDisplayQuickAddPopup] = useState(false);
     const navigation = useNavigation();
-
 
     // Fetch tasks and habits for the selected day
 	const { data, isLoading } = useQuery({
@@ -49,7 +48,12 @@ export default function DayView() {
 			<VStack className="flex-1 items-center">
 				<DayViewHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
 
-				<DayViewBody isLoading={isLoading} setRefreshKey={setRefreshKey} setDisplayCreateTaskPopup={setDisplayCreateTaskPopup} listedTasks={listedTasks} habits={habits}></DayViewBody>
+				<DayViewBody
+                    isLoading={isLoading}
+                    setRefreshKey={setRefreshKey}
+                    setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
+                    listedTasks={listedTasks} habits={habits}
+                />
 
                 <CreateTaskPopup
 					selectedDay={selectedDay}

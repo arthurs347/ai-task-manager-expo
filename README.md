@@ -18,7 +18,7 @@ Tips:
 - Mobile Crashing on load: run npx expo-doctor and run npx expo install --check
 - cache-resetting: yarn start --reset-cache -> reset metro cache
 - Make sure when installing packages look at correct versions, use npx expo-doctor
-- After installing new packages, if native -> rebuild, clear cache with yarn clear-start
+- After installing new packages, if native -> rebuild EX: npx expo run:ios, clear cache with yarn clear-start
 
 Important CMD's:
 - yarn remove <package_name> -> remove package from project
@@ -28,5 +28,9 @@ Important CMD's:
 
 
 
-TODO:
-- Use react-native-pager-view for dayheader swiping
+TODO (In order of priority):
+1. Use react-native-pager-view for dayheader swiping
+2. Fix drag and drop for HabitItems on TimeSlots
+3. Fix any errors in the app, console, typescript, and update dependencies
+4. Secure application and API's, use chatGPT 
+5. Add payment integration

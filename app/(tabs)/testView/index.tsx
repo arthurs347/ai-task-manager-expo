@@ -1,6 +1,5 @@
 import {JSX, useState} from "react";
 import {type LayoutRectangle, StyleSheet, View} from "react-native";
-import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {DropZone} from "@/modules/testView/components/DropZone";
 import {DraggableTestBox} from "@/modules/testView/components/DraggableTestBox";
 
@@ -20,7 +19,7 @@ export default function TestView(): JSX.Element {
     };
 
     return (
-        <GestureHandlerRootView style={styles.root}>
+        <View style={styles.root}>
             <View style={styles.container}>
                 {/* Multiple Dropzones */}
                 {dropZones.map((_, i) => (
@@ -34,11 +33,9 @@ export default function TestView(): JSX.Element {
                 <DraggableTestBox
                     dropZoneLayouts={dropZoneLayouts}
                     onHighlightChange={setHighlightedDropZoneIndex}
-                    left={20}
-                    top={20}
                 />
             </View>
-        </GestureHandlerRootView>
+        </View>
     );
 }
 

@@ -1,4 +1,4 @@
-import {Text} from "react-native";
+import {type LayoutChangeEvent, LayoutRectangle, Text} from "react-native";
 import {ListViewBoxes} from "@/components/ListViewBoxes/ListViewBoxes";
 import {HStack} from "@/components/ui/hstack";
 import {Button, ButtonIcon} from "@/components/ui/button";
@@ -7,6 +7,14 @@ import type {ListedTask} from "@/app/api/tasks+api";
 import {VStack} from "@/components/ui/vstack";
 import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
 import type {Habit} from "@/prisma/generated/prisma";
+import React from "react";
+
+export type GestureHandlingInfo = {
+    onLayout: (event: LayoutChangeEvent) => void;
+    dropZoneLayouts: LayoutRectangle[];
+    highlightedDropZoneIndex: number | null;
+    onHighlightChange: (index: number | null) => void;
+}
 
 interface DayViewBodyProps {
     isLoading: boolean;
@@ -15,7 +23,7 @@ interface DayViewBodyProps {
     setRefreshKey: (key: (prev: number) => number) => void;
     setDisplayCreateTaskPopup: (value: boolean) => void;
 }
-export default function DayViewBody({isLoading, listedTasks, habits, setRefreshKey, setDisplayCreateTaskPopup}: DayViewBodyProps) {
+export default function DayViewBody({isLoading, listedTasks, habits, setRefreshKey, setDisplayCreateTaskPopup, gestureHandlingInfo}: DayViewBodyProps) {
     return (
         <HStack>
             {isLoading ? (

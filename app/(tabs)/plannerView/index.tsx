@@ -1,4 +1,3 @@
-import {useAuth} from "@clerk/clerk-expo";
 import {useNavigation} from "@react-navigation/native";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
@@ -7,22 +6,46 @@ import {HStack} from "@/components/ui/hstack";
 import {filterTasksByStartDate, sortTasksByStartDateTime} from "@/utils/taskUtils";
 import type {Habit} from "@/prisma/generated/prisma";
 import type {ListedTask} from "@/app/api/tasks+api";
-import {ScrollView, Text} from "react-native";
+import {type LayoutRectangle, ScrollView, Text} from "react-native";
 import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import TimeSlots from "@/modules/plannerView/components/TimeSlots";
 
 export default function PlannerView() {
-    const today = new Date();
+    // Initialize state variables
 
+    const today = new Date();
     const [selectedDay, setSelectedDay] = useState<Date>(today);
     const [refreshKey, setRefreshKey] = useState<number>(0);
     const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
     const [displayQuickAddPopup, setDisplayQuickAddPopup] = useState(false);
 
-    const { isLoaded } = useAuth();
     const navigation = useNavigation();
 
+
+    // Gesture handling logic
+    const [dropZoneLayouts, setDropZoneLayouts] = useState<LayoutRectangle[]>([]);
+    const [highlightedDropZoneIndex, setHighlightedDropZoneIndex] = useState<number | null>(null);
+
+    const handleDropZoneLayout = (index: number, layout: LayoutRectangle) => {
+        // Helper to update a specific dropzone layout by index
+        setDropZoneLayouts(prev => {
+            const next = [...prev];
+            next[index] = layout;
+            return next;
+        });
+    };
+
+    // Handler to update a specific dropzone layout by index
+    const handleSlotLayout = (index: number, layout: LayoutRectangle) => {
+        setDropZoneLayouts(prev => {
+            const next = [...prev];
+            next[index] = layout;
+            return next;
+        });
+    };
+
+    // Fetch tasks and habits for the selected day
     const { data, isLoading } = useQuery({
         queryFn: async () => {
             const fetchedTasks: ListedTask[] = await getListedTasksAction();
@@ -36,7 +59,6 @@ export default function PlannerView() {
         },
         queryKey: ["tasks", refreshKey, selectedDay],
     })
-
     const listedTasks = data ? data.listedTasks : null;
     const habits = data ? data.habits : null;
 
@@ -48,9 +70,8 @@ export default function PlannerView() {
         });
     }, [navigation]);
 
-    if (!isLoaded) return; // Wait until Clerk is loaded
-
     return (
+        // TODO: Fix x-offset of dragging onto time slots
         <ScrollView>
             <DayViewHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
 
@@ -58,12 +79,16 @@ export default function PlannerView() {
                 {isLoading ? (
                     <Text>Loading Habits...</Text>
                 ) : habits && habits.length > 0 ? (
-                    <HabitItems habits={habits} />
+                    <HabitItems
+                        habits={habits}
+                        dropZoneLayouts={dropZoneLayouts}
+                        onHighlightChange={setHighlightedDropZoneIndex}
+                    />
                 ) : (
                     <Text className="text-2xl">Create Your First Habit!</Text>
                 )
                 }
-                <TimeSlots/>
+                <TimeSlots highlightedDropZoneIndex={highlightedDropZoneIndex} onSlotLayout={handleSlotLayout} />
             </HStack>
         </ScrollView>
     );

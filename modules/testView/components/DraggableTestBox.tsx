@@ -3,22 +3,18 @@ import {LayoutRectangle, StyleSheet} from "react-native";
 import Animated, {runOnJS, useAnimatedStyle, useSharedValue, withSpring} from "react-native-reanimated";
 import {Gesture, GestureDetector} from "react-native-gesture-handler";
 
+const BOX_LEFT = 20;
+const BOX_TOP = 20;
+const BOX_SIZE = 80;
+
 interface DraggableBoxProps {
   dropZoneLayouts: LayoutRectangle[];
   onHighlightChange?: (index: number | null) => void;
-  onDrop?: (index: number | null) => void;
-  left?: number;
-  top?: number;
-  boxSize?: number;
 }
 
 export const DraggableTestBox: React.FC<DraggableBoxProps> = ({
   dropZoneLayouts,
   onHighlightChange,
-  onDrop,
-  left = 20,
-  top = 20,
-  boxSize = 80,
 }) => {
   const boxTranslateX = useSharedValue(0);
   const boxTranslateY = useSharedValue(0);
@@ -38,8 +34,8 @@ export const DraggableTestBox: React.FC<DraggableBoxProps> = ({
       boxTranslateX.value += event.changeX;
       boxTranslateY.value += event.changeY;
 
-      const boxCenterX = left + boxTranslateX.value + boxSize / 2;
-      const boxCenterY = top + boxTranslateY.value + boxSize / 2;
+      const boxCenterX = BOX_LEFT + boxTranslateX.value + BOX_SIZE / 2;
+      const boxCenterY = BOX_TOP + boxTranslateY.value + BOX_SIZE / 2;
 
       let foundIndex: number | null = null;
       for (let i = 0; i < dropZoneLayouts.length; i++) {
@@ -55,7 +51,6 @@ export const DraggableTestBox: React.FC<DraggableBoxProps> = ({
       boxTranslateX.value = withSpring(0);
       boxTranslateY.value = withSpring(0);
       if (onHighlightChange) runOnJS(onHighlightChange)(null);
-      if (onDrop) runOnJS(onDrop)(null); // You can pass the last hovered index if you want
     });
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -70,7 +65,7 @@ export const DraggableTestBox: React.FC<DraggableBoxProps> = ({
       <Animated.View
         style={[
           styles.box,
-          { left, top, width: boxSize, height: boxSize },
+          { left: BOX_LEFT, top: BOX_TOP, width: BOX_SIZE, height: BOX_SIZE },
           animatedStyle
         ]}
       />
