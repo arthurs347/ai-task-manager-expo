@@ -1,5 +1,5 @@
 import {Platform, Text} from "react-native";
-import {MONTH_NAMES_FULL, WEEK_IN_MS} from "@/lib/constants";
+import {MONTH_NAMES_FULL} from "@/lib/constants";
 import {HStack} from "@/components/ui/hstack";
 import {Button, ButtonIcon} from "@/components/ui/button";
 import {ArrowLeft, ArrowRight} from "lucide-react-native";
@@ -12,11 +12,15 @@ interface DayViewHeaderProps {
 
 export default function DayViewHeader({selectedDay, setSelectedDay}: DayViewHeaderProps) {
     function handleGoToPreviousWeek() {
-        setSelectedDay(new Date(selectedDay.getTime() - WEEK_IN_MS));
+        const prevWeekDayFromToday = new Date(selectedDay);
+        prevWeekDayFromToday.setDate(selectedDay.getDate() - 7);
+        setSelectedDay(prevWeekDayFromToday);
     }
 
     function handleGoToNextWeek() {
-        setSelectedDay(new Date(selectedDay.getTime() + WEEK_IN_MS));
+        const nextWeekFromToday = new Date(selectedDay);
+        nextWeekFromToday.setDate(selectedDay.getDate() + 7);
+        setSelectedDay(nextWeekFromToday);
     }
 
     const isWeb = Platform.OS === "web";
