@@ -1,4 +1,3 @@
-import {View} from "react-native";
 import type {ListedTask} from "@/app/api/tasks+api";
 import TaskTimeBox from "@/components/ListViewBoxes/TaskTimeBox";
 import {VStack} from "@/components/ui/vstack";
@@ -32,7 +31,6 @@ export function ListViewBoxes({
                     parseEstimatedDurationAsString(estimatedDuration);
 
                 return (
-                    <>
                         <TaskTimeBox
                             key={id}
                             taskId={id}
@@ -44,11 +42,6 @@ export function ListViewBoxes({
                             taskCompleted={completed}
                             setRefreshKey={setRefreshKey}
                         />
-                        <View
-                            key={id + "divider"}
-                            className="h-8 w-full border hover:bg-blue-500"
-                        />
-                    </>
                 );
             })}
         </VStack>

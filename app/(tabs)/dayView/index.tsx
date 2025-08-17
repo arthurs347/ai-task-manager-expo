@@ -16,7 +16,6 @@ export default function DayView() {
 	const [selectedDay, setSelectedDay] = useState<Date>(today);
 	const [refreshKey, setRefreshKey] = useState<number>(0);
 	const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
-	const [displayQuickAddPopup, setDisplayQuickAddPopup] = useState(false);
     const navigation = useNavigation();
 
     // Fetch tasks and habits for the selected day
@@ -34,8 +33,7 @@ export default function DayView() {
 		queryKey: ["tasks", refreshKey, selectedDay],
 	})
     const listedTasks = data ? data.listedTasks : null;
-    const habits = data ? data.habits : null;
-    
+
 	// For when the tab is pressed, while on dayView reset the selected day to today
 	useEffect(() => {
 		// @ts-ignore
@@ -52,7 +50,7 @@ export default function DayView() {
                     isLoading={isLoading}
                     setRefreshKey={setRefreshKey}
                     setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
-                    listedTasks={listedTasks} habits={habits}
+                    listedTasks={listedTasks}
                 />
 
                 <CreateTaskPopup

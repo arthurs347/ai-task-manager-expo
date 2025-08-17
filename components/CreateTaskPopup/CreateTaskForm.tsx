@@ -1,35 +1,21 @@
-import { TimeInput } from "@heroui/date-input";
-import { DatePicker } from "@heroui/date-picker";
-import { fromDate, Time, type ZonedDateTime } from "@internationalized/date";
+import {TimeInput} from "@heroui/date-input";
+import {DatePicker} from "@heroui/date-picker";
+import {fromDate, Time, type ZonedDateTime} from "@internationalized/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Check as CheckIcon, Circle as CircleIcon } from "lucide-react-native";
-import React, { useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Platform } from "react-native";
-import { createTaskAction } from "@/actions/taskActions";
-import { Button, ButtonText } from "@/components/ui/button";
-import {
-	Checkbox,
-	CheckboxIcon,
-	CheckboxIndicator,
-	CheckboxLabel,
-} from "@/components/ui/checkbox";
-import {
-	FormControl,
-	FormControlLabelText,
-} from "@/components/ui/form-control";
-import { HStack } from "@/components/ui/hstack";
-import { Input, InputField } from "@/components/ui/input";
-import {
-	Radio,
-	RadioGroup,
-	RadioIcon,
-	RadioIndicator,
-	RadioLabel,
-} from "@/components/ui/radio";
-import { Textarea, TextareaInput } from "@/components/ui/textarea";
-import { PriorityLevel, TaskType } from "@/prisma/generated/prisma/edge";
-import { addTimeToDate, timeToDate } from "@/utils/dateUtils";
+import {Check as CheckIcon, Circle as CircleIcon} from "lucide-react-native";
+import React, {useMemo} from "react";
+import {Controller, useForm} from "react-hook-form";
+import {Platform} from "react-native";
+import {createTaskAction} from "@/actions/taskActions";
+import {Button, ButtonText} from "@/components/ui/button";
+import {Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel,} from "@/components/ui/checkbox";
+import {FormControl, FormControlLabelText,} from "@/components/ui/form-control";
+import {HStack} from "@/components/ui/hstack";
+import {Input, InputField} from "@/components/ui/input";
+import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
+import {Textarea, TextareaInput} from "@/components/ui/textarea";
+import {PriorityLevel, TaskType} from "@/prisma/generated/prisma/edge";
+import {addTimeToDate, timeToDate} from "@/utils/dateUtils";
 
 export type TaskDataEntry = {
 	title: string;
@@ -87,6 +73,7 @@ export default function CreateTaskPopup({
 
 	async function handleCreateTask(formTaskData: TaskDataEntry) {
 		await createTaskAction(formTaskData);
+        await new Promise(resolve => setTimeout(resolve, 200));
 		setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
 		setDisplayCreateTaskPopup(false); // Close the popup after task creation
 	}
