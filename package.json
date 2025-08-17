@@ -37,7 +37,6 @@
 		"@gluestack-ui/toast": "^1.0.9",
 		"@heroui/date-input": "^2.3.21",
 		"@heroui/date-picker": "^2.3.22",
-		"@heroui/number-input": "^2.0.12",
 		"@heroui/system": "2.4.18",
 		"@heroui/theme": "2.4.17",
 		"@internationalized/date": "3.8.2",
@@ -56,11 +55,10 @@
 		"@tanstack/react-query": "^5.83.0",
 		"axios": "^1.11.0",
 		"babel-plugin-module-resolver": "^5.0.2",
-		"cors": "^2.8.5",
 		"date-fns": "^4.1.0",
 		"date-fns-tz": "^3.2.0",
 		"dayjs": "^1.11.13",
-		"dotenv": "^17.2.1",
+		"depcheck": "^1.4.7",
 		"expo": "^53.0.20",
 		"expo-auth-session": "^6.2.0",
 		"expo-blur": "~14.1.4",
@@ -107,13 +105,12 @@
 	"devDependencies": {
 		"@babel/core": "^7.25.2",
 		"@biomejs/biome": "2.0.6",
-		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.3",
 		"@types/luxon": "^3.6.2",
 		"@types/react": "~19.0.10",
 		"jscodeshift": "0.15.2",
 		"prisma": "^6.9.0",
-		"typescript": "~5.8.3"
+		"typescript": "^5.9.2"
 	},
 	"expo": {
 		"doctor": {
