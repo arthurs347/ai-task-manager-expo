@@ -23,5 +23,3 @@ export const MONTH_NAMES_FULL = [
 export const RECURRING_WEEKS_MAX = 8; // Max number of weeks to display recurring tasks
 export const AUTO_SCHEDULE_MAX_DAYS = 7; // Max number of days to auto-schedule tasks
 export const WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-
-export const SLUG = "ai-task-manager";

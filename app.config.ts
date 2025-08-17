@@ -1,5 +1,4 @@
-import type { ConfigContext, ExpoConfig } from "@expo/config";
-import { SLUG } from "@/lib/constants";
+import type {ConfigContext, ExpoConfig} from "@expo/config";
 
 const IS_DEV = process.env.APP_ENV === "development";
 
@@ -14,6 +13,9 @@ const getAppName = () => {
 
 	return "Ai Task";
 };
+
+const SLUG = "ai-task-manager";
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
 	name: getAppName(),
