@@ -12,7 +12,8 @@ export default function TimeSlots({onSlotLayout, highlightedDropZoneIndex}: Time
         <VStack>
             {Array.from({ length: 24 }, (_, hour) => (
                 <View
-                    key={hour}
+                    // biome-ignore lint/suspicious/noArrayIndexKey: string will always be unique in this context
+                    key={`time-slot-${hour}`}
                     onLayout={event => onSlotLayout(hour, event.nativeEvent.layout)}
                     style={[
                         styles.timeSlot,

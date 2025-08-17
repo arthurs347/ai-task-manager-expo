@@ -16,6 +16,7 @@ export default function ListViewDayHeaders({
     handleGoToPreviousWeek,
     handleGoToNextWeek,
 }: ListViewDayHeadersProps) {
+    const keyPrefixes = ["prev", "curr", "next"];
 	const today = new Date();
     // Calculate previous and next week base days RELATIVE to selectedDay
     const prevWeekBaseDay = new Date(selectedDay);
@@ -46,6 +47,8 @@ export default function ListViewDayHeaders({
     const prevWeekDays = getFullWeekDays(prevWeekBaseDay);
     const nextWeekDays = getFullWeekDays(nextWeekBaseDay);
 
+    const allWeekDays = [prevWeekDays, currentWeekDays, nextWeekDays];
+
 	return (
         <PagerView
             key={selectedDay.getTime()}
@@ -60,47 +63,20 @@ export default function ListViewDayHeaders({
                 }
             }}
         >
-            {/* Previous week */}
-            <HStack key="1">
-				{prevWeekDays.map((day) => (
-					<ListViewDayHeader
-						key={"prev-" + day.dayName}
-						dayDate={day.dayDate}
-						dayName={day.dayName}
-						dayNum={day.dayNum}
-						selected={day.selected}
-						setSelectedDay={setSelectedDay}
-					/>
-				))}
-			</HStack>
-
-            {/* Current week */}
-			<HStack key="2">
-				{currentWeekDays.map((day) => (
-					<ListViewDayHeader
-						key={"curr-" + day.dayName}
-						dayDate={day.dayDate}
-						dayName={day.dayName}
-						dayNum={day.dayNum}
-						selected={day.selected}
-						setSelectedDay={setSelectedDay}
-					/>
-				))}
-			</HStack>
-
-            {/* Next week */}
-            <HStack key="3">
-				{nextWeekDays.map((day) => (
-					<ListViewDayHeader
-						key={"next-" + day.dayName}
-						dayDate={day.dayDate}
-						dayName={day.dayName}
-						dayNum={day.dayNum}
-						selected={day.selected}
-						setSelectedDay={setSelectedDay}
-					/>
-				))}
-			</HStack>
+            {Array.from({length: 3}, (_, i) => (
+                <HStack key={`${keyPrefixes[i]}-header`}>
+                    {allWeekDays[i].map((day) => (
+                        <ListViewDayHeader
+                            key={`${keyPrefixes[i]}-${day.dayName}`}
+                            dayDate={day.dayDate}
+                            dayName={day.dayName}
+                            dayNum={day.dayNum}
+                            selected={day.selected}
+                            setSelectedDay={setSelectedDay}
+                        />
+                    ))}
+                </HStack>
+            ))}
         </PagerView>
 	);
 }
