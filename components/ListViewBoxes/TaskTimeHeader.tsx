@@ -13,7 +13,7 @@ export default function TaskTimeHeader({
 }: TaskTimeHeaderProps) {
 	return (
 		<Text className="text-lg text-gray-600">
-			{taskStartTime + " - " + taskEndTime + " : " + taskDuration}
+			{`${taskStartTime} - ${taskEndTime} : ${taskDuration}`}
 		</Text>
 	);
 }

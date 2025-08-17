@@ -19,7 +19,7 @@ export default function Page() {
 			if (!OFFLINE_DEV_MODE) {
 				createUser();
 			}
-			router.replace("/(tabs)/listView/index");
+			router.replace("/(tabs)/listView");
 		}
 	});
 	const { startSSOFlow } = useSSO();
@@ -32,7 +32,9 @@ export default function Page() {
 
 		// If the user is already signed in, redirect to home
 		if (createdSessionId) {
-			await setActive!({ session: createdSessionId });
+			if (setActive) {
+				await setActive({ session: createdSessionId });
+			}
 			setAuthenticated(true);
 		} else {
 			// Handle missing requirements based on status

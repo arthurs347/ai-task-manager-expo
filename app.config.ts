@@ -1,4 +1,5 @@
 import type { ConfigContext, ExpoConfig } from "@expo/config";
+import { SLUG } from "@/lib/constants";
 
 const IS_DEV = process.env.APP_ENV === "development";
 
@@ -16,7 +17,7 @@ const getAppName = () => {
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
 	name: getAppName(),
-	slug: config.slug!,
+	slug: config.slug ?? SLUG,
 	ios: {
 		...config.ios,
 		bundleIdentifier: getUniqueIdentifier(),

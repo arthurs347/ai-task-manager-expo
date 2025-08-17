@@ -12,5 +12,5 @@ export function authenticateUser() {
 		router.replace("/(auth)/auth");
 	}
 
-	return clerk.user!;
+	return clerk.user;
 }

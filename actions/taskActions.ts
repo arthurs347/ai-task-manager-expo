@@ -1,11 +1,16 @@
-import type {Time} from "@internationalized/date";
+import type { Time } from "@internationalized/date";
 import axios from "axios";
-import {authenticateUser} from "@/actions/authActions";
-import type {ListedTask} from "@/app/api/tasks+api";
-import type {TaskDataEntry} from "@/components/CreateTaskPopup/CreateTaskForm";
-import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/prisma/edge";
-import {generateAPIUrl} from "@/utils/apiUtils";
-import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
+import { authenticateUser } from "@/actions/authActions";
+import type { ListedTask } from "@/app/api/tasks+api";
+import type { TaskDataEntry } from "@/components/CreateTaskPopup/CreateTaskForm";
+import {
+	type AutomaticTask,
+	type Habit,
+	type ManualTask,
+	TaskType,
+} from "@/prisma/generated/prisma/edge";
+import { generateAPIUrl } from "@/utils/apiUtils";
+import { addTimeToDate, convertDurationTimeToMinutes } from "@/utils/dateUtils";
 
 export type ManualEntry = Omit<ManualTask, "id" | "completed">;
 export type AutomaticEntry = Omit<
@@ -74,12 +79,7 @@ export async function createTaskAction(task: TaskDataEntry) {
 			throw new Error("Invalid task type");
 	}
 	axios
-		.post(
-            generateAPIUrl(
-            "/api/tasks"
-            ),
-            JSON.stringify(taskToCreateData!)
-        )
+		.post(generateAPIUrl("/api/tasks"), JSON.stringify(taskToCreateData))
 		.then((response) => {
 			return response.data as TaskEntry;
 		})
@@ -88,7 +88,10 @@ export async function createTaskAction(task: TaskDataEntry) {
 		});
 }
 
-export async function deleteTaskAction(taskId: string, taskType: TaskType): Promise<string> {
+export async function deleteTaskAction(
+	taskId: string,
+	taskType: TaskType,
+): Promise<string> {
 	authenticateUser();
 	return axios
 		.delete(
@@ -109,7 +112,11 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 	const userId = user.id;
 
 	return axios
-		.get(generateAPIUrl(`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.LISTED)}`))
+		.get(
+			generateAPIUrl(
+				`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.LISTED)}`,
+			),
+		)
 		.then((res) => {
 			return res.data as ListedTask[];
 		})
@@ -119,19 +126,22 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 }
 
 export async function getHabitsAction(): Promise<Habit[]> {
-    const user = authenticateUser();
-    const userId = user.id;
+	const user = authenticateUser();
+	const userId = user.id;
 
-    return axios
-        .get(generateAPIUrl(`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.HABIT)}`))
-        .then((res) => {
-            return res.data as Habit[];
-        })
-        .catch(() => {
-            throw new Error("Failed to fetch habits");
-        });
+	return axios
+		.get(
+			generateAPIUrl(
+				`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.HABIT)}`,
+			),
+		)
+		.then((res) => {
+			return res.data as Habit[];
+		})
+		.catch(() => {
+			throw new Error("Failed to fetch habits");
+		});
 }
-
 
 export async function changeTaskCompletionStatusAction(
 	taskId: string,
@@ -150,6 +160,6 @@ export async function changeTaskCompletionStatusAction(
 			return res.data as boolean;
 		})
 		.catch((reason) => {
-			throw new Error("Failed to change task completion status:" + reason);
+			throw new Error(`Failed to change task completion status:${reason}`);
 		});
 }

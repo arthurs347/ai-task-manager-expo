@@ -14,7 +14,7 @@ interface TaskBoxProps {
 	taskName: string;
 	taskType: TaskType;
 	taskCompleted: boolean;
-	setRefreshKey: (key: (prev: number) => any) => void;
+	setRefreshKey: (key: (prev: number) => number) => void;
 }
 
 export default function TaskBox({

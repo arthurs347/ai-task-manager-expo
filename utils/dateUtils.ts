@@ -1,7 +1,7 @@
-import type {Time} from "@internationalized/date";
-import type {TimeValue} from "@react-types/datepicker";
+import type { Time } from "@internationalized/date";
+import type { TimeValue } from "@react-types/datepicker";
 import dayjs from "dayjs";
-import {DATETIME_FORMAT, DURATION_FORMAT} from "@/lib/constants";
+import { DATETIME_FORMAT, DURATION_FORMAT } from "@/lib/constants";
 
 export function ISOToDateTimeFormat(dateTime: string) {
 	return dayjs(dateTime).format(DATETIME_FORMAT);
@@ -24,7 +24,9 @@ export function convertDurationDateToMinutes(duration: Date): number {
 }
 
 // Assuming estimatedDuration is in minutes
-export function parseEstimatedDurationAsString(estimatedDuration: number): string {
+export function parseEstimatedDurationAsString(
+	estimatedDuration: number,
+): string {
 	const hours = Math.floor((estimatedDuration % (60 * 24)) / 60);
 	const minutes = estimatedDuration % 60;
 

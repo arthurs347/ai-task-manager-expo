@@ -1,7 +1,7 @@
-import {HStack} from "@/components/ui/hstack";
-import ListViewDayHeader from "@/modules/dayView/components/dayHeaders/ListViewDayHeader";
-import {isSameDay} from "@/utils/dateUtils";
 import PagerView from "react-native-pager-view";
+import { HStack } from "@/components/ui/hstack";
+import ListViewDayHeader from "@/modules/dayView/components/dayHeaders/ListViewDayHeader";
+import { isSameDay } from "@/utils/dateUtils";
 
 interface ListViewDayHeadersProps {
 	selectedDay: Date;
@@ -13,18 +13,18 @@ interface ListViewDayHeadersProps {
 export default function ListViewDayHeaders({
 	selectedDay,
 	setSelectedDay,
-    handleGoToPreviousWeek,
-    handleGoToNextWeek,
+	handleGoToPreviousWeek,
+	handleGoToNextWeek,
 }: ListViewDayHeadersProps) {
-    const keyPrefixes = ["prev", "curr", "next"];
+	const keyPrefixes = ["prev", "curr", "next"];
 	const today = new Date();
-    // Calculate previous and next week base days RELATIVE to selectedDay
-    const prevWeekBaseDay = new Date(selectedDay);
-    prevWeekBaseDay.setDate(selectedDay.getDate() - 7);
-    const nextWeekBaseDay = new Date(selectedDay);
-    nextWeekBaseDay.setDate(selectedDay.getDate() + 7);
+	// Calculate previous and next week base days RELATIVE to selectedDay
+	const prevWeekBaseDay = new Date(selectedDay);
+	prevWeekBaseDay.setDate(selectedDay.getDate() - 7);
+	const nextWeekBaseDay = new Date(selectedDay);
+	nextWeekBaseDay.setDate(selectedDay.getDate() + 7);
 
-    function getFullWeekDays(baseDay: Date) {
+	function getFullWeekDays(baseDay: Date) {
 		const currentDay = baseDay.getDay();
 		const weekStart = new Date(baseDay);
 		weekStart.setDate(baseDay.getDate() - currentDay);
@@ -44,39 +44,39 @@ export default function ListViewDayHeaders({
 	}
 
 	const currentWeekDays = getFullWeekDays(selectedDay);
-    const prevWeekDays = getFullWeekDays(prevWeekBaseDay);
-    const nextWeekDays = getFullWeekDays(nextWeekBaseDay);
+	const prevWeekDays = getFullWeekDays(prevWeekBaseDay);
+	const nextWeekDays = getFullWeekDays(nextWeekBaseDay);
 
-    const allWeekDays = [prevWeekDays, currentWeekDays, nextWeekDays];
+	const allWeekDays = [prevWeekDays, currentWeekDays, nextWeekDays];
 
 	return (
-        <PagerView
-            key={selectedDay.getTime()}
-            style={{ width: "100%", height: 65}}
-            initialPage={1}
-            onPageSelected={e => {
-                const pageIndex = e.nativeEvent.position;
-                if (pageIndex === 0) {
-                    handleGoToPreviousWeek();
-                } else if (pageIndex === 2) {
-                    handleGoToNextWeek();
-                }
-            }}
-        >
-            {Array.from({length: 3}, (_, i) => (
-                <HStack key={`${keyPrefixes[i]}-header`}>
-                    {allWeekDays[i].map((day) => (
-                        <ListViewDayHeader
-                            key={`${keyPrefixes[i]}-${day.dayName}`}
-                            dayDate={day.dayDate}
-                            dayName={day.dayName}
-                            dayNum={day.dayNum}
-                            selected={day.selected}
-                            setSelectedDay={setSelectedDay}
-                        />
-                    ))}
-                </HStack>
-            ))}
-        </PagerView>
+		<PagerView
+			key={selectedDay.getTime()}
+			style={{ width: "100%", height: 65 }}
+			initialPage={1}
+			onPageSelected={(e) => {
+				const pageIndex = e.nativeEvent.position;
+				if (pageIndex === 0) {
+					handleGoToPreviousWeek();
+				} else if (pageIndex === 2) {
+					handleGoToNextWeek();
+				}
+			}}
+		>
+			{Array.from({ length: 3 }, (_, i) => (
+				<HStack key={`${keyPrefixes[i]}-header`}>
+					{allWeekDays[i].map((day) => (
+						<ListViewDayHeader
+							key={`${keyPrefixes[i]}-${day.dayName}`}
+							dayDate={day.dayDate}
+							dayName={day.dayName}
+							dayNum={day.dayNum}
+							selected={day.selected}
+							setSelectedDay={setSelectedDay}
+						/>
+					))}
+				</HStack>
+			))}
+		</PagerView>
 	);
 }

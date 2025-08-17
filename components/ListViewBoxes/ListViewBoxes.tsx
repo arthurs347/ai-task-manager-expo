@@ -1,49 +1,52 @@
-import type {ListedTask} from "@/app/api/tasks+api";
+import type { ListedTask } from "@/app/api/tasks+api";
 import TaskTimeBox from "@/components/ListViewBoxes/TaskTimeBox";
-import {VStack} from "@/components/ui/vstack";
-import {parseEstimatedDurationAsString, parseStartEndTime,} from "@/utils/dateUtils";
+import { VStack } from "@/components/ui/vstack";
+import {
+	parseEstimatedDurationAsString,
+	parseStartEndTime,
+} from "@/utils/dateUtils";
 
 interface ListViewBoxesProps {
-    listedTasks: ListedTask[];
-    setRefreshKey: (key: (prev: number) => any) => void;
+	listedTasks: ListedTask[];
+	setRefreshKey: (key: (prev: number) => number) => void;
 }
 export function ListViewBoxes({
-                                   listedTasks,
-                                   setRefreshKey,
-                               }: ListViewBoxesProps) {
-    return (
-        <VStack>
-            {listedTasks.map((listedTask: ListedTask) => {
-                const {
-                    id,
-                    title,
-                    taskType,
-                    start,
-                    end,
-                    estimatedDuration,
-                    completed,
-                } = listedTask;
-                const { startTimeParsed, endTimeParsed } = parseStartEndTime(
-                    start,
-                    end,
-                );
-                const taskDurationParsed =
-                    parseEstimatedDurationAsString(estimatedDuration);
+	listedTasks,
+	setRefreshKey,
+}: ListViewBoxesProps) {
+	return (
+		<VStack>
+			{listedTasks.map((listedTask: ListedTask) => {
+				const {
+					id,
+					title,
+					taskType,
+					start,
+					end,
+					estimatedDuration,
+					completed,
+				} = listedTask;
+				const { startTimeParsed, endTimeParsed } = parseStartEndTime(
+					start,
+					end,
+				);
+				const taskDurationParsed =
+					parseEstimatedDurationAsString(estimatedDuration);
 
-                return (
-                        <TaskTimeBox
-                            key={id}
-                            taskId={id}
-                            taskName={title}
-                            taskType={taskType}
-                            taskStartTime={startTimeParsed}
-                            taskEndTime={endTimeParsed}
-                            taskDuration={taskDurationParsed}
-                            taskCompleted={completed}
-                            setRefreshKey={setRefreshKey}
-                        />
-                );
-            })}
-        </VStack>
-    );
+				return (
+					<TaskTimeBox
+						key={id}
+						taskId={id}
+						taskName={title}
+						taskType={taskType}
+						taskStartTime={startTimeParsed}
+						taskEndTime={endTimeParsed}
+						taskDuration={taskDurationParsed}
+						taskCompleted={completed}
+						setRefreshKey={setRefreshKey}
+					/>
+				);
+			})}
+		</VStack>
+	);
 }
