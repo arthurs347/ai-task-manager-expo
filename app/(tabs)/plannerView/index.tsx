@@ -1,22 +1,19 @@
-import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { type LayoutRectangle, ScrollView, Text } from "react-native";
-import { getHabitsAction, getListedTasksAction } from "@/actions/taskActions";
-import type { ListedTask } from "@/app/api/tasks+api";
-import { HStack } from "@/components/ui/hstack";
+import {useNavigation} from "@react-navigation/native";
+import {useQuery} from "@tanstack/react-query";
+import React, {useEffect, useRef, useState} from "react";
+import {ScrollView, Text, View} from "react-native";
+import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
+import type {ListedTask} from "@/app/api/tasks+api";
+import {HStack} from "@/components/ui/hstack";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
 import TimeSlots from "@/modules/plannerView/components/TimeSlots";
-import type { Habit } from "@/prisma/generated/prisma";
-import {
-	filterTasksByStartDate,
-	sortTasksByStartDateTime,
-} from "@/utils/taskUtils";
+import type {Habit} from "@/prisma/generated/prisma";
+import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
+import Animated from "react-native-reanimated";
 
 export default function PlannerView() {
 	// Initialize state variables
-
 	const today = new Date();
 	const [selectedDay, setSelectedDay] = useState<Date>(today);
 	const [refreshKey] = useState<number>(0);
@@ -24,19 +21,13 @@ export default function PlannerView() {
 	const navigation = useNavigation();
 
 	// Gesture handling logic
-	const [dropZoneLayouts, setDropZoneLayouts] = useState<LayoutRectangle[]>([]);
+    const habitRefs = useRef<(Animated.View | null)[]>([]);
+    const timeSlotRefs = useRef<(View | null)[]>([]);
+
 	const [highlightedDropZoneIndex, setHighlightedDropZoneIndex] = useState<
 		number | null
 	>(null);
 
-	// Handler to update a specific dropzone layout by index
-	const handleSlotLayout = (index: number, layout: LayoutRectangle) => {
-		setDropZoneLayouts((prev) => {
-			const next = [...prev];
-			next[index] = layout;
-			return next;
-		});
-	};
 
 	// Fetch tasks and habits for the selected day
 	const { data, isLoading } = useQuery({
@@ -66,7 +57,6 @@ export default function PlannerView() {
 	}, [navigation]);
 
 	return (
-		// TODO: Fix x-offset of dragging onto time slots
 		<ScrollView>
 			<DayViewHeader
 				selectedDay={selectedDay}
@@ -74,20 +64,20 @@ export default function PlannerView() {
 			/>
 
 			<HStack className="justify-between p-2">
-				{isLoading ? (
-					<Text>Loading Habits...</Text>
-				) : habits && habits.length > 0 ? (
-					<HabitItems
-						habits={habits}
-						dropZoneLayouts={dropZoneLayouts}
-						onHighlightChange={setHighlightedDropZoneIndex}
-					/>
-				) : (
-					<Text className="text-2xl">Create Your First Habit!</Text>
-				)}
+                {isLoading && (<Text>Loading Habits...</Text>)}
+                {!isLoading && habits?.length === 0 && (<Text className="text-large">Create Your First Habit!</Text>)}
+                {!isLoading && habits && habits.length > 0 && (
+                    <HabitItems
+                    habits={habits}
+                    setHighlightedDropZoneIndex={setHighlightedDropZoneIndex}
+                    habitRefs={habitRefs}
+                    timeSlotRefs={timeSlotRefs}
+                    />
+                )}
+
 				<TimeSlots
 					highlightedDropZoneIndex={highlightedDropZoneIndex}
-					onSlotLayout={handleSlotLayout}
+                    timeSlotRefs={timeSlotRefs}
 				/>
 			</HStack>
 		</ScrollView>

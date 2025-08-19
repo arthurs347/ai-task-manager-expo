@@ -1,35 +1,41 @@
-import { type LayoutRectangle, Text, View } from "react-native";
-import { DraggableBox } from "@/components/DraggableBox";
-import type { Habit } from "@/prisma/generated/prisma";
-import { parseEstimatedDurationAsString } from "@/utils/dateUtils";
+import {Text, View} from "react-native";
+import DraggableBox from "@/components/DraggableBox";
+import type {Habit} from "@/prisma/generated/prisma";
+import {parseEstimatedDurationAsString} from "@/utils/dateUtils";
+import type {RefObject} from "react";
+import type Animated from "react-native-reanimated";
 
 interface HabitItemProps {
-	habits: Habit[];
-	dropZoneLayouts: LayoutRectangle[];
-	onHighlightChange?: (index: number | null) => void;
+    habits: Habit[];
+    setHighlightedDropZoneIndex: (index: number | null) => void;
+    habitRefs: RefObject<(Animated.View | null)[]>;
+    timeSlotRefs: RefObject<(View | null)[]>;
 }
 
 export default function HabitItems({
-	habits,
-	dropZoneLayouts,
-	onHighlightChange,
-}: HabitItemProps) {
-	return habits.map(({ id, title, estimatedDuration }: Habit) => {
-		const durationParsed = parseEstimatedDurationAsString(estimatedDuration);
+                                       habits, setHighlightedDropZoneIndex, habitRefs, timeSlotRefs}: HabitItemProps) {
 
-		return (
-			<View key={id} style={{ flexDirection: "row", marginBottom: 12 }}>
-				<DraggableBox
-					dropZoneLayouts={dropZoneLayouts}
-					onHighlightChange={onHighlightChange}
-				>
-					<Text style={{ color: "#222", fontWeight: "bold", marginLeft: 16 }}>
-						{title}
-						{"    "}
-						{`(${durationParsed})`}
-					</Text>
-				</DraggableBox>
-			</View>
-		);
-	});
+    return habits.map(({ id, title, estimatedDuration }: Habit, index) => {
+        const durationParsed = parseEstimatedDurationAsString(estimatedDuration);
+        // habitRefs.current[0]?.measureInWindow((x, y, width, height) => {
+        //     console.log("habit item measureInWindow index-", index, x, y, width, height);
+        // });
+        return (
+            <View key={id} style={{ flexDirection: "row" }}>
+                <DraggableBox
+                    setHighlightedDropZoneIndex={setHighlightedDropZoneIndex}
+                    ref={(e: Animated.View | null) => {habitRefs.current[index] = e;}}
+                    timeSlotRefs={timeSlotRefs}
+                    habitRefs={habitRefs}
+                    index={index}
+                >
+                    <Text style={{ color: "#222", fontWeight: "bold", marginLeft: 16 }}>
+                        {title}
+                        {"    "}
+                        {`(${durationParsed})`}
+                    </Text>
+                </DraggableBox>
+            </View>
+        );
+    });
 }

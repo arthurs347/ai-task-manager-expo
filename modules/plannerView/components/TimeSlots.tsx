@@ -1,26 +1,31 @@
-import type { LayoutChangeEvent } from "react-native";
-import { StyleSheet, Text, View } from "react-native";
-import { VStack } from "@/components/ui/vstack";
+import {StyleSheet, Text, View} from "react-native";
+import {VStack} from "@/components/ui/vstack";
+import {RefObject} from "react";
 
 interface TimeSlotsProps {
-	onSlotLayout: (
-		index: number,
-		layout: LayoutChangeEvent["nativeEvent"]["layout"],
-	) => void;
 	highlightedDropZoneIndex: number | null;
+    timeSlotRefs: RefObject<(View | null)[]>;
 }
 
 export default function TimeSlots({
-	onSlotLayout,
 	highlightedDropZoneIndex,
+    timeSlotRefs,
+
 }: TimeSlotsProps) {
-	return (
+
+    return (
 		<VStack>
 			{Array.from({ length: 24 }, (_, hour) => (
 				<View
 					// biome-ignore lint/suspicious/noArrayIndexKey: string will always be unique in this context
-					key={`time-slot-${hour}`}
-					onLayout={(event) => onSlotLayout(hour, event.nativeEvent.layout)}
+                    key={`time-slot-${hour}`}
+                    ref={(e: View | null) => { timeSlotRefs.current[hour] = e; }}
+                    onLayout={() => {
+                        // const ref: View | null = timeSlotRefs.current[hour];
+                        // ref?.measureInWindow((x, y, width, height) => {
+                        //     console.log(`timeSlot-${hour}`, x, y, width, height);
+                        // })
+                    }}
 					style={[
 						styles.timeSlot,
 						{
@@ -34,7 +39,7 @@ export default function TimeSlots({
 					</Text>
 				</View>
 			))}
-		</VStack>
+        </VStack>
 	);
 }
 

@@ -30,9 +30,9 @@ Important CMD's:
 
 
 TODO (In order of priority):
-1. Use react-native-pager-view for dayheader swiping
-2. Fix drag and drop for HabitItems on TimeSlots
-3. Fix any errors in the app, console, typescript, and update dependencies
-4. Secure application and API's, use chatGPT to assist
+1. Add Task Editing capabilities
+1. Secure application and API's, use chatGPT to assist
+2. Add Zod
+3. Refactor drag and drop logic
+4. Fix any errors in the app, console, typescript, and update dependencies
 5. Add payment integration
-6. add depcheck -> remove unused dependencies
