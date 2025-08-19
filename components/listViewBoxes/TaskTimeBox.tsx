@@ -1,7 +1,7 @@
-import { View } from "react-native";
-import TaskBox from "@/components/ListViewBoxes/TaskBox";
-import TaskTimeHeader from "@/components/ListViewBoxes/TaskTimeHeader";
-import type { TaskType } from "@/prisma/generated/prisma/";
+import {View} from "react-native";
+import TaskBox from "@/components/listViewBoxes/TaskBox";
+import TaskTimeHeader from "@/components/listViewBoxes/TaskTimeHeader";
+import type {TaskType} from "@/prisma/generated/prisma/";
 
 interface TaskAndTimeBoxProps {
 	taskId: string;

@@ -1,9 +1,9 @@
-import { PlusIcon } from "lucide-react-native";
-import { Text } from "react-native";
-import type { ListedTask } from "@/app/api/tasks+api";
-import { ListViewBoxes } from "@/components/ListViewBoxes/ListViewBoxes";
-import { Button, ButtonIcon } from "@/components/ui/button";
-import { VStack } from "@/components/ui/vstack";
+import {PlusIcon} from "lucide-react-native";
+import {Text} from "react-native";
+import type {ListedTask} from "@/app/api/tasks+api";
+import {ListViewBoxes} from "@/components/listViewBoxes/ListViewBoxes";
+import {Button, ButtonIcon} from "@/components/ui/button";
+import {VStack} from "@/components/ui/vstack";
 
 interface DayViewBodyProps {
 	isLoading: boolean;

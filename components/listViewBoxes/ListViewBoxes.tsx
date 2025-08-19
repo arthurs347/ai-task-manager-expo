@@ -1,10 +1,7 @@
-import type { ListedTask } from "@/app/api/tasks+api";
-import TaskTimeBox from "@/components/ListViewBoxes/TaskTimeBox";
-import { VStack } from "@/components/ui/vstack";
-import {
-	parseEstimatedDurationAsString,
-	parseStartEndTime,
-} from "@/utils/dateUtils";
+import type {ListedTask} from "@/app/api/tasks+api";
+import TaskTimeBox from "@/components/listViewBoxes/TaskTimeBox";
+import {VStack} from "@/components/ui/vstack";
+import {parseEstimatedDurationAsString, parseStartEndTime,} from "@/utils/dateUtils";
 
 interface ListViewBoxesProps {
 	listedTasks: ListedTask[];

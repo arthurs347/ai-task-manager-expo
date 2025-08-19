@@ -3,8 +3,9 @@ Get Started
    ```bash
    yarn install
    ```
-2. Get Env files from team members.
-- ADD OWN APP_URL
+2. Setup Dev environment
+- Get Env files from team members.
+- ADD OWN APP_URL in .env files
 
 Deploying to Web
 1. npx expo export --platform web
@@ -26,21 +27,28 @@ Important CMD's:
 - yarn add <package_name> -> add package to project
   yarn why <dependency_name> -> shows why package installed and which packages depend on it
 - npx expo run:ios -> locally builds on ios, prebuild included
-
+- yarn clear-start -> clears cache, useful when changing app.json or config files
+- eas build --platform ios --profile development --local -> builds ios locally
 
 
 TODO (In order of priority):
-1. Add Task Editing capabilities
-1. Secure application and API's, use chatGPT to assist
+1. Add offline-mode-support
+1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k
+2. Add Task Editing capabilities
+    - implement EditTaskForm
+    - implement editTask action
+3. Secure application and API's, use chatGPT to assist
    - Rate Limit
    - Authentication
    - Authorization
    - Input Validation
    - Error Handling
-2. Add Zod
+4. Add Zod & trpc
    - Use Zod for form validation
    - Use Zod for API route validation
    - Use Zod for schema validation
-3. Refactor drag and drop logic
-4. Fix any errors in the app, console, typescript, and update dependencies
-5. Add payment integration
+5. Refactor drag and drop logic
+6. Fix any errors in the app, console, typescript, and update dependencies
+7. Add payment integration
+8. Add Local-first db implementation -> https://youtu.be/SBv32tmyb3k
+

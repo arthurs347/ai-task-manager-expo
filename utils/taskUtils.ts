@@ -1,16 +1,10 @@
 /** biome-ignore-all lint/correctness/noUnusedFunctionParameters: Need to complete AI implementations*/
 import dayjs from "dayjs";
-import type { ListedTask } from "@/app/api/tasks+api";
-import type { TaskDataEntry } from "@/components/CreateTaskPopup/CreateTaskForm";
-import { DATETIME_FORMAT } from "@/lib/constants";
-import {
-	type AutomaticTask,
-	type Habit,
-	type ManualTask,
-	PriorityCategory,
-	TaskType,
-} from "@/prisma/generated/prisma";
-import { isSameDay } from "@/utils/dateUtils";
+import type {ListedTask} from "@/app/api/tasks+api";
+import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
+import {DATETIME_FORMAT} from "@/lib/constants";
+import {type AutomaticTask, type Habit, type ManualTask, PriorityCategory, TaskType,} from "@/prisma/generated/prisma";
+import {isSameDay} from "@/utils/dateUtils";
 
 export function calculateTaskStartAndEnd(task: TaskDataEntry) {
 	//TODO: REPLACE WITH ACTUAL LOGIC

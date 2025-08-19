@@ -1,17 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { getHabitsAction, getListedTasksAction } from "@/actions/taskActions";
-import type { ListedTask } from "@/app/api/tasks+api";
-import CreateTaskPopup from "@/components/CreateTaskPopup/_CreateTaskPopup";
-import { VStack } from "@/components/ui/vstack";
+import {useNavigation} from "@react-navigation/native";
+import {useQuery} from "@tanstack/react-query";
+import {useEffect, useState} from "react";
+import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
+import type {ListedTask} from "@/app/api/tasks+api";
+import CreateTaskPopup from "@/components/createTaskPopup/CreateTaskPopup";
+import {VStack} from "@/components/ui/vstack";
 import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
-import type { Habit } from "@/prisma/generated/prisma";
-import {
-	filterTasksByStartDate,
-	sortTasksByStartDateTime,
-} from "@/utils/taskUtils";
+import type {Habit} from "@/prisma/generated/prisma";
+import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 
 export default function DayView() {
 	// Initialize state variables
