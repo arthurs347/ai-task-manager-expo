@@ -1,16 +1,11 @@
-import type { Time } from "@internationalized/date";
+import type {Time} from "@internationalized/date";
 import axios from "axios";
-import { authenticateUser } from "@/actions/authActions";
-import type { ListedTask } from "@/app/api/tasks+api";
-import type { TaskDataEntry } from "@/components/CreateTaskPopup/CreateTaskForm";
-import {
-	type AutomaticTask,
-	type Habit,
-	type ManualTask,
-	TaskType,
-} from "@/prisma/generated/prisma/edge";
-import { generateAPIUrl } from "@/utils/apiUtils";
-import { addTimeToDate, convertDurationTimeToMinutes } from "@/utils/dateUtils";
+import {authenticateUser} from "@/actions/authActions";
+import type {ListedTask} from "@/app/api/tasks+api";
+import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
+import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/prisma/edge";
+import {generateAPIUrl} from "@/utils/apiUtils";
+import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
 
 export type ManualEntry = Omit<ManualTask, "id" | "completed">;
 export type AutomaticEntry = Omit<

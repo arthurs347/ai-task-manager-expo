@@ -1,20 +1,20 @@
-import { PlusIcon } from "lucide-react-native";
-import { Text } from "react-native";
-import type { ListedTask } from "@/app/api/tasks+api";
-import { ListViewBoxes } from "@/components/ListViewBoxes/ListViewBoxes";
-import { Button, ButtonIcon } from "@/components/ui/button";
-import { VStack } from "@/components/ui/vstack";
+import {PlusIcon} from "lucide-react-native";
+import {Text} from "react-native";
+import {ListViewBoxes} from "@/components/listViewBoxes/ListViewBoxes";
+import {Button, ButtonIcon} from "@/components/ui/button";
+import {VStack} from "@/components/ui/vstack";
+import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 
 interface DayViewBodyProps {
 	isLoading: boolean;
-	listedTasks: ListedTask[] | null; // Replace with your actual data type
+	taskTimeInfos: TaskTimeInfo[] | null;
 	setRefreshKey: (key: (prev: number) => number) => void;
 	setDisplayCreateTaskPopup: (value: boolean) => void;
 }
 
 export default function DayViewBody({
 	isLoading,
-	listedTasks,
+	taskTimeInfos,
 	setRefreshKey,
 	setDisplayCreateTaskPopup,
 }: DayViewBodyProps) {
@@ -24,13 +24,13 @@ export default function DayViewBody({
 			{isLoading && <Text>Loading Tasks...</Text>}
 
 			{/*Loaded State*/}
-			{!isLoading && listedTasks && listedTasks.length > 0 && (
+			{!isLoading && taskTimeInfos && taskTimeInfos.length > 0 && (
 				<ListViewBoxes
-					listedTasks={listedTasks}
+					taskTimeInfos={taskTimeInfos}
 					setRefreshKey={setRefreshKey}
 				/>
 			)}
-			{!isLoading && listedTasks && listedTasks.length === 0 && (
+			{!isLoading && taskTimeInfos && taskTimeInfos.length === 0 && (
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}
 
