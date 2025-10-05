@@ -9,9 +9,33 @@ import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import type {Habit} from "@/prisma/generated/prisma";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
+import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
+import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
 
 export default function DayView() {
-	// Initialize state variables
+    function listedToTaskTimeInfos(listedTasks: ListedTask[]): TaskTimeInfo[] {
+        const taskTimeInfos: TaskTimeInfo[] = [];
+        listedTasks.forEach((listedTask: ListedTask) => {
+            const { startTimeParsed, endTimeParsed } = parseStartEndTime(
+                listedTask.start,
+                listedTask.end,
+            );
+            const durationParsed =
+                parseEstimatedDurationAsString(listedTask.estimatedDuration);
+
+            const taskTimeInfo: TaskTimeInfo = {
+                ...listedTask,
+                start: startTimeParsed,
+                end: endTimeParsed,
+                duration: durationParsed,
+            }
+
+            taskTimeInfos.push(taskTimeInfo);
+        })
+        return taskTimeInfos;
+    }
+
+    // Initialize state variables
 	const today = new Date();
 	const [selectedDay, setSelectedDay] = useState<Date>(today);
 	const [refreshKey, setRefreshKey] = useState<number>(0);
@@ -35,7 +59,8 @@ export default function DayView() {
 		},
 		queryKey: ["tasks", refreshKey, selectedDay],
 	});
-	const listedTasks = data ? data.listedTasks : null;
+	const listedTasks: ListedTask[] | null = data ? data.listedTasks : null;
+    const taskTimeInfos: TaskTimeInfo[] | null = listedTasks ? listedToTaskTimeInfos(listedTasks) : null
 
 	// For when the tab is pressed, while on dayView reset the selected day to today
 	useEffect(() => {
@@ -56,7 +81,7 @@ export default function DayView() {
 				isLoading={isLoading}
 				setRefreshKey={setRefreshKey}
 				setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
-				listedTasks={listedTasks}
+                taskTimeInfos={taskTimeInfos}
 			/>
 
 			<CreateTaskPopup

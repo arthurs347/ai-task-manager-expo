@@ -32,8 +32,9 @@ Important CMD's:
 
 
 TODO (In order of priority):
-1. Add offline-mode-support
-1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k
+
+[//]: # (1. Add offline-mode-support)
+[//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
 2. Add Task Editing capabilities
     - implement EditTaskForm
     - implement editTask action
@@ -48,7 +49,8 @@ TODO (In order of priority):
    - Use Zod for API route validation
    - Use Zod for schema validation
 5. Refactor drag and drop logic
-6. Fix any errors in the app, console, typescript, and update dependencies
-7. Add payment integration
-8. Add Local-first db implementation -> https://youtu.be/SBv32tmyb3k
+
+[//]: # (6. Fix any errors in the app, console, typescript, and update dependencies)
+[//]: # (7. Add payment integration)
+[//]: # (8. Add Local-first db implementation -> https://youtu.be/SBv32tmyb3k)
 

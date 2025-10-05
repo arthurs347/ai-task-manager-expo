@@ -1,45 +1,21 @@
-import type {ListedTask} from "@/app/api/tasks+api";
-import TaskTimeBox from "@/components/listViewBoxes/TaskTimeBox";
+import TaskTimeBox, {type TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 import {VStack} from "@/components/ui/vstack";
-import {parseEstimatedDurationAsString, parseStartEndTime,} from "@/utils/dateUtils";
 
 interface ListViewBoxesProps {
-	listedTasks: ListedTask[];
+	taskTimeInfos: TaskTimeInfo[];
 	setRefreshKey: (key: (prev: number) => number) => void;
 }
 export function ListViewBoxes({
-	listedTasks,
+	taskTimeInfos,
 	setRefreshKey,
 }: ListViewBoxesProps) {
 	return (
 		<VStack>
-			{listedTasks.map((listedTask: ListedTask) => {
-				const {
-					id,
-					title,
-					taskType,
-					start,
-					end,
-					estimatedDuration,
-					completed,
-				} = listedTask;
-				const { startTimeParsed, endTimeParsed } = parseStartEndTime(
-					start,
-					end,
-				);
-				const taskDurationParsed =
-					parseEstimatedDurationAsString(estimatedDuration);
-
+			{taskTimeInfos.map((taskTimeInfo: TaskTimeInfo) => {
 				return (
 					<TaskTimeBox
-						key={id}
-						taskId={id}
-						taskName={title}
-						taskType={taskType}
-						taskStartTime={startTimeParsed}
-						taskEndTime={endTimeParsed}
-						taskDuration={taskDurationParsed}
-						taskCompleted={completed}
+						key={taskTimeInfo.id}
+						taskTimeInfo={taskTimeInfo}
 						setRefreshKey={setRefreshKey}
 					/>
 				);
