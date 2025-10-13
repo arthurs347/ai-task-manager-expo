@@ -1,3 +1,9 @@
+## License
+
+This software is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to use, share, and adapt this code for **non-commercial purposes**, provided that you give appropriate credit.
+
 Get Started
 1. Install the required dependencies:
    ```bash
