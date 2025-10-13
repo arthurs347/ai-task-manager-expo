@@ -1,13 +1,13 @@
 import "@/global.css";
-import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
+import {ClerkProvider, useAuth} from "@clerk/clerk-expo";
 import * as Sentry from "@sentry/react-native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack, useRouter, useSegments } from "expo-router";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {Stack, useRouter, useSegments} from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import { useEffect } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import {useEffect} from "react";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import {GluestackUIProvider} from "@/components/ui/gluestack-ui-provider";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -49,12 +49,12 @@ function InitialLayout() {
 		if (!isLoaded) return;
 
 		const inTabsGroup = segments[0] === "(tabs)";
-
 		if (isSignedIn && !inTabsGroup) {
 			router.replace("/(tabs)/dayView");
-		} else if (!isSignedIn) {
-			router.replace("/(auth)/auth");
 		}
+            // else if (!isSignedIn) {
+		// 	router.replace("/(auth)/auth");
+		// }
 	}, [isSignedIn]);
 
 	return (

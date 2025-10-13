@@ -35,6 +35,7 @@ TODO (In order of priority):
 
 [//]: # (1. Add offline-mode-support)
 [//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
+1. Add guest user support / fix login flow
 2. Add Task Editing capabilities
     - implement EditTaskForm
     - implement editTask action
