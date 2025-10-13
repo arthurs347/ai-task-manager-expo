@@ -4,7 +4,7 @@ This software is licensed under the [Creative Commons Attribution-NonCommercial 
 
 You are free to use, share, and adapt this code for **non-commercial purposes**, provided that you give appropriate credit.
 
-Get Started
+## Get Started
 1. Install the required dependencies:
    ```bash
    yarn install
