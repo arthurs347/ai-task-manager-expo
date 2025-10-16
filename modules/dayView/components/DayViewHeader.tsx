@@ -1,9 +1,9 @@
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
-import { Platform, Text } from "react-native";
-import { Button, ButtonIcon } from "@/components/ui/button";
-import { HStack } from "@/components/ui/hstack";
-import { MONTH_NAMES_FULL } from "@/lib/constants";
-import ListViewDayHeaders from "@/modules/dayView/components/dayHeaders/_ListViewDayHeaders";
+import {ArrowLeft, ArrowRight} from "lucide-react-native";
+import {Platform, Text} from "react-native";
+import {Button, ButtonIcon} from "@/components/ui/button";
+import {HStack} from "@/components/ui/hstack";
+import {MONTH_NAMES_FULL} from "@/lib/constants";
+import ListViewDayHeaders from "@/modules/dayView/components/dayHeaders/ListViewDayHeaders";
 
 interface DayViewHeaderProps {
 	selectedDay: Date;
