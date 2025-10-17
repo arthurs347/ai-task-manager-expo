@@ -1,7 +1,6 @@
 import {HStack} from "@/components/ui/hstack";
 import ListViewDayHeader from "@/modules/dayView/components/dayHeaders/ListViewDayHeader";
 import {isSameDay} from "@/utils/dateUtils";
-import {Platform} from "react-native";
 
 interface ListViewDayHeadersProps {
     selectedDay: Date;
@@ -47,28 +46,8 @@ export default function ListViewDayHeaders({
     const nextWeekDays = getFullWeekDays(nextWeekBaseDay);
 
     const allWeekDays = [prevWeekDays, currentWeekDays, nextWeekDays];
-
-    if (Platform.OS === "web") {
-        return (
-            <>
-                {Array.from({ length: 3 }, (_, i) => (
-                    <HStack key={`${keyPrefixes[i]}-header`}>
-                        {allWeekDays[i].map((day) => (
-                            <ListViewDayHeader
-                                key={`${keyPrefixes[i]}-${day.dayName}`}
-                                dayDate={day.dayDate}
-                                dayName={day.dayName}
-                                dayNum={day.dayNum}
-                                selected={day.selected}
-                                setSelectedDay={setSelectedDay}
-                            />
-                        ))}
-                    </HStack>
-                ))}
-            </>
-        );
-    } else {
         // Only require PagerView on native platforms
+        console.log("Non-WEB")
         const PagerView = require("react-native-pager-view").default;
         return (
             <PagerView
@@ -100,5 +79,4 @@ export default function ListViewDayHeaders({
                 ))}
             </PagerView>
         );
-    }
 }
