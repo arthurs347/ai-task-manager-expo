@@ -50,3 +50,4 @@ prisma/migration_lock.toml
 /venv
 
 
+.vercel
