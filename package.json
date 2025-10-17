@@ -14,8 +14,10 @@
 		"ios": "DARK_MODE=media expo start --ios",
 		"web": "DARK_MODE=media expo start --web",
 		"lint": "expo lint",
-		"einstall": "npx expo install"
-	},
+		"einstall": "npx expo install",
+        "build": "expo export -p web --output-dir dist",
+        "vercel-build": "expo export -p web --output-dir dist"
+    },
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
 		"@clerk/clerk-expo": "^2.13.0",

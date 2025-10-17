@@ -1,11 +1,11 @@
-import { SignedIn, SignedOut, useSSO, useUser } from "@clerk/clerk-expo";
+import {SignedIn, SignedOut, useSSO, useUser} from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
-import { useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { createUserAction } from "@/actions/userActions";
-import { Button, ButtonText } from "@/components/ui/button";
-import { OFFLINE_DEV_MODE } from "@/lib/constants";
+import {useRouter} from "expo-router";
+import {useCallback, useEffect, useState} from "react";
+import {Text, View} from "react-native";
+import {createUserAction} from "@/actions/userActions";
+import {Button, ButtonText} from "@/components/ui/button";
+import {OFFLINE_DEV_MODE} from "@/lib/constants";
 
 export default function Page() {
 	const { user } = useUser();
