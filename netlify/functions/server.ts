@@ -1,17 +1,34 @@
 import serverless from 'serverless-http';
+import {readFile} from 'fs/promises';
+import {pathToFileURL} from 'url';
+import path from 'path';
 
-let cachedHandler: any | null = null;
+let cachedHandler: any = null;
+let staticHtml: string | null = null;
 
 async function ensureHandler() {
     if (cachedHandler) return cachedHandler;
 
-    const mod = await import('@/dist/server/index.html');
-    const app = mod.default ?? mod.app ?? mod.server ?? mod.handler;
-    if (!app || typeof app !== 'function') {
-        throw new Error('No valid server export found in `dist/server/index.js` (expected default or named export of the app).');
+    const serverPath = path.join(process.cwd(), 'dist', 'server', 'index.js');
+    try {
+        const mod = await import(pathToFileURL(serverPath).href);
+        const app = mod.default ?? mod.app ?? mod.server ?? mod.handler;
+        if (app && typeof app === 'function') {
+            cachedHandler = serverless(app);
+            return cachedHandler;
+        }
+    } catch (err) {
+        // no server bundle — fall through to static fallback
     }
 
-    cachedHandler = serverless(app);
+    // Fallback: serve the client HTML
+    const htmlPath = path.join(process.cwd(), 'dist', 'client', '_expo', 'index.html');
+    staticHtml = await readFile(htmlPath, 'utf-8');
+    cachedHandler = async (_event: any, _context: any) => ({
+        statusCode: 200,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        body: staticHtml,
+    });
     return cachedHandler;
 }
 
