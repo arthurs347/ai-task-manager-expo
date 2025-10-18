@@ -15,6 +15,7 @@
 		"web": "DARK_MODE=media expo start --web",
 		"lint": "expo lint",
 		"einstall": "npx expo install",
+        "prisma:generate": "prisma generate",
         "build": "expo export -p web --output-dir dist",
         "vercel-build": "expo export -p web --output-dir dist"
     },
