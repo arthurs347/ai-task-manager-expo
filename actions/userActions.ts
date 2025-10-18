@@ -1,7 +1,7 @@
 import axios from "axios";
-import { authenticateUser } from "@/actions/authActions";
-import type { User } from "@/prisma/generated/prisma/edge";
-import { generateAPIUrl } from "@/utils/apiUtils";
+import {authenticateUser} from "@/actions/authActions";
+import type {User} from "@/prisma/generated/prisma";
+import {generateAPIUrl} from "@/utils/apiUtils";
 
 /**
  * Creates a user if no user is found in the db with the same email
