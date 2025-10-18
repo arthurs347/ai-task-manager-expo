@@ -1,8 +1,9 @@
 [build]
 command = "yarn prisma:generate && yarn build"
 publish = "dist"
+functions = "netlify/functions"
 
 [[redirects]]
 from = "/*"
-to = "/server/index.html"
+to = "/.netlify/functions/server"
 status = 200
