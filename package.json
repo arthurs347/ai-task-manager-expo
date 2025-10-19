@@ -17,7 +17,7 @@
 		"einstall": "npx expo install",
 		"prisma:generate": "prisma generate",
 		"build": "expo export -p web --output-dir dist",
-        "studio": "dotenv -e .env.development -- npx prisma studio",
+		"studio": "dotenv -e .env.development -- npx prisma studio",
 		"vercel-build": "expo export -p web --output-dir dist"
 	},
 	"dependencies": {
@@ -87,6 +87,7 @@
 		"luxon": "^3.7.1",
 		"motion": "^12.19.2",
 		"nativewind": "^4.1.23",
+		"openai": "^6.5.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
 		"react-gesture-handler": "^0.0.5",
