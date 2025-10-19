@@ -6,7 +6,7 @@
 		"dev": "APP_VARIANT=development npx expo start",
 		"clean": "rm -rf ./node_modules && rm -rf ./yarn.lock",
 		"clean-install": "yarn clean && yarn install",
-		"reset-db": "npx prisma db push --force-reset",
+		"reset-db": "dotenv -e .env.development -- npx prisma db push --force-reset",
 		"start": "expo start",
 		"clear-start": "expo start --clear",
 		"reset-project": "node ./scripts/reset-project.js",
@@ -17,6 +17,7 @@
 		"einstall": "npx expo install",
 		"prisma:generate": "prisma generate",
 		"build": "expo export -p web --output-dir dist",
+        "studio": "dotenv -e .env.development -- npx prisma studio",
 		"vercel-build": "expo export -p web --output-dir dist"
 	},
 	"dependencies": {
@@ -112,6 +113,7 @@
 		"@types/express": "^5.0.3",
 		"@types/luxon": "^3.6.2",
 		"@types/react": "~19.0.10",
+		"dotenv-cli": "^10.0.0",
 		"jscodeshift": "0.15.2",
 		"prisma": "^6.9.0",
 		"typescript": "^5.9.2"
