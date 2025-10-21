@@ -1,6 +1,6 @@
 import type {Time} from "@internationalized/date";
 import axios from "axios";
-import {authenticateUser} from "@/actions/authActions";
+import {authenticateAndGetUser, authenticateUser} from "@/actions/authActions";
 import type {ListedTask} from "@/app/api/tasks+api";
 import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
 import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/prisma";
@@ -22,7 +22,7 @@ export type HabitEntry = Omit<Habit, "id" | "completed" | "currentlyUsed">;
 export type TaskEntry = ManualEntry | AutomaticEntry | HabitEntry;
 
 export async function createTaskAction(task: TaskDataEntry) {
-	const userId: string = authenticateUser().id;
+	const userId: string = authenticateAndGetUser().id;
 	const taskType: TaskType = task.taskType;
 
 	let taskToCreateData: TaskEntry;
@@ -103,7 +103,7 @@ export async function deleteTaskAction(
 }
 
 export async function getListedTasksAction(): Promise<ListedTask[]> {
-	const user = authenticateUser();
+	const user = authenticateAndGetUser();
 	const userId = user.id;
 
 	return axios
@@ -120,8 +120,25 @@ export async function getListedTasksAction(): Promise<ListedTask[]> {
 		});
 }
 
+export async function getListedTasksByDateAction(date: Date): Promise<ListedTask[]> {
+    const user = authenticateAndGetUser();
+    const userId = user.id;
+    const dateISO = date.toISOString();
+
+    return axios
+        .get(
+            generateAPIUrl(`/api/tasks?userId=${userId}&taskType=${TaskType.LISTED}&date=${dateISO}`)
+        )
+        .then((res) => {
+            return res.data as ListedTask[];
+        })
+        .catch(() => {
+            throw new Error("Failed to fetch tasks");
+        });
+}
+
 export async function getHabitsAction(): Promise<Habit[]> {
-	const user = authenticateUser();
+	const user = authenticateAndGetUser();
 	const userId = user.id;
 
 	return axios

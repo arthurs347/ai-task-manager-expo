@@ -1,8 +1,9 @@
-import { StatusCodes } from "http-status-codes";
-import type { ManualEntry, TaskEntry } from "@/actions/taskActions";
-import { prisma } from "@/lib/prisma";
-import { type Habit, TaskType } from "@/prisma/generated/prisma";
-import { allTypesToListedTask } from "@/utils/taskUtils";
+import {StatusCodes} from "http-status-codes";
+import type {ManualEntry, TaskEntry} from "@/actions/taskActions";
+import {prisma} from "@/lib/prisma";
+import {type Habit, TaskType} from "@/prisma/generated/prisma";
+import {allTypesToListedTask} from "@/utils/taskUtils";
+import {endOfDay, startOfDay} from "date-fns";
 
 export type ListedTask = {
 	id: string;
@@ -140,7 +141,8 @@ export async function GET(request: Request) {
 	const taskType: TaskType | null = url.searchParams.get(
 		"taskType",
 	) as TaskType;
-
+    const dateISO = url.searchParams.get("date");
+    const date = dateISO ? new Date(dateISO) : null;
 	let tasksRetrieved: ListedTask[] | Habit[];
 
 	if (!userId) {
@@ -160,6 +162,10 @@ export async function GET(request: Request) {
 			const habits = await prisma.habit.findMany({
 				where: {
 					userId,
+                    ...(date && {
+                        gte: startOfDay(date),
+                        lte: endOfDay(date),
+                    })
 				},
 			});
 
@@ -168,9 +174,34 @@ export async function GET(request: Request) {
 		}
 		case TaskType.LISTED: {
 			const [manualTasks, habits, automaticTasks] = await Promise.all([
-				prisma.manualTask.findMany({ where: { userId } }),
-				prisma.habit.findMany({ where: { userId, currentlyUsed: false } }),
-				prisma.automaticTask.findMany({ where: { userId } }),
+				prisma.manualTask.findMany({
+                    where: {
+                        userId,
+                        ...(date && {
+                            gte: startOfDay(date),
+                            lte: endOfDay(date),
+                        })
+                    }
+                }),
+				prisma.habit.findMany({
+                    where: {
+                        userId,
+                        currentlyUsed: false,
+                        ...(date && {
+                            gte: startOfDay(date),
+                            lte: endOfDay(date),
+                        })
+                    }
+                }),
+				prisma.automaticTask.findMany({
+                    where: {
+                        userId,
+                        ...(date && {
+                            gte: startOfDay(date),
+                            lte: endOfDay(date),
+                        })
+                    }
+                }),
 			]);
 
 			const listedTasks: ListedTask[] = allTypesToListedTask(
