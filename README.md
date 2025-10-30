@@ -27,7 +27,7 @@ Tips:
 - Make sure when installing packages look at correct versions, use npx expo-doctor
 - IMMEDIATELY AFTER installing new packages, if NATIVE -> rebuild EX: npx expo run:ios, clear cache with yarn clear-start
 - After removing native packages rebuild?
-
+- calling apis inside other api, might require adding localhost in front of api path
 Important CMD's:
 - yarn remove <package_name> -> remove package from project
 - yarn add <package_name> -> add package to project

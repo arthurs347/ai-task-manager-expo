@@ -102,41 +102,39 @@ export async function deleteTaskAction(
 		});
 }
 
-export async function getListedTasksAction(): Promise<ListedTask[]> {
-	const user = authenticateAndGetUser();
-	const userId = user.id;
-
-	return axios
-		.get(
-			generateAPIUrl(
-				`/api/tasks?userId=${encodeURIComponent(userId)}&taskType=${encodeURIComponent(TaskType.LISTED)}`,
-			),
-		)
+export async function getListedTasksAction(userId?: string): Promise<ListedTask[]> {
+	let id = userId;
+    if (!id) {
+        const user = authenticateAndGetUser();
+        id = user.id;
+    }
+    return axios
+		.get(`http://localhost:8081/api/tasks?userId=${id}&taskType=${TaskType.LISTED}`)
 		.then((res) => {
-			return res.data as ListedTask[];
+            return res.data as ListedTask[];
 		})
-		.catch(() => {
-			throw new Error("Failed to fetch tasks");
+		.catch((reason) => {
+			throw new Error(`Failed to fetch tasks: ${reason}`);
 		});
 }
 
-export async function getListedTasksByDateAction(date: Date): Promise<ListedTask[]> {
-    // TODO: Test
-    const user = authenticateAndGetUser();
-    const userId = user.id;
-    const dateISO = date.toISOString();
-
-    return axios
-        .get(
-            generateAPIUrl(`/api/tasks?userId=${userId}&taskType=${TaskType.LISTED}&date=${dateISO}`)
-        )
-        .then((res) => {
-            return res.data as ListedTask[];
-        })
-        .catch(() => {
-            throw new Error("Failed to fetch tasks");
-        });
-}
+// export async function getListedTasksByDateAction(date: Date): Promise<ListedTask[]> {
+//     // TODO: Test
+//     const user = authenticateAndGetUser();
+//     const userId = user.id;
+//     const dateISO = date.toISOString();
+//
+//     return axios
+//         .get(
+//             generateAPIUrl(`/api/tasks?userId=${userId}&taskType=${TaskType.LISTED}&date=${dateISO}`)
+//         )
+//         .then((res) => {
+//             return res.data as ListedTask[];
+//         })
+//         .catch(() => {
+//             throw new Error("Failed to fetch tasks");
+//         });
+// }
 
 export async function getHabitsAction(): Promise<Habit[]> {
 	const user = authenticateAndGetUser();
@@ -175,4 +173,12 @@ export async function changeTaskCompletionStatusAction(
 		.catch((reason) => {
 			throw new Error(`Failed to change task completion status:${reason}`);
 		});
+}
+
+export async function getListedTasksByIds(taskIds: string[], userId?: string): Promise<ListedTask[]> {
+    if (!userId) authenticateAndGetUser();
+
+    const allListedTasks: ListedTask[] = await getListedTasksAction(userId)
+    const filteredTasksById: ListedTask[] = allListedTasks.filter((task) => taskIds.includes(task.id))
+    return filteredTasksById;
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {authenticateUser} from "@/actions/authActions";
+import {authenticateAndGetUser, authenticateUser} from "@/actions/authActions";
 import type {User} from "@/prisma/generated/prisma";
 import {generateAPIUrl} from "@/utils/apiUtils";
 
@@ -7,7 +7,7 @@ import {generateAPIUrl} from "@/utils/apiUtils";
  * Creates a user if no user is found in the db with the same email
  * */
 export async function createUserAction() {
-	const user = authenticateUser();
+	const user = authenticateAndGetUser();
 
 	const userData: User = {
 		id: user.id,
