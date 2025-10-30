@@ -38,7 +38,7 @@ export default function ListView() {
 			{isLoading ? (
 				<Text className="text-2xl">Loading...</Text>
 			) : data && data.length > 0 ? (
-				<ListViewBoxes listedTasks={data} setRefreshKey={setRefreshKey} />
+				<ListViewBoxes taskTimeInfos={data} setRefreshKey={setRefreshKey} />
 			) : (
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}

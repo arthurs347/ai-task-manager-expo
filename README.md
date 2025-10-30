@@ -27,7 +27,7 @@ Tips:
 - Make sure when installing packages look at correct versions, use npx expo-doctor
 - IMMEDIATELY AFTER installing new packages, if NATIVE -> rebuild EX: npx expo run:ios, clear cache with yarn clear-start
 - After removing native packages rebuild?
-
+- calling apis inside other api, might require adding localhost in front of api path
 Important CMD's:
 - yarn remove <package_name> -> remove package from project
 - yarn add <package_name> -> add package to project
@@ -37,10 +37,12 @@ Important CMD's:
 - eas build --platform ios --profile development --local -> builds ios locally
 
 
-TODO (In order of priority):
+Future Additions (In order of priority):
 
 [//]: # (1. Add offline-mode-support)
 [//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
+1. Add openai task reordoring feature 
+   - Sketch design first
 2. Add Task Editing capabilities
     - implement EditTaskForm
     - implement editTask action

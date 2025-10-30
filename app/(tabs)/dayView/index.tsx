@@ -42,8 +42,9 @@ export default function DayView() {
 	const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 	const navigation = useNavigation();
 
+
 	// Fetch tasks and habits for the selected day
-	const { data, isLoading } = useQuery({
+	let { data, isLoading } = useQuery({
 		queryFn: async () => {
 			const fetchedTasks: ListedTask[] = await getListedTasksAction();
 			const filteredTasks: ListedTask[] = filterTasksByStartDate(
@@ -59,7 +60,14 @@ export default function DayView() {
 		},
 		queryKey: ["tasks", refreshKey, selectedDay],
 	});
-	const listedTasks: ListedTask[] | null = data ? data.listedTasks : null;
+
+    //AI functionality
+    const [isDayRestructured, setIsDayRestructured] = useState<boolean>(false);
+    const [aiTasks, setAiTasks] = useState<ListedTask[]>([]);
+    let listedTasks: ListedTask[] | null = data ? data.listedTasks : null;
+    if (isDayRestructured) {
+        listedTasks = aiTasks;
+    }
     const taskTimeInfos: TaskTimeInfo[] | null = listedTasks ? listedToTaskTimeInfos(listedTasks) : null
 
 	// For when the tab is pressed, while on dayView reset the selected day to today
@@ -82,6 +90,9 @@ export default function DayView() {
 				setRefreshKey={setRefreshKey}
 				setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
                 taskTimeInfos={taskTimeInfos}
+                isDayRestructured={isDayRestructured}
+                setIsDayRestructured={setIsDayRestructured}
+                setAiTasks={setAiTasks}
 			/>
 
 			<CreateTaskPopup

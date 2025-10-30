@@ -1,8 +1,8 @@
-import { StatusCodes } from "http-status-codes";
-import type { ManualEntry, TaskEntry } from "@/actions/taskActions";
-import { prisma } from "@/lib/prisma";
-import { type Habit, TaskType } from "@/prisma/generated/prisma";
-import { allTypesToListedTask } from "@/utils/taskUtils";
+import {StatusCodes} from "http-status-codes";
+import type {ManualEntry, TaskEntry} from "@/actions/taskActions";
+import {prisma} from "@/lib/prisma";
+import {type Habit, TaskType} from "@/prisma/generated/prisma";
+import {allTypesToListedTask} from "@/utils/taskUtils";
 
 export type ListedTask = {
 	id: string;
@@ -90,7 +90,6 @@ export async function DELETE(request: Request) {
 	const url = new URL(request.url);
 	const taskId = url.searchParams.get("taskId");
 	const taskType = url.searchParams.get("taskType");
-	console.log("Task", taskType);
 
 	if (!taskId) {
 		return new Response(JSON.stringify({ error: "Missing taskId" }), {
@@ -140,8 +139,7 @@ export async function GET(request: Request) {
 	const taskType: TaskType | null = url.searchParams.get(
 		"taskType",
 	) as TaskType;
-
-	let tasksRetrieved: ListedTask[] | Habit[];
+	let tasksRetrieved: ListedTask[] | Habit[] = [];
 
 	if (!userId) {
 		return new Response(JSON.stringify({ error: "Missing userId" }), {
@@ -168,9 +166,22 @@ export async function GET(request: Request) {
 		}
 		case TaskType.LISTED: {
 			const [manualTasks, habits, automaticTasks] = await Promise.all([
-				prisma.manualTask.findMany({ where: { userId } }),
-				prisma.habit.findMany({ where: { userId, currentlyUsed: false } }),
-				prisma.automaticTask.findMany({ where: { userId } }),
+				prisma.manualTask.findMany({
+                    where: {
+                        userId,
+                    }
+                }),
+				prisma.habit.findMany({
+                    where: {
+                        userId,
+                        currentlyUsed: false,
+                    }
+                }),
+				prisma.automaticTask.findMany({
+                    where: {
+                        userId,
+                    }
+                }),
 			]);
 
 			const listedTasks: ListedTask[] = allTypesToListedTask(

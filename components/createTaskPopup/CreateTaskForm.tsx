@@ -77,7 +77,7 @@ export default function CreateTaskPopup({
 
 	async function handleCreateTask(formTaskData: TaskDataEntry) {
 		await createTaskAction(formTaskData);
-		await new Promise((resolve) => setTimeout(resolve, 200));
+		await new Promise((resolve) => setTimeout(resolve, 300));
 		setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
 		setDisplayCreateTaskPopup(false); // Close the popup after task creation
 	}
