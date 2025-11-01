@@ -2277,7 +2277,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@legendapp/motion@^2.3.0":
+"@legendapp/motion@^2.4.0":
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/@legendapp/motion/-/motion-2.5.3.tgz#f9a4c07c76eee757c5ca206085440d14cc28001b"
   integrity sha512-IcNiStiK3qG5LaIPLC8fVV0BHIrkf7EY5HfOv3xbuMH0z4D945yaaEDafP5bboHf/uj9XRjTQHVTtZgwpMNlHw==
@@ -8028,10 +8028,10 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-lucide-react-native@^0.514.0:
-  version "0.514.0"
-  resolved "https://registry.yarnpkg.com/lucide-react-native/-/lucide-react-native-0.514.0.tgz#e3640d104331ba286b4d8327a0ef70b9642eee49"
-  integrity sha512-IaW5ItnJ9TDv9lZJOtjBRc2r217BRO4xNhd9g1hmW5GKvOtFzFYYfkogktUihiniXThwo1NBmNMa82mbWKMJVQ==
+lucide-react-native@^0.510.0:
+  version "0.510.0"
+  resolved "https://registry.yarnpkg.com/lucide-react-native/-/lucide-react-native-0.510.0.tgz#999936268233c24b895a3d5a939af4134a86e219"
+  integrity sha512-Ggy6NyWNcb/Wp9I0Kguwab5FRjr3GYsxNi0Nmy+skur1yj9TKiF2vcXPL7zWkkcgqk8WWKiIvmN3CntWvaDR1w==
 
 luxon@^3.7.1:
   version "3.7.2"
