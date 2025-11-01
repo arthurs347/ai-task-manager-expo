@@ -1,13 +1,13 @@
 import "@/global.css";
-import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
+import {ClerkProvider, useAuth} from "@clerk/clerk-expo";
 import * as Sentry from "@sentry/react-native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack, useRouter, useSegments } from "expo-router";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {Stack, useRouter, useSegments} from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import { useEffect } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import {useEffect} from "react";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import {GluestackUIProvider} from "@/components/ui/gluestack-ui-provider";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -72,21 +72,18 @@ function InitialLayout() {
 export default Sentry.wrap(function RootLayout() {
 	const queryClient = new QueryClient();
 	return (
-		<SafeAreaProvider>
-			<GluestackUIProvider mode="light">
-				<ClerkProvider
-					publishableKey={CLERK_PUBLISHABLE_KEY}
-					tokenCache={tokenCache}
-				>
-					<QueryClientProvider client={queryClient}>
-						<GestureHandlerRootView>
-							<SafeAreaView style={{ flex: 1 }}>
-								<InitialLayout />
-							</SafeAreaView>
-						</GestureHandlerRootView>
-					</QueryClientProvider>
-				</ClerkProvider>
-			</GluestackUIProvider>
-		</SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaProvider>
+                <GluestackUIProvider>
+                    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
+                        <QueryClientProvider client={queryClient}>
+                            <SafeAreaView style={{ flex: 1 }}>
+                                <InitialLayout />
+                            </SafeAreaView>
+                        </QueryClientProvider>
+                    </ClerkProvider>
+                </GluestackUIProvider>
+            </SafeAreaProvider>
+        </GestureHandlerRootView>
 	);
 });
