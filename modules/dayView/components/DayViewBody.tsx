@@ -15,7 +15,7 @@ interface DayViewBodyProps {
 	setDisplayCreateTaskPopup: (value: boolean) => void;
     isDayRestructured: boolean;
     setIsDayRestructured: (value: boolean) => void;
-    setAiTasks: (tasks: ListedTask[] | null) => void;
+    setAiTasks: (tasks: ListedTask[]) => void;
 }
 
 export default function DayViewBody({

@@ -84,7 +84,7 @@ export default function CreateTaskPopup({
 
 	return (
 		<FormControl className="gap-2">
-			<HStack className="gap-2 w-full pr-2">
+			<HStack className="gap-2 px-2 pr-5">
 				<Controller
 					name="taskType"
 					control={control}
@@ -92,7 +92,7 @@ export default function CreateTaskPopup({
 						<Button
 							size="lg"
 							onPress={() => onChange(TaskType.MANUAL)}
-							className="w-1/2"
+							className="w-1/3"
 							variant={taskType === TaskType.MANUAL ? "solid" : "outline"}
 						>
 							<ButtonText>Manual</ButtonText>
@@ -106,7 +106,7 @@ export default function CreateTaskPopup({
 						<Button
 							size="lg"
 							onPress={() => onChange(TaskType.HABIT)}
-							className="w-1/2"
+							className="w-1/3"
 							variant={taskType === TaskType.HABIT ? "solid" : "outline"}
 						>
 							<ButtonText>Habit</ButtonText>
@@ -128,6 +128,7 @@ export default function CreateTaskPopup({
 					)}
 				/>
 			</HStack>
+
 			{/*Task Title*/}
 			<FormControlLabelText>Title</FormControlLabelText>
 			<Controller

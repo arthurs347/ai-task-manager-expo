@@ -41,6 +41,7 @@ Future Additions (In order of priority):
 
 [//]: # (1. Add offline-mode-support)
 [//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
+Migrate to reanimated 4, comp with expo sdk 54
 1. Add openai task reordoring feature 
    - Sketch design first
 2. Add Task Editing capabilities
