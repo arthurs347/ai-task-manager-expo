@@ -14,7 +14,7 @@ import {HStack} from "@/components/ui/hstack";
 import {Input, InputField} from "@/components/ui/input";
 import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
 import {Textarea, TextareaInput} from "@/components/ui/textarea";
-import {PriorityLevel, TaskType} from "@/prisma/generated/prisma";
+import {PriorityLevel, TaskType} from "@prisma/client";
 import {addTimeToDate, timeToDate} from "@/utils/dateUtils";
 
 export type TaskDataEntry = {

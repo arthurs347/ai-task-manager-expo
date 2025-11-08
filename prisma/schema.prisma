@@ -5,7 +5,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma"
 }
 
 model User {
@@ -15,7 +14,7 @@ model User {
   image          String?
   manualTasks    ManualTask[]
   automaticTasks AutomaticTask[]
-  habits          Habit[]
+  habits         Habit[]
 }
 
 model ManualTask {
@@ -34,7 +33,7 @@ model ManualTask {
 
 model AutomaticTask {
   id                String           @id @default(cuid())
-  taskType          TaskType @default(AUTOMATIC)
+  taskType          TaskType         @default(AUTOMATIC)
   title             String
   description       String?
   start             DateTime
@@ -61,7 +60,7 @@ model Habit {
   end               DateTime
   estimatedDuration Int // in minutes
   completed         Boolean  @default(false)
-  currentlyUsed     Boolean @default(false)
+  currentlyUsed     Boolean  @default(false)
   user              User     @relation(fields: [userId], references: [id])
   userId            String
 }

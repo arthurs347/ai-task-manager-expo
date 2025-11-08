@@ -8,7 +8,7 @@ import {HStack} from "@/components/ui/hstack";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
 import TimeSlots from "@/modules/plannerView/components/TimeSlots";
-import type {Habit} from "@/prisma/generated/prisma";
+import type {Habit} from "@prisma/client";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 import Animated from "react-native-reanimated";
 

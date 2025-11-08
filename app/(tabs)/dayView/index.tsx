@@ -7,7 +7,7 @@ import CreateTaskPopup from "@/components/createTaskPopup/CreateTaskPopup";
 import {VStack} from "@/components/ui/vstack";
 import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
-import type {Habit} from "@/prisma/generated/prisma";
+import type {Habit} from "@prisma/client";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";

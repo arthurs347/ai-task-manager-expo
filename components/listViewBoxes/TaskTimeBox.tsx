@@ -1,5 +1,5 @@
 import {Text, View} from "react-native";
-import type {TaskType} from "@/prisma/generated/prisma/";
+import type {TaskType} from "@prisma/client/";
 import {Card} from "@/components/ui/card";
 import {HStack} from "@/components/ui/hstack";
 import {Heading} from "@/components/ui/heading";

@@ -1,7 +1,7 @@
 import {StatusCodes} from "http-status-codes";
 import type {ManualEntry, TaskEntry} from "@/actions/taskActions";
 import {prisma} from "@/lib/prisma";
-import {type Habit, TaskType} from "@/prisma/generated/prisma";
+import {type Habit, TaskType} from "@prisma/client";
 import {allTypesToListedTask} from "@/utils/taskUtils";
 
 export type ListedTask = {

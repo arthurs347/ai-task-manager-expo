@@ -19,6 +19,7 @@ Deploying to Web
 3. eas deploy --prod
 
 Tips:
+- ALWAYS RUN & TRUST expo doctor recs.
 - when changing any config or app.json, PLEASE run yarn clear-start to clear cache.
 - _tostring or obscure method not found: check dependencies
 - Route not found: might be error in that page, therefore not rendering

@@ -1,6 +1,6 @@
 import axios from "axios";
 import {authenticateAndGetUser, authenticateUser} from "@/actions/authActions";
-import type {User} from "@/prisma/generated/prisma";
+import type {User} from "@prisma/client";
 import {generateAPIUrl} from "@/utils/apiUtils";
 
 /**
