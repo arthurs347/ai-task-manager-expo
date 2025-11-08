@@ -55,7 +55,7 @@ export default function DayViewBody({
                     <ButtonIcon as={PlusIcon} />
                 </Button>
                 <Button onPress={handleDayRestructure}>
-                    <ButtonIcon as={ListPlus} />a
+                    <ButtonIcon as={ListPlus} />
                 </Button>
             </HStack>
 		</VStack>
