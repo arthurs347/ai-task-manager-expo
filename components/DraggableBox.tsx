@@ -1,7 +1,8 @@
 import React, {type RefObject, useCallback, useEffect} from "react";
 import {type LayoutRectangle, StyleSheet, type View} from "react-native";
 import {Gesture, GestureDetector} from "react-native-gesture-handler";
-import Animated, {runOnJS, useAnimatedStyle, useSharedValue, withSpring,} from "react-native-reanimated";
+import Animated, {useAnimatedStyle, useSharedValue, withSpring,} from "react-native-reanimated";
+import {scheduleOnRN} from 'react-native-worklets';
 
 type MeasureLayout = {
     x: number;
@@ -100,7 +101,7 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
 
 	const panGesture = Gesture.Pan()
 		.onBegin(() => {
-			runOnJS(setIsDragging)(true);
+			scheduleOnRN(setIsDragging, true);
 		})
 		.onChange((event) => {
 			boxTranslateX.value += event.changeX;
@@ -108,13 +109,13 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
 
             const foundIndex: number | null = findHighlightedTimeSlotIndex()
 
-			runOnJS(setHighlightedDropZoneIndex)(foundIndex);
+			scheduleOnRN(setHighlightedDropZoneIndex, foundIndex);
 		})
 		.onEnd(() => {
 			boxTranslateX.value = withSpring(0);
 			boxTranslateY.value = withSpring(0);
-			runOnJS(setIsDragging)(false);
-            runOnJS(setHighlightedDropZoneIndex)(null);
+			scheduleOnRN(setIsDragging, false);
+            scheduleOnRN(setHighlightedDropZoneIndex, null);
 		});
 
 	const animatedStyle = useAnimatedStyle(() => {

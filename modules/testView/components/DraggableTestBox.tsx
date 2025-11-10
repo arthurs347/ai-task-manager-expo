@@ -1,13 +1,9 @@
 import type React from "react";
-import { useCallback } from "react";
-import { type LayoutRectangle, StyleSheet } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-	runOnJS,
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-} from "react-native-reanimated";
+import {useCallback} from "react";
+import {type LayoutRectangle, StyleSheet} from "react-native";
+import {Gesture, GestureDetector} from "react-native-gesture-handler";
+import Animated, {useAnimatedStyle, useSharedValue, withSpring,} from "react-native-reanimated";
+import {scheduleOnRN} from 'react-native-worklets'
 
 const BOX_LEFT = 20;
 const BOX_TOP = 20;
@@ -54,12 +50,12 @@ export const DraggableTestBox: React.FC<DraggableBoxProps> = ({
 					break;
 				}
 			}
-			if (onHighlightChange) runOnJS(onHighlightChange)(foundIndex);
+			if (onHighlightChange) scheduleOnRN(onHighlightChange, foundIndex);
 		})
 		.onEnd(() => {
 			boxTranslateX.value = withSpring(0);
 			boxTranslateY.value = withSpring(0);
-			if (onHighlightChange) runOnJS(onHighlightChange)(null);
+			if (onHighlightChange) scheduleOnRN(onHighlightChange, null);
 		});
 
 	const animatedStyle = useAnimatedStyle(() => ({
