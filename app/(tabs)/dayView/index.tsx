@@ -4,13 +4,14 @@ import {useEffect, useState} from "react";
 import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
 import type {ListedTask} from "@/app/api/tasks+api";
 import CreateTaskPopup from "@/components/createTaskPopup/CreateTaskPopup";
-import {VStack} from "@/components/ui/vstack";
 import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import type {Habit} from "@prisma/client";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
+import {YStack} from "tamagui";
+
 
 export default function DayView() {
     function listedToTaskTimeInfos(listedTasks: ListedTask[]): TaskTimeInfo[] {
@@ -79,7 +80,7 @@ export default function DayView() {
 	}, [navigation]);
 
 	return (
-		<VStack className="flex-1 items-center">
+		<YStack className="flex-1 items-center">
 			<DayViewHeader
 				selectedDay={selectedDay}
 				setSelectedDay={setSelectedDay}
@@ -101,6 +102,6 @@ export default function DayView() {
 				displayCreateTaskPopup={displayCreateTaskPopup}
 				setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
 			/>
-		</VStack>
+		</YStack>
 	);
 }

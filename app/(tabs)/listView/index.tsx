@@ -7,11 +7,10 @@ import {Text} from "react-native";
 import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/components/createTaskPopup/CreateTaskPopup";
 import {ListViewBoxes} from "@/components/listViewBoxes/ListViewBoxes";
-import {Button, ButtonIcon} from "@/components/ui/button";
-import {VStack} from "@/components/ui/vstack";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
 import {testTasks} from "@/test/testTasks";
 import {toListedTasks} from "@/utils/taskUtils";
+import {Button, YStack} from "tamagui";
 
 export default function ListView() {
 	const [refreshKey, setRefreshKey] = useState(0);
@@ -34,7 +33,7 @@ export default function ListView() {
 	if (!isLoaded) return;
 
 	return (
-		<VStack className="flex-1 items-center">
+		<YStack className="flex-1 items-center">
 			{isLoading ? (
 				<Text className="text-2xl">Loading...</Text>
 			) : data && data.length > 0 ? (
@@ -43,7 +42,7 @@ export default function ListView() {
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}
 			<Button onPress={() => setDisplayCreateTaskPopup(true)}>
-				<ButtonIcon as={PlusIcon} />
+				<PlusIcon />
 			</Button>
 
 			<CreateTaskPopup
@@ -52,6 +51,6 @@ export default function ListView() {
 				displayCreateTaskPopup={displayCreateTaskPopup}
 				setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
 			/>
-		</VStack>
+		</YStack>
 	);
 }

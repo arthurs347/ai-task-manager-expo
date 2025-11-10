@@ -1,9 +1,8 @@
 import {ArrowLeft, ArrowRight} from "lucide-react-native";
 import {Platform, Text} from "react-native";
-import {Button, ButtonIcon} from "@/components/ui/button";
-import {HStack} from "@/components/ui/hstack";
 import {MONTH_NAMES_FULL} from "@/lib/constants";
 import ListViewDayHeaders from "@/modules/dayView/components/dayHeaders/ListViewDayHeaders";
+import {Button, XStack} from "tamagui";
 
 interface DayViewHeaderProps {
 	selectedDay: Date;
@@ -34,10 +33,10 @@ export default function DayViewHeader({
 					" " +
 					selectedDay.getFullYear()}
 			</Text>
-			<HStack className="w-full">
+			<XStack className="w-full">
 				{isWeb && (
 					<Button onPress={() => handleGoToPreviousWeek()}>
-						<ButtonIcon as={ArrowLeft} />
+						<ArrowLeft/>
 					</Button>
 				)}
 				<ListViewDayHeaders
@@ -48,10 +47,10 @@ export default function DayViewHeader({
 				/>
 				{isWeb && (
 					<Button onPress={() => handleGoToNextWeek()}>
-						<ButtonIcon as={ArrowRight} />
+						<ArrowRight/>
 					</Button>
 				)}
-			</HStack>
+			</XStack>
 		</>
 	);
 }

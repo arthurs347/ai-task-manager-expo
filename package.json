@@ -131,7 +131,7 @@
 		"preset": "jest-expo"
 	},
 	"resolutions": {
-      "react": "19.1.0"
+        "react": "19.1.0"
 	},
 	"private": true,
 	"proxy": "http://localhost:8081"

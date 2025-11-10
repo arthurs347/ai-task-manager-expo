@@ -1,12 +1,10 @@
 import {ListPlus, PlusIcon} from "lucide-react-native";
 import {Text} from "react-native";
 import {ListViewBoxes} from "@/components/listViewBoxes/ListViewBoxes";
-import {Button, ButtonIcon} from "@/components/ui/button";
-import {VStack} from "@/components/ui/vstack";
 import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 import {getRestructuredDailyTasksByIds} from "@/actions/aiActions";
-import {HStack} from "@/components/ui/hstack";
 import type {ListedTask} from "@/app/api/tasks+api";
+import {Button, XStack, YStack} from "tamagui";
 
 interface DayViewBodyProps {
 	isLoading: boolean;
@@ -35,7 +33,7 @@ export default function DayViewBody({
         setRefreshKey(prev => prev + 1)
     }
 	return (
-		<VStack className="flex-1 items-center">
+		<YStack className="flex-1 items-center">
 			{/*Loading State*/}
 			{isLoading && <Text>Loading Tasks...</Text>}
 
@@ -50,14 +48,14 @@ export default function DayViewBody({
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}
 
-            <HStack>
+            <XStack>
                 <Button onPress={() => setDisplayCreateTaskPopup(true)}>
-                    <ButtonIcon as={PlusIcon} />
+                    <PlusIcon/>
                 </Button>
                 <Button onPress={handleDayRestructure}>
-                    <ButtonIcon as={ListPlus} />
+                    <ListPlus/>
                 </Button>
-            </HStack>
-		</VStack>
+            </XStack>
+		</YStack>
 	);
 }

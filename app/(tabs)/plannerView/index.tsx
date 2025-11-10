@@ -4,13 +4,13 @@ import React, {useEffect, useRef, useState} from "react";
 import {ScrollView, Text, View} from "react-native";
 import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
 import type {ListedTask} from "@/app/api/tasks+api";
-import {HStack} from "@/components/ui/hstack";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
 import TimeSlots from "@/modules/plannerView/components/TimeSlots";
 import type {Habit} from "@prisma/client";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
-import Animated from "react-native-reanimated";
+import type Animated from "react-native-reanimated";
+import {XStack} from "tamagui";
 
 export default function PlannerView() {
 	// Initialize state variables
@@ -63,7 +63,7 @@ export default function PlannerView() {
 				setSelectedDay={setSelectedDay}
 			/>
 
-			<HStack className="justify-between p-2">
+			<XStack className="justify-between p-2">
                 {isLoading && (<Text>Loading Habits...</Text>)}
                 {!isLoading && habits?.length === 0 && (<Text className="text-large">Create Your First Habit!</Text>)}
                 {!isLoading && habits && habits.length > 0 && (
@@ -79,7 +79,7 @@ export default function PlannerView() {
 					highlightedDropZoneIndex={highlightedDropZoneIndex}
                     timeSlotRefs={timeSlotRefs}
 				/>
-			</HStack>
+			</XStack>
 		</ScrollView>
 	);
 }

@@ -1,11 +1,8 @@
 import {Text, View} from "react-native";
 import type {TaskType} from "@prisma/client/";
-import {Card} from "@/components/ui/card";
-import {HStack} from "@/components/ui/hstack";
-import {Heading} from "@/components/ui/heading";
-import {Button, ButtonIcon} from "@/components/ui/button";
 import {CircleIcon, XIcon} from "lucide-react-native";
 import {changeTaskCompletionStatusAction, deleteTaskAction} from "@/actions/taskActions";
+import {Button, Card, Heading, XStack} from "tamagui";
 
 export type TaskTimeInfo = {
     id: string;
@@ -42,19 +39,19 @@ export default function TaskTimeBox({ taskTimeInfo, setRefreshKey }: TaskTimeBox
 
             {/*Box Body*/}
             <Card className="w-full">
-                <HStack className="gap-2 flex justify-between">
+                <XStack className="gap-2 flex justify-between">
                     <Heading className={`${completed ? "line-through" : ""}`}>
                         {title}
                     </Heading>
-                    <HStack className="gap-2">
+                    <XStack className="gap-2">
                         <Button onPress={handleChangeTaskCompletionStatus}>
-                            <ButtonIcon as={CircleIcon} />
+                            <CircleIcon />
                         </Button>
                         <Button onPress={handleDeleteTask}>
-                            <ButtonIcon as={XIcon} />
+                            <XIcon />
                         </Button>
-                    </HStack>
-                </HStack>
+                    </XStack>
+                </XStack>
             </Card>
 		</View>
 	);

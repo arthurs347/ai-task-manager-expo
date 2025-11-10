@@ -1,6 +1,6 @@
-import {HStack} from "@/components/ui/hstack";
 import ListViewDayHeader from "@/modules/dayView/components/dayHeaders/ListViewDayHeader";
 import {isSameDay} from "@/utils/dateUtils";
+import {XStack} from "tamagui";
 
 interface ListViewDayHeadersProps {
     selectedDay: Date;
@@ -64,7 +64,7 @@ export default function ListViewDayHeaders({
                 }}
             >
                 {Array.from({ length: 3 }, (_, i) => (
-                    <HStack key={`${keyPrefixes[i]}-header`}>
+                    <XStack key={`${keyPrefixes[i]}-header`}>
                         {allWeekDays[i].map((day) => (
                             <ListViewDayHeader
                                 key={`${keyPrefixes[i]}-${day.dayName}`}
@@ -75,7 +75,7 @@ export default function ListViewDayHeaders({
                                 setSelectedDay={setSelectedDay}
                             />
                         ))}
-                    </HStack>
+                    </XStack>
                 ))}
             </PagerView>
         );

@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from "react-native";
-import {VStack} from "@/components/ui/vstack";
 import {RefObject} from "react";
+import {YStack} from "tamagui";
 
 interface TimeSlotsProps {
 	highlightedDropZoneIndex: number | null;
@@ -14,7 +14,7 @@ export default function TimeSlots({
 }: TimeSlotsProps) {
 
     return (
-		<VStack>
+		<YStack>
 			{Array.from({ length: 24 }, (_, hour) => (
 				<View
 					// biome-ignore lint/suspicious/noArrayIndexKey: string will always be unique in this context
@@ -39,7 +39,7 @@ export default function TimeSlots({
 					</Text>
 				</View>
 			))}
-        </VStack>
+        </YStack>
 	);
 }
 

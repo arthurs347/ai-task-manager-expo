@@ -6,9 +6,9 @@ import {
     DrawerFooter,
     DrawerHeader,
 } from "@/components/ui/drawer";
-import {Button, ButtonText} from "@/components/ui/button";
 import CreateTaskForm from "./CreateTaskForm";
 import {Text} from "react-native";
+import {Button} from "tamagui";
 
 interface CreateTaskPopupProps {
 	selectedDay: Date;
@@ -54,7 +54,7 @@ export default function CreateTaskPopup({
 						}}
 						className="flex-1"
 					>
-						<ButtonText>Close</ButtonText>
+						Close
 					</Button>
 				</DrawerFooter>
 			</DrawerContent>

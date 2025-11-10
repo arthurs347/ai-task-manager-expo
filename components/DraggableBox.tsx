@@ -35,6 +35,7 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
             setDraggableBoxLayout({ x, y, width, height });
         });
     }
+
     function getTimeSlotRefLayouts() {
         timeSlotRefs.current.map((timeSlotRef) => {
             timeSlotRef?.measureInWindow((x, y, width, height) => {
@@ -45,6 +46,7 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
             })
         })
     }
+
     function getHabitRefLayouts(){
         habitRefs.current.map((habitRef) => {
             habitRef?.measureInWindow((x, y, width, height) => {
@@ -138,12 +140,6 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
 					{ width: BOX_SIZE, height: BOX_SIZE },
 					animatedStyle,
 				]}
-                onLayout={() => {
-                    // const ref: Animated.View | null = habitRefs.current[index];
-                    // ref?.measureInWindow((x, y, width, height) => {
-                    //     console.log(`habitBox-${index}`, x, y, width, height);
-                    // })
-                }}
 			>
 				{children}
 			</Animated.View>

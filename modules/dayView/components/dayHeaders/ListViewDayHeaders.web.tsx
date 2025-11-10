@@ -1,6 +1,6 @@
-import {HStack} from "@/components/ui/hstack";
 import ListViewDayHeader from "@/modules/dayView/components/dayHeaders/ListViewDayHeader";
 import {isSameDay} from "@/utils/dateUtils";
+import {XStack} from "tamagui";
 
 interface ListViewDayHeadersProps {
     selectedDay: Date;
@@ -45,7 +45,7 @@ export default function ListViewDayHeaders({
 
     console.log("WEB")
     return (
-        <HStack className="w-full">
+        <XStack className="w-full">
             {currentWeekDays.map((day, idx) => (
                 <ListViewDayHeader
                     key={`${keyPrefixes[idx]}-${day.dayName}`}
@@ -56,6 +56,6 @@ export default function ListViewDayHeaders({
                     setSelectedDay={setSelectedDay}
                 />
             ))}
-        </HStack>
+        </XStack>
     );
 }

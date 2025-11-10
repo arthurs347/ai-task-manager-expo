@@ -1,5 +1,5 @@
 import TaskTimeBox, {type TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
-import {VStack} from "@/components/ui/vstack";
+import {YStack} from "tamagui";
 
 interface ListViewBoxesProps {
 	taskTimeInfos: TaskTimeInfo[];
@@ -10,7 +10,7 @@ export function ListViewBoxes({
 	setRefreshKey,
 }: ListViewBoxesProps) {
 	return (
-		<VStack>
+		<YStack>
 			{taskTimeInfos.map((taskTimeInfo: TaskTimeInfo) => {
 				return (
 					<TaskTimeBox
@@ -20,6 +20,6 @@ export function ListViewBoxes({
 					/>
 				);
 			})}
-		</VStack>
+		</YStack>
 	);
 }
