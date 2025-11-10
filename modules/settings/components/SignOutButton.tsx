@@ -1,9 +1,8 @@
-import { useClerk } from "@clerk/clerk-expo";
-import { useRouter } from "expo-router";
-import { Button, ButtonText } from "@/components/ui/button";
+import {useClerk} from "@clerk/clerk-expo";
+import {useRouter} from "expo-router";
+import {Button} from "tamagui";
 
 export const SignOutButton = () => {
-	// Use `useClerk()` to access the `signOut()` function
 	const { signOut } = useClerk();
 	const router = useRouter();
 
@@ -20,8 +19,9 @@ export const SignOutButton = () => {
 	};
 
 	return (
-		<Button className="text-white" onPress={handleSignOut}>
-			<ButtonText>Sign Out</ButtonText>
+
+		<Button className="text-white hover:" onPress={handleSignOut}>
+			Sign Out
 		</Button>
 	);
 };

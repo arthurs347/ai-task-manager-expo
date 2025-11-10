@@ -18,9 +18,17 @@ Deploying to Web
 2. eas deploy --alias preview
 3. eas deploy --prod
 
+CI/CD
+1. Need to run npx expo run:ios?
+
+
 Tips:
 - ALWAYS RUN & TRUST expo doctor recs.
-- when changing any config or app.json, PLEASE run yarn clear-start to clear cache.
+- Run npx expo run:ios && npx expo start -c when:
+  - changing app.json or app.config.js, 
+  - installing/updating a library that includes native code
+  - Update Expo SDK version
+  - After running npx expo prebuild
 - _tostring or obscure method not found: check dependencies
 - Route not found: might be error in that page, therefore not rendering
 - Mobile Crashing on load: run npx expo-doctor and run npx expo install --check
@@ -29,6 +37,7 @@ Tips:
 - IMMEDIATELY AFTER installing new packages, if NATIVE -> rebuild EX: npx expo run:ios, clear cache with yarn clear-start
 - After removing native packages rebuild?
 - calling apis inside other api, might require adding localhost in front of api path
+
 Important CMD's:
 - yarn remove <package_name> -> remove package from project
 - yarn add <package_name> -> add package to project

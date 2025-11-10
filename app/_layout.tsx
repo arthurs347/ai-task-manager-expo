@@ -8,8 +8,11 @@ import {useEffect} from "react";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {GluestackUIProvider} from "@/components/ui/gluestack-ui-provider";
+import {createTamagui, TamaguiProvider} from 'tamagui'
+import {defaultConfig} from '@tamagui/config/v4' // for quick config install this
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const tamaguiConfig = createTamagui(defaultConfig)
 
 const tokenCache = {
 	async getToken(key: string) {
@@ -74,15 +77,17 @@ export default Sentry.wrap(function RootLayout() {
 	return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaProvider>
-                <GluestackUIProvider>
-                    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
-                        <QueryClientProvider client={queryClient}>
-                            <SafeAreaView style={{ flex: 1 }}>
-                                <InitialLayout />
-                            </SafeAreaView>
-                        </QueryClientProvider>
-                    </ClerkProvider>
-                </GluestackUIProvider>
+                <TamaguiProvider config={tamaguiConfig}>
+                    <GluestackUIProvider>
+                        <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
+                            <QueryClientProvider client={queryClient}>
+                                <SafeAreaView style={{ flex: 1 }}>
+                                    <InitialLayout />
+                                </SafeAreaView>
+                            </QueryClientProvider>
+                        </ClerkProvider>
+                    </GluestackUIProvider>
+                </TamaguiProvider>
             </SafeAreaProvider>
         </GestureHandlerRootView>
 	);
