@@ -1,16 +1,17 @@
 import {useNavigation} from "@react-navigation/native";
 import {useQuery} from "@tanstack/react-query";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
 import type {ListedTask} from "@/app/api/tasks+api";
-import CreateTaskPopup from "@/components/createTaskPopup/CreateTaskPopup";
-import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import type {Habit} from "@prisma/client";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
 import {YStack} from "tamagui";
+import {Modalize} from "react-native-modalize";
+import CreateTaskPopup from "@/components/createTaskPopup/CreateTaskPopup";
+import DayViewBody from "@/modules/dayView/components/DayViewBody";
 
 
 export default function DayView() {
@@ -40,9 +41,17 @@ export default function DayView() {
 	const today = new Date();
 	const [selectedDay, setSelectedDay] = useState<Date>(today);
 	const [refreshKey, setRefreshKey] = useState<number>(0);
-	const [displayCreateTaskPopup, setDisplayCreateTaskPopup] = useState(false);
 	const navigation = useNavigation();
+    const modalizeRef = useRef<Modalize | null>(null);
 
+    //Modal control logic
+    const onOpen = () => {
+        modalizeRef.current?.open();
+    };
+
+    const onClose = () => {
+        modalizeRef.current?.close();
+    }
 
 	// Fetch tasks and habits for the selected day
 	let { data, isLoading } = useQuery({
@@ -80,7 +89,7 @@ export default function DayView() {
 	}, [navigation]);
 
 	return (
-		<YStack className="flex-1 items-center">
+		<YStack className="h-full items-center">
 			<DayViewHeader
 				selectedDay={selectedDay}
 				setSelectedDay={setSelectedDay}
@@ -89,19 +98,19 @@ export default function DayView() {
 			<DayViewBody
 				isLoading={isLoading}
 				setRefreshKey={setRefreshKey}
-				setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
+                onOpen={onOpen}
                 taskTimeInfos={taskTimeInfos}
                 isDayRestructured={isDayRestructured}
                 setIsDayRestructured={setIsDayRestructured}
                 setAiTasks={setAiTasks}
 			/>
 
-			<CreateTaskPopup
-				selectedDay={selectedDay}
-				setRefreshKey={setRefreshKey}
-				displayCreateTaskPopup={displayCreateTaskPopup}
-				setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
-			/>
-		</YStack>
+            <CreateTaskPopup
+                selectedDay={selectedDay}
+                setRefreshKey={setRefreshKey}
+                onClose={onClose}
+                modalizeRef={modalizeRef}
+            />
+        </YStack>
 	);
 }

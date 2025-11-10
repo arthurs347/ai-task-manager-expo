@@ -1,63 +1,57 @@
-import {
-    Drawer,
-    DrawerBody,
-    DrawerCloseButton,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-} from "@/components/ui/drawer";
 import CreateTaskForm from "./CreateTaskForm";
-import {Text} from "react-native";
-import {Button} from "tamagui";
+import {Text, View} from "react-native";
+import {Button, Header, Separator, YStack} from "tamagui";
+import {Modalize} from "react-native-modalize";
+import type React from "react";
 
 interface CreateTaskPopupProps {
 	selectedDay: Date;
-	displayCreateTaskPopup: boolean;
-	setDisplayCreateTaskPopup: (displayPopup: boolean) => void;
+    onClose: () => void;
 	setRefreshKey: (key: (prev: number) => number) => void;
+    modalizeRef: React.RefObject<Modalize | null>;
 }
 
 export default function CreateTaskPopup({
 	selectedDay,
-	displayCreateTaskPopup,
-	setDisplayCreateTaskPopup,
+                                            onClose,
 	setRefreshKey,
+                                            modalizeRef
 }: CreateTaskPopupProps) {
 	return (
-		<Drawer
-            size="lg"
-            anchor="bottom"
-			isOpen={displayCreateTaskPopup}
-			onClose={() => setDisplayCreateTaskPopup(false)}
+        <>
+            {/*//TODO: Fix, temp fix: currently h-full view prevents Modal from having white background*/}
+            <View className="h-full"/>
 
-        >
-            <DrawerContent
+            <Modalize
+                modalHeight={700}
+                ref={modalizeRef}
+                HeaderComponent={
+                    <Header>
+                        <Text className="text-2xl pl-2">New Task</Text>
+                    </Header>
+                }
+            >
+                <View
                 className="rounded-2xl bg-white"
                 style={{ backgroundColor: "#ffffff" }} // force opaque white
-            >
-				<DrawerHeader className="border-b-2">
-					<Text className="text-2xl">New Task</Text>
-					<DrawerCloseButton></DrawerCloseButton>
-				</DrawerHeader>
+                >
+                    <YStack>
+                        <Separator marginVertical={7} />
+                        <CreateTaskForm
+                            selectedDay={selectedDay}
+                            setRefreshKey={setRefreshKey}
+                            onClose={onClose}
+                        />
+                        <Button
+                            onPress={onClose}
+                            className="flex-1"
+                        >
+                            Close
+                        </Button>
+                    </YStack>
 
-				<DrawerBody>
-					<CreateTaskForm
-						selectedDay={selectedDay}
-						setRefreshKey={setRefreshKey}
-						setDisplayCreateTaskPopup={setDisplayCreateTaskPopup}
-					/>
-				</DrawerBody>
-				<DrawerFooter>
-					<Button
-						onPress={() => {
-							setDisplayCreateTaskPopup(false);
-						}}
-						className="flex-1"
-					>
-						Close
-					</Button>
-				</DrawerFooter>
-			</DrawerContent>
-		</Drawer>
+                </View>
+            </Modalize>
+        </>
 	);
 }

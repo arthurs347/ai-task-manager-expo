@@ -32,13 +32,13 @@ export type TaskDataEntry = {
 interface CreateTaskPopupProps {
 	selectedDay: Date;
 	setRefreshKey: (key: (prev: number) => number) => void;
-	setDisplayCreateTaskPopup: (displayPopup: boolean) => void;
+    onClose: () => void;
 }
 
 export default function CreateTaskPopup({
 	selectedDay,
 	setRefreshKey,
-	setDisplayCreateTaskPopup,
+                                            onClose,
 }: CreateTaskPopupProps) {
 	// Memoize defaultValues so it doesn't change on every render
 	const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -79,7 +79,7 @@ export default function CreateTaskPopup({
 		await createTaskAction(formTaskData);
 		await new Promise((resolve) => setTimeout(resolve, 300));
 		setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
-		setDisplayCreateTaskPopup(false); // Close the popup after task creation
+        onClose(); // Close the popup after task creation
 	}
 
 	return (

@@ -10,7 +10,7 @@ interface DayViewBodyProps {
 	isLoading: boolean;
 	taskTimeInfos: TaskTimeInfo[] | null;
 	setRefreshKey: (key: (prev: number) => number) => void;
-	setDisplayCreateTaskPopup: (value: boolean) => void;
+    onOpen: () => void;
     isDayRestructured: boolean;
     setIsDayRestructured: (value: boolean) => void;
     setAiTasks: (tasks: ListedTask[]) => void;
@@ -20,7 +20,7 @@ export default function DayViewBody({
 	isLoading,
 	taskTimeInfos,
 	setRefreshKey,
-	setDisplayCreateTaskPopup,
+                                        onOpen,
                                         isDayRestructured,
     setIsDayRestructured,
     setAiTasks
@@ -33,7 +33,7 @@ export default function DayViewBody({
         setRefreshKey(prev => prev + 1)
     }
 	return (
-		<YStack className="flex-1 items-center">
+		<YStack className="items-center">
 			{/*Loading State*/}
 			{isLoading && <Text>Loading Tasks...</Text>}
 
@@ -49,7 +49,7 @@ export default function DayViewBody({
 			)}
 
             <XStack>
-                <Button onPress={() => setDisplayCreateTaskPopup(true)}>
+                <Button onPress={onOpen}>
                     <PlusIcon/>
                 </Button>
                 <Button onPress={handleDayRestructure}>
