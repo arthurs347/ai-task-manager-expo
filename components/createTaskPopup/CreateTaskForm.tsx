@@ -2,20 +2,14 @@ import {TimeInput} from "@heroui/date-input";
 import {DatePicker} from "@heroui/date-picker";
 import {fromDate, Time, type ZonedDateTime} from "@internationalized/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import {Check as CheckIcon, Circle as CircleIcon} from "lucide-react-native";
+import {Check as CheckIcon} from "lucide-react-native";
 import {useMemo} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
 import {createTaskAction} from "@/actions/taskActions";
-import {Button, ButtonText} from "@/components/ui/button";
-import {Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel,} from "@/components/ui/checkbox";
-import {FormControl, FormControlLabelText,} from "@/components/ui/form-control";
-import {HStack} from "@/components/ui/hstack";
-import {Input, InputField} from "@/components/ui/input";
-import {Radio, RadioGroup, RadioIcon, RadioIndicator, RadioLabel,} from "@/components/ui/radio";
-import {Textarea, TextareaInput} from "@/components/ui/textarea";
 import {PriorityLevel, TaskType} from "@prisma/client";
 import {addTimeToDate, timeToDate} from "@/utils/dateUtils";
+import {Button, Checkbox, Form, Input, Label, RadioGroup, TextArea, XStack} from "tamagui";
 
 export type TaskDataEntry = {
 	title: string;
@@ -83,19 +77,20 @@ export default function CreateTaskPopup({
 	}
 
 	return (
-		<FormControl className="gap-2">
-			<HStack className="gap-2 px-2 pr-5">
+		<Form
+            onSubmit={handleSubmit(handleCreateTask)}
+        >
+			<XStack gap="$2">
 				<Controller
 					name="taskType"
 					control={control}
 					render={({ field: { onChange } }) => (
 						<Button
-							size="lg"
 							onPress={() => onChange(TaskType.MANUAL)}
 							className="w-1/3"
-							variant={taskType === TaskType.MANUAL ? "solid" : "outline"}
+							variant={taskType === TaskType.MANUAL ? undefined : "outlined"}
 						>
-							<ButtonText>Manual</ButtonText>
+							Manual
 						</Button>
 					)}
 				/>
@@ -104,12 +99,11 @@ export default function CreateTaskPopup({
 					control={control}
 					render={({ field: { onChange } }) => (
 						<Button
-							size="lg"
 							onPress={() => onChange(TaskType.HABIT)}
 							className="w-1/3"
-							variant={taskType === TaskType.HABIT ? "solid" : "outline"}
+							variant={taskType === TaskType.HABIT ? undefined : "outlined"}
 						>
-							<ButtonText>Habit</ButtonText>
+							Habit
 						</Button>
 					)}
 				/>
@@ -118,53 +112,48 @@ export default function CreateTaskPopup({
 					control={control}
 					render={({ field: { onChange } }) => (
 						<Button
-							size="lg"
 							onPress={() => onChange(TaskType.AUTOMATIC)}
 							className="w-1/3"
-							variant={taskType === TaskType.AUTOMATIC ? "solid" : "outline"}
+							variant={taskType === TaskType.AUTOMATIC ? undefined : "outlined"}
 						>
-							<ButtonText>Automatic</ButtonText>
+							Automatic
 						</Button>
 					)}
 				/>
-			</HStack>
+			</XStack>
 
 			{/*Task Title*/}
-			<FormControlLabelText>Title</FormControlLabelText>
+			<Label>Title</Label>
 			<Controller
 				name="title"
 				control={control}
 				render={({ field: { onChange, value } }) => (
-					<Input>
-						<InputField
-							value={value}
-							onChangeText={onChange}
-							placeholder="Enter task name"
-						/>
-					</Input>
+					<Input
+                        value={value}
+                        onChangeText={onChange}
+                        placeholder="Enter task name"
+                    />
 				)}
 			/>
 
 			{/*Task Description*/}
-			<FormControlLabelText>Description</FormControlLabelText>
+			<Label>Description</Label>
 			<Controller
 				name="description"
 				control={control}
 				render={({ field: { onChange, value } }) => (
-					<Textarea>
-						<TextareaInput
-							value={value}
-							onChangeText={onChange}
-							placeholder="Enter description"
-						/>
-					</Textarea>
+					<TextArea
+                        value={value}
+                        onChangeText={onChange}
+                        placeholder="Enter description"
+                    />
 				)}
 			/>
 
 			{Platform.OS === "ios" || Platform.OS === "android" ? (
 				<>
 					{/*Mobile Start Date*/}
-					<FormControlLabelText>Start Date</FormControlLabelText>
+					<Label>Start Date</Label>
 					<Controller
 						control={control}
 						name="start"
@@ -181,7 +170,7 @@ export default function CreateTaskPopup({
 					/>
 
 					{/*/!*Mobile Estimated Duration*!/*/}
-					<FormControlLabelText>Estimated Duration</FormControlLabelText>
+					<Label>Estimated Duration</Label>
 					<Controller
 						control={control}
 						name="estimatedHoursAndMinutes"
@@ -200,7 +189,7 @@ export default function CreateTaskPopup({
 					/>
 				</>
 			) : (
-				<HStack className="gap-2">
+				<XStack className="gap-2">
 					{/*Web Start Date*/}
 					{(taskType === TaskType.MANUAL || taskType === TaskType.HABIT) && (
 						<Controller
@@ -252,67 +241,75 @@ export default function CreateTaskPopup({
 							/>
 						)}
 					/>
-				</HStack>
+				</XStack>
 			)}
 
 			{/*Priority*/}
 			{taskType === TaskType.AUTOMATIC && (
 				<>
-					<FormControlLabelText>Priority</FormControlLabelText>
+					<Label>Priority</Label>
 					<RadioGroup
+                        mt={"$-3"}
 						value={watch("priority")}
-						onChange={(priority) => setValue("priority", priority)}
+						onValueChange={(priority) => setValue("priority", priority)}
 					>
-						<HStack className="gap-2">
+						<XStack gap="$2">
 							{Object.values(PriorityLevel).map((level) => (
-								<Radio key={level} size="md" value={level}>
-									<RadioIndicator>
-										<RadioIcon as={CircleIcon} />
-									</RadioIndicator>
-									<RadioLabel>{level}</RadioLabel>
-								</Radio>
+								<XStack key={level} alignItems="center" gap="$1.5">
+                                    <RadioGroup.Item
+                                        size="$5"
+                                        key={`${level}-radio`}
+                                        value={level}
+                                    >
+                                        <RadioGroup.Indicator/>
+                                    </RadioGroup.Item>
+                                    <Label>{level}</Label>
+                                </XStack>
 							))}
-						</HStack>
+						</XStack>
 					</RadioGroup>
 				</>
 			)}
 
 			{/*Recurring*/}
-			<HStack>
-				<Checkbox
+			<XStack gap="$1.5" alignItems="center">
+                <Checkbox
+                    size="$5"
 					value={"recurring"}
-					size="md"
-					isChecked={watch("recurring")}
-					onChange={(recurring) => setValue("recurring", recurring)}
+					checked={watch("recurring")}
+					onCheckedChange={(recurring: boolean) => setValue("recurring", recurring)}
 				>
-					<CheckboxIndicator>
-						<CheckboxIcon as={CheckIcon} />
-					</CheckboxIndicator>
-					<CheckboxLabel>Recurring?</CheckboxLabel>
+					<Checkbox.Indicator>
+						<CheckIcon />
+					</Checkbox.Indicator>
 				</Checkbox>
-			</HStack>
+                <Label>Recurring?</Label>
+
+            </XStack>
 
 			{/*Hard Deadline*/}
 			{taskType === TaskType.AUTOMATIC && (
-				<HStack>
+                <XStack mt={"$-3"} columnGap="$1.5" alignItems="center">
 					<Checkbox
-						value={"hardDeadline"}
-						size="md"
-						isChecked={watch("hardDeadline")}
-						onChange={(hardDeadline) => setValue("hardDeadline", hardDeadline)}
+                        size="$5"
+                        value={"hardDeadline"}
+						checked={watch("hardDeadline")}
+						onCheckedChange={(hardDeadline: boolean) => setValue("hardDeadline", hardDeadline)}
 					>
-						<CheckboxIndicator>
-							<CheckboxIcon as={CheckIcon} />
-						</CheckboxIndicator>
-						<CheckboxLabel>Hard Deadline?</CheckboxLabel>
+						<Checkbox.Indicator>
+							<CheckIcon />
+						</Checkbox.Indicator>
 					</Checkbox>
-				</HStack>
+                    <Label>Hard Deadline?</Label>
+                </XStack>
 			)}
 
 			{/*Submission Button*/}
-			<Button onPress={handleSubmit(handleCreateTask)}>
-				<ButtonText>Create Task</ButtonText>
-			</Button>
-		</FormControl>
+            <Form.Trigger>
+                <Button>
+                    Create Task
+                </Button>
+            </Form.Trigger>
+		</Form>
 	);
 }

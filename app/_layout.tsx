@@ -7,7 +7,6 @@ import * as SecureStore from "expo-secure-store";
 import {useEffect} from "react";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import {GluestackUIProvider} from "@/components/ui/gluestack-ui-provider";
 import {createTamagui, TamaguiProvider} from 'tamagui'
 import {defaultConfig} from '@tamagui/config/v4' // for quick config install this
 
@@ -78,7 +77,6 @@ export default Sentry.wrap(function RootLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaProvider>
                 <TamaguiProvider config={tamaguiConfig}>
-                    <GluestackUIProvider>
                         <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
                             <QueryClientProvider client={queryClient}>
                                 <SafeAreaView style={{ flex: 1 }}>
@@ -86,7 +84,6 @@ export default Sentry.wrap(function RootLayout() {
                                 </SafeAreaView>
                             </QueryClientProvider>
                         </ClerkProvider>
-                    </GluestackUIProvider>
                 </TamaguiProvider>
             </SafeAreaProvider>
         </GestureHandlerRootView>

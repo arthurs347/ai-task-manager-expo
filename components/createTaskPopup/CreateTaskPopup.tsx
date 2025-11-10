@@ -1,6 +1,6 @@
 import CreateTaskForm from "./CreateTaskForm";
-import {Text, View} from "react-native";
-import {Button, Header, Separator, YStack} from "tamagui";
+import {View} from "react-native";
+import {Button, Header, Separator, Text, YStack} from "tamagui";
 import {Modalize} from "react-native-modalize";
 import type React from "react";
 
@@ -23,11 +23,11 @@ export default function CreateTaskPopup({
             <View className="h-full"/>
 
             <Modalize
-                modalHeight={700}
+                modalHeight={720}
                 ref={modalizeRef}
                 HeaderComponent={
                     <Header>
-                        <Text className="text-2xl pl-2">New Task</Text>
+                        <Text fontSize="$9" pl="$2" mt="$1">New Task</Text>
                     </Header>
                 }
             >
@@ -35,8 +35,8 @@ export default function CreateTaskPopup({
                 className="rounded-2xl bg-white"
                 style={{ backgroundColor: "#ffffff" }} // force opaque white
                 >
-                    <YStack>
-                        <Separator marginVertical={7} />
+                    <YStack px="$2" gap="$1.5">
+                        <Separator my={7} />
                         <CreateTaskForm
                             selectedDay={selectedDay}
                             setRefreshKey={setRefreshKey}
