@@ -11,7 +11,8 @@ You are free to use, share, and adapt this code for **non-commercial purposes**,
    ```
 2. Setup Dev environment
 - Get Env files from team members.
-- ADD OWN APP_URL in .env files
+- ADD OWN APP_URL (local ipv4 address) in .env files
+  - run cmd `ipconfig getifaddr en0` on mac
 
 Deploying to Web
 1. npx expo export --platform web
@@ -37,29 +38,29 @@ Tips:
 - IMMEDIATELY AFTER installing new packages, if NATIVE -> rebuild EX: npx expo run:ios, clear cache with yarn clear-start
 - After removing native packages rebuild?
 - calling apis inside other api, might require adding localhost in front of api path
+- apis work on localhost/web but not on mobile: check if app url is correct -> mac ipv4
 
 Important CMD's:
 - yarn remove <package_name> -> remove package from project
 - yarn add <package_name> -> add package to project
-  yarn why <dependency_name> -> shows why package installed and which packages depend on it
+  yarn why <package_name> -> shows why package installed and which packages depend on it
 - npx expo run:ios -> locally builds on ios, prebuild included
 - yarn clear-start -> clears cache, useful when changing app.json or config files
 - eas build --platform ios --profile development --local -> builds ios locally
 
 
 Future Additions (In order of priority):
-
+1. Make APP_URL Adaptive, to not manually put local ip address (it changes when switching Wi-Fi networks)
 [//]: # (1. Add offline-mode-support)
 [//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
-Migrate to reanimated 4, comp with expo sdk 54
 1. Add openai task reordoring feature 
    - Sketch design first
 2. Add Task Editing capabilities
     - implement EditTaskForm
     - implement editTask action
 3. Secure application and API's, use chatGPT to assist
-   - Rate Limit
-   - Authentication
+   - Rate Limit using redis
+   - Authentication, db and prisma auth, clerk
    - Authorization
    - Input Validation
    - Error Handling

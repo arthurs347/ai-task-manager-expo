@@ -3,7 +3,7 @@ import axios from "axios";
 import {authenticateAndGetUser, authenticateUser} from "@/actions/authActions";
 import type {ListedTask} from "@/app/api/tasks+api";
 import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
-import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@prisma/client";
+import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/client/edge";
 import {generateAPIUrl} from "@/utils/apiUtils";
 import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
 
@@ -41,7 +41,7 @@ export async function createTaskAction(task: TaskDataEntry) {
 
 	switch (taskType) {
 		case TaskType.MANUAL: {
-			const manualTaskToCreateData: ManualEntry = {
+            const manualTaskToCreateData: ManualEntry = {
 				taskType: taskType,
 				title: title,
 				description: description,
@@ -51,7 +51,7 @@ export async function createTaskAction(task: TaskDataEntry) {
 				isRecurring: task.recurring,
 				userId,
 			};
-			taskToCreateData = manualTaskToCreateData;
+            taskToCreateData = manualTaskToCreateData;
 			break;
 		}
 		case TaskType.AUTOMATIC:
@@ -112,6 +112,7 @@ export async function getListedTasksAction(userId?: string): Promise<ListedTask[
 		.get(`http://localhost:8081/api/tasks?userId=${id}&taskType=${TaskType.LISTED}`)
 		.then((res) => {
             return res.data as ListedTask[];
+
 		})
 		.catch((reason) => {
 			throw new Error(`Failed to fetch tasks: ${reason}`);

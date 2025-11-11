@@ -7,6 +7,7 @@
 		"clean": "rm -rf ./node_modules && rm -rf ./yarn.lock",
 		"clean-install": "yarn clean && yarn install",
 		"reset-db": "dotenv -e .env.development -- npx prisma db push --force-reset",
+        "migrate-db": "dotenv -e .env.development -- npx prisma migrate dev",
 		"start": "expo start",
 		"clear-start": "expo start --clear",
 		"reset-project": "node ./scripts/reset-project.js",

@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import {getHabitsAction, getListedTasksAction} from "@/actions/taskActions";
 import type {ListedTask} from "@/app/api/tasks+api";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
-import type {Habit} from "@prisma/client";
+import type {Habit} from "@/prisma/generated/client/edge";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
@@ -95,7 +95,7 @@ export default function DayView() {
 				setSelectedDay={setSelectedDay}
 			/>
 
-			<DayViewBody
+            <DayViewBody
 				isLoading={isLoading}
 				setRefreshKey={setRefreshKey}
                 onOpen={onOpen}

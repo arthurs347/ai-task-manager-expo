@@ -7,7 +7,7 @@ import type {ListedTask} from "@/app/api/tasks+api";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import HabitItems from "@/modules/dayView/components/habitItems/HabitItems";
 import TimeSlots from "@/modules/plannerView/components/TimeSlots";
-import type {Habit} from "@prisma/client";
+import type {Habit} from "@/prisma/generated/client/edge";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
 import type Animated from "react-native-reanimated";
 import {XStack} from "tamagui";

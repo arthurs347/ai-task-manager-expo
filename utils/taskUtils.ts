@@ -3,7 +3,13 @@ import dayjs from "dayjs";
 import type {ListedTask} from "@/app/api/tasks+api";
 import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
 import {DATETIME_FORMAT} from "@/lib/constants";
-import {type AutomaticTask, type Habit, type ManualTask, PriorityCategory, TaskType,} from "@prisma/client";
+import {
+    type AutomaticTask,
+    type Habit,
+    type ManualTask,
+    PriorityCategory,
+    TaskType,
+} from "@/prisma/generated/client/edge";
 import {isSameDay} from "@/utils/dateUtils";
 
 export function calculateTaskStartAndEnd(task: TaskDataEntry) {
