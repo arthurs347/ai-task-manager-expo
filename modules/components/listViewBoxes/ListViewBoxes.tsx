@@ -1,4 +1,4 @@
-import TaskTimeBox, {type TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
+import TaskTimeBox, {type TaskTimeInfo} from "@/modules/components/listViewBoxes/TaskTimeBox";
 import {YStack} from "tamagui";
 
 interface ListViewBoxesProps {

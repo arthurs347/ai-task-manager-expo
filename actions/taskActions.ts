@@ -2,7 +2,7 @@ import type {Time} from "@internationalized/date";
 import axios from "axios";
 import {authenticateAndGetUser, authenticateUser} from "@/actions/authActions";
 import type {ListedTask} from "@/app/api/tasks+api";
-import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
+import type {TaskDataEntry} from "@/modules/components/createTaskPopup/CreateTaskForm";
 import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/client/edge";
 import {generateAPIUrl} from "@/utils/apiUtils";
 import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";

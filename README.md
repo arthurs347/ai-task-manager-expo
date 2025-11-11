@@ -53,8 +53,6 @@ Future Additions (In order of priority):
 1. Make APP_URL Adaptive, to not manually put local ip address (it changes when switching Wi-Fi networks)
 [//]: # (1. Add offline-mode-support)
 [//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
-1. Add openai task reordoring feature 
-   - Sketch design first
 2. Add Task Editing capabilities
     - implement EditTaskForm
     - implement editTask action

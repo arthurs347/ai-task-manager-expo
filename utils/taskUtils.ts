@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/noUnusedFunctionParameters: Need to complete AI implementations*/
 import dayjs from "dayjs";
 import type {ListedTask} from "@/app/api/tasks+api";
-import type {TaskDataEntry} from "@/components/createTaskPopup/CreateTaskForm";
+import type {TaskDataEntry} from "@/modules/components/createTaskPopup/CreateTaskForm";
 import {DATETIME_FORMAT} from "@/lib/constants";
 import {
     type AutomaticTask,

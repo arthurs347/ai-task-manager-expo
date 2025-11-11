@@ -1,7 +1,7 @@
 import {ListPlus, PlusIcon} from "lucide-react-native";
 import {Text} from "react-native";
-import {ListViewBoxes} from "@/components/listViewBoxes/ListViewBoxes";
-import type {TaskTimeInfo} from "@/components/listViewBoxes/TaskTimeBox";
+import {ListViewBoxes} from "@/modules/components/listViewBoxes/ListViewBoxes";
+import type {TaskTimeInfo} from "@/modules/components/listViewBoxes/TaskTimeBox";
 import {getRestructuredDailyTasksByIds} from "@/actions/aiActions";
 import type {ListedTask} from "@/app/api/tasks+api";
 import {Button, XStack, YStack} from "tamagui";
