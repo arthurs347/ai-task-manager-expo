@@ -7,7 +7,7 @@ import {useMemo} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
 import {createTaskAction} from "@/actions/taskActions";
-import {PriorityLevel, TaskType} from "@prisma/client";
+import {PriorityLevel, TaskType} from "@/prisma/generated/client/edge";
 import {addTimeToDate, timeToDate} from "@/utils/dateUtils";
 import {Button, Checkbox, Form, Input, Label, RadioGroup, TextArea, XStack} from "tamagui";
 
@@ -70,7 +70,7 @@ export default function CreateTaskPopup({
 	const taskType = watch("taskType");
 
 	async function handleCreateTask(formTaskData: TaskDataEntry) {
-		await createTaskAction(formTaskData);
+        await createTaskAction(formTaskData);
 		await new Promise((resolve) => setTimeout(resolve, 300));
 		setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
         onClose(); // Close the popup after task creation
@@ -305,7 +305,7 @@ export default function CreateTaskPopup({
 			)}
 
 			{/*Submission Button*/}
-            <Form.Trigger>
+            <Form.Trigger asChild>
                 <Button>
                     Create Task
                 </Button>

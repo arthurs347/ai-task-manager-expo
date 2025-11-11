@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {type AutomaticTask, PriorityCategory, PriorityLevel, TaskType,} from "@prisma/client";
+import {type AutomaticTask, PriorityCategory, PriorityLevel, TaskType,} from "@/prisma/generated/client/edge";
 
 // Set baseDate to today
 const baseDate: dayjs.Dayjs = dayjs()

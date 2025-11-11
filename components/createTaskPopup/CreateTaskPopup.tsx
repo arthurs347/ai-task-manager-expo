@@ -23,7 +23,7 @@ export default function CreateTaskPopup({
             <View className="h-full"/>
 
             <Modalize
-                modalHeight={720}
+                modalHeight={850}
                 ref={modalizeRef}
                 HeaderComponent={
                     <Header>

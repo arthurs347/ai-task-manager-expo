@@ -1,7 +1,7 @@
 import {StatusCodes} from "http-status-codes";
 import type {ManualEntry, TaskEntry} from "@/actions/taskActions";
 import {prisma} from "@/lib/prisma";
-import {type Habit, TaskType} from "@prisma/client";
+import {type Habit, TaskType} from "@/prisma/generated/client/edge";
 import {allTypesToListedTask} from "@/utils/taskUtils";
 
 export type ListedTask = {
@@ -81,9 +81,10 @@ export async function POST(request: Request) {
 			});
 	}
 
-	return new Response(JSON.stringify(createdTask), {
-		status: StatusCodes.CREATED,
-	});
+    return new Response(
+        JSON.stringify(createdTask),
+        {status: StatusCodes.CREATED,}
+    );
 }
 
 export async function DELETE(request: Request) {

@@ -1,6 +1,6 @@
 import {Text, View} from "react-native";
 import DraggableBox from "@/components/DraggableBox";
-import type {Habit} from "@prisma/client";
+import type {Habit} from "@/prisma/generated/client/edge";
 import {parseEstimatedDurationAsString} from "@/utils/dateUtils";
 import type {RefObject} from "react";
 import type Animated from "react-native-reanimated";

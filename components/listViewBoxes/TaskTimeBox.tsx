@@ -1,5 +1,5 @@
 import {Text, View} from "react-native";
-import type {TaskType} from "@prisma/client/";
+import type {TaskType} from "@/prisma/generated/client/edge/";
 import {CircleIcon, XIcon} from "lucide-react-native";
 import {changeTaskCompletionStatusAction, deleteTaskAction} from "@/actions/taskActions";
 import {Button, Card, Heading, XStack} from "tamagui";
