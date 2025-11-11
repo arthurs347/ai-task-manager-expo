@@ -63,7 +63,7 @@ export default function PlannerView() {
 				setSelectedDay={setSelectedDay}
 			/>
 
-			<XStack className="justify-between p-2">
+			<XStack justify="space-between" p="$2">
                 {isLoading && (<Text>Loading Habits...</Text>)}
                 {!isLoading && habits?.length === 0 && (<Text className="text-large">Create Your First Habit!</Text>)}
                 {!isLoading && habits && habits.length > 0 && (

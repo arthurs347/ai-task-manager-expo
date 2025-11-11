@@ -33,7 +33,7 @@ export default function ListView() {
 	if (!isLoaded) return;
 
 	return (
-		<YStack className="flex-1 items-center">
+		<YStack alignItems="center" >
 			{isLoading ? (
 				<Text className="text-2xl">Loading...</Text>
 			) : data && data.length > 0 ? (

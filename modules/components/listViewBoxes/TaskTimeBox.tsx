@@ -1,5 +1,5 @@
 import {Text, View} from "react-native";
-import type {TaskType} from "@/prisma/generated/client/edge/";
+import type {TaskType} from "@/prisma/generated/client/edge";
 import {CircleIcon, XIcon} from "lucide-react-native";
 import {changeTaskCompletionStatusAction, deleteTaskAction} from "@/actions/taskActions";
 import {Button, Card, Heading, XStack} from "tamagui";
@@ -31,19 +31,20 @@ export default function TaskTimeBox({ taskTimeInfo, setRefreshKey }: TaskTimeBox
     }
 
 	return (
-		<View className="items-start gap-y-2 mt-2\">
+		<View className="items-start gap-y-2 mt-2">
+
             {/*Box Header*/}
             <Text className="text-lg text-gray-600">
                 {`${start} - ${end} : ${duration}`}
             </Text>
 
             {/*Box Body*/}
-            <Card className="w-full">
-                <XStack className="gap-2 flex justify-between">
-                    <Heading className={`${completed ? "line-through" : ""}`}>
+            <Card>
+                <XStack justify="space-between" gap="$6">
+                    <Heading textDecorationLine={`${completed ? "line-through" : "none"}`}>
                         {title}
                     </Heading>
-                    <XStack className="gap-2">
+                    <XStack gap="$2">
                         <Button onPress={handleChangeTaskCompletionStatus}>
                             <CircleIcon />
                         </Button>

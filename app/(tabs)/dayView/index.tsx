@@ -13,7 +13,6 @@ import {Modalize} from "react-native-modalize";
 import CreateTaskPopup from "@/modules/components/createTaskPopup/CreateTaskPopup";
 import DayViewBody from "@/modules/dayView/components/DayViewBody";
 
-
 export default function DayView() {
     function listedToTaskTimeInfos(listedTasks: ListedTask[]): TaskTimeInfo[] {
         const taskTimeInfos: TaskTimeInfo[] = [];
@@ -89,7 +88,7 @@ export default function DayView() {
 	}, [navigation]);
 
 	return (
-		<YStack className="h-full items-center">
+		<YStack height="max-content" alignItems="center" gap="$2">
 			<DayViewHeader
 				selectedDay={selectedDay}
 				setSelectedDay={setSelectedDay}

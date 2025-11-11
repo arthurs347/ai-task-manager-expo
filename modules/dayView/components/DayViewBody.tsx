@@ -33,7 +33,7 @@ export default function DayViewBody({
         setRefreshKey(prev => prev + 1)
     }
 	return (
-		<YStack className="items-center">
+		<YStack alignItems="center" gap="$2">
 			{/*Loading State*/}
 			{isLoading && <Text>Loading Tasks...</Text>}
 
