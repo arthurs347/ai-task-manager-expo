@@ -13,7 +13,8 @@ type MeasureLayout = {
 
 const BOX_LEFT = 0;
 const BOX_TOP = 0;
-const BOX_SIZE = 80;
+const BOX_WIDTH = 100;
+const BOX_HEIGHT = 50;
 
 interface DraggableBoxProps {
 	children?: React.ReactNode;
@@ -87,8 +88,8 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
         const offsetX = draggableBoxLayout ? draggableBoxLayout.x : 0;
         const offsetY = draggableBoxLayout ? draggableBoxLayout.y : 0;
 
-        const boxCenterX = BOX_LEFT + offsetX + boxTranslateX.value + BOX_SIZE / 2;
-        const boxCenterY = BOX_TOP + offsetY + boxTranslateY.value + BOX_SIZE / 2;
+        const boxCenterX = BOX_LEFT + offsetX + boxTranslateX.value + BOX_WIDTH / 2;
+        const boxCenterY = BOX_TOP + offsetY + boxTranslateY.value + BOX_HEIGHT / 2;
 
         let foundIndex: number | null = null
         timeSlotLayouts.forEach((timeSlotLayout, index) => {
@@ -137,7 +138,7 @@ const DraggableBox: React.FC<DraggableBoxProps> = (({children, setHighlightedDro
                 ref={ref}
 				style={[
 					styles.box,
-					{ width: BOX_SIZE, height: BOX_SIZE },
+					{ width: BOX_WIDTH, height: BOX_HEIGHT },
 					animatedStyle,
 				]}
 			>

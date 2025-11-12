@@ -17,9 +17,7 @@ export default function HabitItems({
 
     return habits.map(({ id, title, estimatedDuration }: Habit, index) => {
         const durationParsed = parseEstimatedDurationAsString(estimatedDuration);
-        // habitRefs.current[0]?.measureInWindow((x, y, width, height) => {
-        //     console.log("habit item measureInWindow index-", index, x, y, width, height);
-        // });
+
         return (
             <View key={id} style={{ flexDirection: "row" }}>
                 <DraggableBox
