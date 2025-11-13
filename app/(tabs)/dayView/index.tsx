@@ -6,7 +6,7 @@ import type {ListedTask} from "@/app/api/tasks+api";
 import DayViewHeader from "@/modules/dayView/components/DayViewHeader";
 import type {Habit} from "@/prisma/generated/client/edge";
 import {filterTasksByStartDate, sortTasksByStartDateTime,} from "@/utils/taskUtils";
-import type {TaskTimeInfo} from "@/modules/components/listViewBoxes/TaskTimeBox";
+import type {TaskTimeInfo} from "@/modules/components/taskTimeBoxes/TaskTimeBox";
 import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
 import {YStack} from "tamagui";
 import {Modalize} from "react-native-modalize";

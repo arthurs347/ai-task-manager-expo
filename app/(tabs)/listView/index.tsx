@@ -6,7 +6,7 @@ import {useCallback, useState} from "react";
 import {Text} from "react-native";
 import {getListedTasksAction} from "@/actions/taskActions";
 import CreateTaskPopup from "@/modules/components/createTaskPopup/CreateTaskPopup";
-import {ListViewBoxes} from "@/modules/components/listViewBoxes/ListViewBoxes";
+import {TaskTimeBoxes} from "@/modules/components/taskTimeBoxes/TaskTimeBoxes";
 import {OFFLINE_DEV_MODE} from "@/lib/constants";
 import {testTasks} from "@/test/testTasks";
 import {toListedTasks} from "@/utils/taskUtils";
@@ -37,7 +37,7 @@ export default function ListView() {
 			{isLoading ? (
 				<Text className="text-2xl">Loading...</Text>
 			) : data && data.length > 0 ? (
-				<ListViewBoxes taskTimeInfos={data} setRefreshKey={setRefreshKey} />
+				<TaskTimeBoxes taskTimeInfos={data} setRefreshKey={setRefreshKey} />
 			) : (
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}

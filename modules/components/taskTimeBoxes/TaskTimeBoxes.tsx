@@ -1,11 +1,11 @@
-import TaskTimeBox, {type TaskTimeInfo} from "@/modules/components/listViewBoxes/TaskTimeBox";
+import TaskTimeBox, {type TaskTimeInfo} from "@/modules/components/taskTimeBoxes/TaskTimeBox";
 import {YStack} from "tamagui";
 
 interface ListViewBoxesProps {
 	taskTimeInfos: TaskTimeInfo[];
 	setRefreshKey: (key: (prev: number) => number) => void;
 }
-export function ListViewBoxes({
+export function TaskTimeBoxes({
 	taskTimeInfos,
 	setRefreshKey,
 }: ListViewBoxesProps) {
