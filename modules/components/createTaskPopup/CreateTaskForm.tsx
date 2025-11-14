@@ -23,17 +23,17 @@ export type TaskDataEntry = {
 	taskType: TaskType;
 };
 
-interface CreateTaskPopupProps {
+interface CreateTaskFormProps {
 	selectedDay: Date;
 	setRefreshKey: (key: (prev: number) => number) => void;
     onClose: () => void;
 }
 
-export default function CreateTaskPopup({
+export default function CreateTaskForm({
 	selectedDay,
 	setRefreshKey,
                                             onClose,
-}: CreateTaskPopupProps) {
+}: CreateTaskFormProps) {
 	// Memoize defaultValues so it doesn't change on every render
 	const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	const defaultEstimatedHoursAndMinutes = new Time(0, 30);
