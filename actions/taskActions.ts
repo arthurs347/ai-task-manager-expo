@@ -183,3 +183,58 @@ export async function getListedTasksByIds(taskIds: string[], userId?: string): P
     const filteredTasksById: ListedTask[] = allListedTasks.filter((task) => taskIds.includes(task.id))
     return filteredTasksById;
 }
+
+/**
+ * Updates a task with the given taskId and taskType using the provided updatedFields.
+ * @param taskId - The ID of the task to update.
+ * @param taskType - The type of the task (MANUAL, AUTOMATIC, or HABIT).
+ * @param updatedFields - An object containing the fields to update, including their new values
+ */
+export async function updateTaskAction(taskId: string, taskType: TaskType, updatedFields: Partial<TaskDataEntry>) {
+    const user = authenticateAndGetUser();
+    const userId = user.id;
+
+    let taskToUpdate: Partial<ManualEntry> | Partial<AutomaticEntry> | Partial<HabitEntry>;
+
+    const title: string | undefined = updatedFields.title;
+    const description: string | undefined = updatedFields.description;
+    const startParsedDate: Date | undefined = updatedFields.start?.toDate()
+    const estimatedDurationTime: Time | undefined = updatedFields.estimatedHoursAndMinutes;
+
+    const parsedEstimatedDurationMinutes: number | undefined = updatedFields.estimatedHoursAndMinutes ? convertDurationTimeToMinutes(
+        updatedFields.estimatedHoursAndMinutes,
+    ) : undefined;
+
+    const calculatedEnd: Date | undefined = startParsedDate && estimatedDurationTime ? addTimeToDate(
+        startParsedDate,
+        estimatedDurationTime,
+    ) : undefined;
+
+    switch (taskType) {
+        case TaskType.MANUAL: {
+            taskToUpdate = {
+                title: title,
+                description: description,
+                start: startParsedDate,
+                end: calculatedEnd,
+                estimatedDuration: parsedEstimatedDurationMinutes,
+                isRecurring: updatedFields.recurring,
+                userId,
+            };
+            break;
+        }
+        case TaskType.AUTOMATIC:
+            throw new Error("Automatic task creation is not implemented yet");
+        case TaskType.HABIT:
+            throw new Error("Habit task creation is not implemented yet");
+        default:
+            throw new Error("Invalid task type");
+    }
+
+
+    await axios.patch(
+        generateAPIUrl(
+            `/api/tasks?userId=${userId}&taskId=${taskId}&taskType=${taskType}`
+        ),
+        JSON.stringify(taskToUpdate))
+}
