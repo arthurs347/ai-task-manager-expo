@@ -6,6 +6,7 @@ import type {TaskDataEntry} from "@/modules/components/createTaskPopup/CreateTas
 import {type AutomaticTask, type Habit, type ManualTask, TaskType,} from "@/prisma/generated/client/edge";
 import {generateAPIUrl} from "@/utils/apiUtils";
 import {addTimeToDate, convertDurationTimeToMinutes} from "@/utils/dateUtils";
+import {AnyTask} from "@/lib/types";
 
 export type ManualEntry = Omit<ManualTask, "id" | "completed">;
 export type AutomaticEntry = Omit<
@@ -119,6 +120,22 @@ export async function getListedTasksAction(userId?: string): Promise<ListedTask[
 		});
 }
 
+export async function getAnyTasksAction(userId?: string): Promise<AnyTask[]> {
+    let id = userId;
+    if (!id) {
+        const user = authenticateAndGetUser();
+        id = user.id;
+    }
+    return axios
+        .get(`http://localhost:8081/api/tasks?userId=${id}&taskType=${TaskType.ANY}`)
+        .then((res) => {
+            return res.data as AnyTask[];
+
+        })
+        .catch((reason) => {
+            throw new Error(`Failed to fetch tasks: ${reason}`);
+        });
+}
 // export async function getListedTasksByDateAction(date: Date): Promise<ListedTask[]> {
 //     // TODO: Test
 //     const user = authenticateAndGetUser();
