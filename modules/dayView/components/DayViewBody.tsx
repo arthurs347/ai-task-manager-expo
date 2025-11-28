@@ -10,20 +10,24 @@ interface DayViewBodyProps {
 	isLoading: boolean;
 	taskInfos: AnyTask[] | null;
 	setRefreshKey: (key: (prev: number) => number) => void;
-    onOpen: () => void;
+    onEditTaskPopupOpen: () => void;
+    onCreateTaskPopupOpen: () => void;
     isDayRestructured: boolean;
     setIsDayRestructured: (value: boolean) => void;
     setAiTasks: (tasks: ListedTask[]) => void;
+    setCurrEditingTask: (taskInfo: AnyTask) => void;
 }
 
 export default function DayViewBody({
 	isLoading,
                                         taskInfos,
 	setRefreshKey,
-                                        onOpen,
+                                        onEditTaskPopupOpen,
+                                        onCreateTaskPopupOpen,
                                         isDayRestructured,
     setIsDayRestructured,
-    setAiTasks
+    setAiTasks,
+                                        setCurrEditingTask
 }: DayViewBodyProps) {
     async function handleDayRestructure() {
         const taskIds = taskInfos?.map(info => info.id) || []
@@ -40,8 +44,10 @@ export default function DayViewBody({
 			{/*Loaded State*/}
 			{!isLoading && taskInfos && taskInfos.length > 0 && (
 				<TaskTimeBoxes
+                    onEditTaskPopupOpen={onEditTaskPopupOpen}
 					taskInfos={taskInfos}
 					setRefreshKey={setRefreshKey}
+                    setCurrEditingTask={setCurrEditingTask}
 				/>
 			)}
 			{!isLoading && taskInfos && taskInfos.length === 0 && (
@@ -49,7 +55,7 @@ export default function DayViewBody({
 			)}
 
             <XStack>
-                <Button onPress={onOpen}>
+                <Button onPress={onCreateTaskPopupOpen}>
                     <PlusIcon/>
                 </Button>
                 <Button onPress={handleDayRestructure}>

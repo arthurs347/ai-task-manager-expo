@@ -10,23 +10,36 @@ import {Modalize} from "react-native-modalize";
 import CreateTaskPopup from "@/modules/components/createTaskPopup/CreateTaskPopup";
 import DayViewBody from "@/modules/dayView/components/DayViewBody";
 import {AnyTask} from "@/lib/types";
+import EditTaskPopup from "@/modules/components/editTaskPopup/EditTaskPopup";
 
 export default function DayView() {
     // Initialize state variables
 	const today = new Date();
 	const [selectedDay, setSelectedDay] = useState<Date>(today);
+    const [currEditingTask, setCurrEditingTask] = useState<AnyTask | null>(null);
 	const [refreshKey, setRefreshKey] = useState<number>(0);
 	const navigation = useNavigation();
-    const modalizeRef = useRef<Modalize | null>(null);
+    const createTaskModalizeRef = useRef<Modalize | null>(null);
+    const editTaskModalizeRef = useRef<Modalize | null>(null);
 
     //Modal control logic
-    const onOpen = () => {
-        modalizeRef.current?.open();
+    const onCreateTaskPopupOpen = () => {
+        createTaskModalizeRef.current?.open();
     };
 
-    const onClose = () => {
-        modalizeRef.current?.close();
+    const onCreateTaskPopupClose = () => {
+        createTaskModalizeRef.current?.close();
     }
+
+    const onEditTaskPopupOpen = () => {
+        editTaskModalizeRef.current?.open();
+    };
+
+    const onEditTaskPopupClose = () => {
+        editTaskModalizeRef.current?.close();
+    }
+
+
 
 	// Fetch tasks and habits for the selected day
 	let { data, isLoading } = useQuery({
@@ -73,18 +86,29 @@ export default function DayView() {
             <DayViewBody
 				isLoading={isLoading}
 				setRefreshKey={setRefreshKey}
-                onOpen={onOpen}
+                onEditTaskPopupOpen={onEditTaskPopupOpen}
+                onCreateTaskPopupOpen={onCreateTaskPopupOpen}
                 taskInfos={taskInfos}
                 isDayRestructured={isDayRestructured}
                 setIsDayRestructured={setIsDayRestructured}
                 setAiTasks={setAiTasks}
+                setCurrEditingTask={setCurrEditingTask}
 			/>
+
+            <EditTaskPopup
+                currEditingTask={currEditingTask}
+                selectedDay={selectedDay}
+                setRefreshKey={setRefreshKey}
+                onClose={onEditTaskPopupClose}
+                modalizeRef={editTaskModalizeRef}
+
+            />
 
             <CreateTaskPopup
                 selectedDay={selectedDay}
                 setRefreshKey={setRefreshKey}
-                onClose={onClose}
-                modalizeRef={modalizeRef}
+                onClose={onCreateTaskPopupClose}
+                modalizeRef={createTaskModalizeRef}
             />
         </YStack>
 	);

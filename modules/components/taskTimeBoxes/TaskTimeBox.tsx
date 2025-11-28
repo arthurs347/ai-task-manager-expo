@@ -1,4 +1,4 @@
-import {Text, View} from "react-native";
+import {Text, TouchableOpacity} from "react-native";
 import type {TaskType} from "@/prisma/generated/client/edge";
 import {CircleIcon, XIcon} from "lucide-react-native";
 import {changeTaskCompletionStatusAction, deleteTaskAction} from "@/actions/taskActions";
@@ -19,9 +19,11 @@ export type TaskTimeInfo = {
 interface TaskTimeBoxProps {
     taskInfo: AnyTask;
 	setRefreshKey: (key: (prev: number) => number) => void;
+    onEditTaskPopupOpen: () => void;
+    setCurrEditingTask: (taskInfo: AnyTask) => void;
 }
 
-export default function TaskTimeBox({ taskInfo, setRefreshKey }: TaskTimeBoxProps) {
+export default function TaskTimeBox({ taskInfo, setRefreshKey, onEditTaskPopupOpen, setCurrEditingTask }: TaskTimeBoxProps) {
     const {id, title, start, end, completed, taskType} = taskInfo;
 
     const parsedTimes = parseStartEndTime(start, end)
@@ -39,7 +41,10 @@ export default function TaskTimeBox({ taskInfo, setRefreshKey }: TaskTimeBoxProp
     }
 
 	return (
-		<View className="items-start gap-y-2 mt-2">
+		<TouchableOpacity className="items-start gap-y-2 mt-2" onPress={() => {
+            setCurrEditingTask(taskInfo);
+            onEditTaskPopupOpen();
+        }}>
 
             {/*Box Header*/}
             <Text className="text-lg text-gray-600">
@@ -62,6 +67,6 @@ export default function TaskTimeBox({ taskInfo, setRefreshKey }: TaskTimeBoxProp
                     </XStack>
                 </XStack>
             </Card>
-		</View>
+		</TouchableOpacity>
 	);
 }
