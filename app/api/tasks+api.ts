@@ -1,8 +1,9 @@
 import {StatusCodes} from "http-status-codes";
 import type {ManualEntry, TaskEntry} from "@/actions/taskActions";
 import {prisma} from "@/lib/prisma";
-import {type Habit, TaskType} from "@/prisma/generated/client/edge";
+import {TaskType} from "@/prisma/generated/client/edge";
 import {allTypesToListedTask} from "@/utils/taskUtils";
+import {AnyTask} from "@/lib/types";
 
 export type ListedTask = {
 	id: string;
@@ -140,7 +141,7 @@ export async function GET(request: Request) {
 	const taskType: TaskType | null = url.searchParams.get(
 		"taskType",
 	) as TaskType;
-	let tasksRetrieved: ListedTask[] | Habit[] = [];
+	let tasksRetrieved: ListedTask[] | AnyTask[] = [];
 
 	if (!userId) {
 		return new Response(JSON.stringify({ error: "Missing userId" }), {
@@ -185,15 +186,37 @@ export async function GET(request: Request) {
                 }),
 			]);
 
-			const listedTasks: ListedTask[] = allTypesToListedTask(
+            tasksRetrieved = allTypesToListedTask(
 				manualTasks,
 				habits,
 				automaticTasks,
 			);
 
-			tasksRetrieved = listedTasks;
 			break;
 		}
+        case TaskType.ANY: {
+            const [manualTasks, habits, automaticTasks] = await Promise.all([
+                prisma.manualTask.findMany({
+                    where: {
+                        userId,
+                    }
+                }),
+                prisma.habit.findMany({
+                    where: {
+                        userId,
+                        currentlyUsed: false,
+                    }
+                }),
+                prisma.automaticTask.findMany({
+                    where: {
+                        userId,
+                    }
+                }),
+            ]);
+
+            tasksRetrieved = [...manualTasks, ...habits, ...automaticTasks];
+            break;
+        }
 		default:
 			throw new Error("Invalid task type");
 	}
