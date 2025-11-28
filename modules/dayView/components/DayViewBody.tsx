@@ -1,14 +1,14 @@
 import {ListPlus, PlusIcon} from "lucide-react-native";
 import {Text} from "react-native";
 import {TaskTimeBoxes} from "@/modules/components/taskTimeBoxes/TaskTimeBoxes";
-import type {TaskTimeInfo} from "@/modules/components/taskTimeBoxes/TaskTimeBox";
 import {getRestructuredDailyTasksByIds} from "@/actions/aiActions";
 import type {ListedTask} from "@/app/api/tasks+api";
 import {Button, XStack, YStack} from "tamagui";
+import {AnyTask} from "@/lib/types";
 
 interface DayViewBodyProps {
 	isLoading: boolean;
-	taskTimeInfos: TaskTimeInfo[] | null;
+	taskInfos: AnyTask[] | null;
 	setRefreshKey: (key: (prev: number) => number) => void;
     onOpen: () => void;
     isDayRestructured: boolean;
@@ -18,7 +18,7 @@ interface DayViewBodyProps {
 
 export default function DayViewBody({
 	isLoading,
-	taskTimeInfos,
+                                        taskInfos,
 	setRefreshKey,
                                         onOpen,
                                         isDayRestructured,
@@ -26,7 +26,7 @@ export default function DayViewBody({
     setAiTasks
 }: DayViewBodyProps) {
     async function handleDayRestructure() {
-        const taskIds = taskTimeInfos?.map(info => info.id) || []
+        const taskIds = taskInfos?.map(info => info.id) || []
         const restructuredTasks = await getRestructuredDailyTasksByIds(taskIds)
         setAiTasks(restructuredTasks)
         setIsDayRestructured(!isDayRestructured)
@@ -38,13 +38,13 @@ export default function DayViewBody({
 			{isLoading && <Text>Loading Tasks...</Text>}
 
 			{/*Loaded State*/}
-			{!isLoading && taskTimeInfos && taskTimeInfos.length > 0 && (
+			{!isLoading && taskInfos && taskInfos.length > 0 && (
 				<TaskTimeBoxes
-					taskTimeInfos={taskTimeInfos}
+					taskInfos={taskInfos}
 					setRefreshKey={setRefreshKey}
 				/>
 			)}
-			{!isLoading && taskTimeInfos && taskTimeInfos.length === 0 && (
+			{!isLoading && taskInfos && taskInfos.length === 0 && (
 				<Text className="text-2xl">Create Your First Task!</Text>
 			)}
 

@@ -40,6 +40,7 @@ Tips:
 - calling apis inside other api, might require adding localhost in front of api path
 - apis work on localhost/web but not on mobile: check if app url is correct -> mac ipv4
 
+
 Important CMD's:
 - yarn remove <package_name> -> remove package from project
 - yarn add <package_name> -> add package to project
@@ -50,12 +51,14 @@ Important CMD's:
 
 
 Future Additions (In order of priority):
-1. Make APP_URL Adaptive, to not manually put local ip address (it changes when switching Wi-Fi networks)
-[//]: # (1. Add offline-mode-support)
-[//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
-2. Add Task Editing capabilities
+- Refactor ListView to take in AnyTask instead of listedtask
+- Refactor ai functionality to return AnyTask instead of ListedTask
+1. Add Task Editing capabilities
     - implement EditTaskForm
     - implement editTask action
+2. Make APP_URL Adaptive, to not manually put local ip address (it changes when switching Wi-Fi networks)
+[//]: # (1. Add offline-mode-support)
+[//]: # (1. Implement Remote Build Cache to speed up builds -> https://youtu.be/5SmaC-JQS_k)
 3. Secure application and API's, use chatGPT to assist
    - Rate Limit using redis
    - Authentication, db and prisma auth, clerk
@@ -66,8 +69,8 @@ Future Additions (In order of priority):
    - Use Zod for form validation
    - Use Zod for API route validation
    - Use Zod for schema validation
-5. Refactor drag and drop logic
 
+[//]: # (5. Refactor drag and drop logic)
 [//]: # (6. Fix any errors in the app, console, typescript, and update dependencies)
 [//]: # (7. Add payment integration)
 [//]: # (8. Add Local-first db implementation -> https://youtu.be/SBv32tmyb3k)

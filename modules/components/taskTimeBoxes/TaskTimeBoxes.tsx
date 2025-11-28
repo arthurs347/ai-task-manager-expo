@@ -1,21 +1,22 @@
-import TaskTimeBox, {type TaskTimeInfo} from "@/modules/components/taskTimeBoxes/TaskTimeBox";
+import TaskTimeBox from "@/modules/components/taskTimeBoxes/TaskTimeBox";
 import {YStack} from "tamagui";
+import {AnyTask} from "@/lib/types";
 
-interface ListViewBoxesProps {
-	taskTimeInfos: TaskTimeInfo[];
+interface TaskTimeBoxesProps {
+	taskInfos: AnyTask[];
 	setRefreshKey: (key: (prev: number) => number) => void;
 }
 export function TaskTimeBoxes({
-	taskTimeInfos,
+                                  taskInfos,
 	setRefreshKey,
-}: ListViewBoxesProps) {
+}: TaskTimeBoxesProps) {
 	return (
 		<YStack>
-			{taskTimeInfos.map((taskTimeInfo: TaskTimeInfo) => {
+			{taskInfos.map((taskInfo: AnyTask) => {
 				return (
 					<TaskTimeBox
-						key={taskTimeInfo.id}
-						taskTimeInfo={taskTimeInfo}
+						key={taskInfo.id}
+                        taskInfo={taskInfo}
 						setRefreshKey={setRefreshKey}
 					/>
 				);

@@ -11,6 +11,7 @@ import {
     TaskType,
 } from "@/prisma/generated/client/edge";
 import {isSameDay} from "@/utils/dateUtils";
+import {AnyTask} from "@/lib/types";
 
 export function calculateTaskStartAndEnd(task: TaskDataEntry) {
 	//TODO: REPLACE WITH ACTUAL LOGIC
@@ -31,13 +32,13 @@ export function calculateTaskDueDate() {
 	//TODO: REPLACE WITH ACTUAL LOGIC
 }
 
-export function filterTasksByStartDate(tasks: ListedTask[], selectedDay: Date) {
-	return tasks.filter((task: ListedTask) => {
+export function filterTasksByStartDate(tasks: ListedTask[] | AnyTask[], selectedDay: Date) {
+	return tasks.filter((task) => {
 		return isSameDay(task.start, selectedDay);
 	});
 }
 
-export function sortTasksByStartDateTime(tasks: ListedTask[]): ListedTask[] {
+export function sortTasksByStartDateTime(tasks: ListedTask[] | AnyTask[]) {
 	return [...tasks].sort((a, b) => {
 		const aTime = a.start ? dayjs(a.start, DATETIME_FORMAT) : dayjs(0);
 		const bTime = b.start ? dayjs(b.start, DATETIME_FORMAT) : dayjs(0);

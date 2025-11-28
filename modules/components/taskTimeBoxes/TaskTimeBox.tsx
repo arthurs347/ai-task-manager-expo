@@ -3,6 +3,8 @@ import type {TaskType} from "@/prisma/generated/client/edge";
 import {CircleIcon, XIcon} from "lucide-react-native";
 import {changeTaskCompletionStatusAction, deleteTaskAction} from "@/actions/taskActions";
 import {Button, Card, Heading, XStack} from "tamagui";
+import {AnyTask} from "@/lib/types";
+import {parseEstimatedDurationAsString, parseStartEndTime} from "@/utils/dateUtils";
 
 export type TaskTimeInfo = {
     id: string;
@@ -15,12 +17,18 @@ export type TaskTimeInfo = {
 }
 
 interface TaskTimeBoxProps {
-    taskTimeInfo: TaskTimeInfo;
+    taskInfo: AnyTask;
 	setRefreshKey: (key: (prev: number) => number) => void;
 }
 
-export default function TaskTimeBox({ taskTimeInfo, setRefreshKey }: TaskTimeBoxProps) {
-    const {id, title, start, end, duration, completed, taskType} = taskTimeInfo;
+export default function TaskTimeBox({ taskInfo, setRefreshKey }: TaskTimeBoxProps) {
+    const {id, title, start, end, completed, taskType} = taskInfo;
+
+    const parsedTimes = parseStartEndTime(start, end)
+    const startParsed = parsedTimes.startTimeParsed;
+    const endParsed = parsedTimes.endTimeParsed;
+    const duration = parseEstimatedDurationAsString(taskInfo.estimatedDuration)
+
     async function handleDeleteTask() {
         await deleteTaskAction(id, taskType);
         setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
@@ -35,7 +43,7 @@ export default function TaskTimeBox({ taskTimeInfo, setRefreshKey }: TaskTimeBox
 
             {/*Box Header*/}
             <Text className="text-lg text-gray-600">
-                {`${start} - ${end} : ${duration}`}
+                {`${startParsed} - ${endParsed} : ${duration}`}
             </Text>
 
             {/*Box Body*/}
