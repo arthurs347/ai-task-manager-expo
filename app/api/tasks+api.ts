@@ -1,5 +1,5 @@
 import {StatusCodes} from "http-status-codes";
-import type {ManualEntry, TaskEntry} from "@/actions/taskActions";
+import {AutomaticEntry, HabitEntry, ManualEntry, TaskEntry} from "@/actions/taskActions";
 import {prisma} from "@/lib/prisma";
 import {TaskType} from "@/prisma/generated/client/edge";
 import {allTypesToListedTask} from "@/utils/taskUtils";
@@ -231,19 +231,10 @@ export async function PATCH(request: Request) {
 	const taskId = url.searchParams.get("taskId");
 	const taskType = url.searchParams.get("taskType");
 
-	const taskCompleted = url.searchParams.get("taskCompleted");
-
 	if (!taskId) {
 		return new Response(JSON.stringify({ error: "Missing taskId" }), {
 			status: StatusCodes.BAD_REQUEST,
 		});
-	}
-
-	if (taskCompleted === null) {
-		return new Response(
-			JSON.stringify({ error: "Missing task completion status" }),
-			{ status: StatusCodes.BAD_REQUEST },
-		);
 	}
 
 	if (!taskType) {
@@ -251,10 +242,8 @@ export async function PATCH(request: Request) {
 			status: StatusCodes.BAD_REQUEST,
 		});
 	}
+    const taskUpdatedFields: Partial<ManualEntry> | Partial<AutomaticEntry> | Partial<HabitEntry> = await request.json();
 
-	const taskCompletedParsed = JSON.parse(taskCompleted);
-
-	console.log(taskType);
 	switch (taskType) {
 		case TaskType.MANUAL:
 			await prisma.manualTask.update({
@@ -262,30 +251,18 @@ export async function PATCH(request: Request) {
 					id: taskId,
 				},
 				data: {
-					completed: !taskCompletedParsed,
+                    ...taskUpdatedFields
 				},
 			});
 			break;
 		case TaskType.HABIT:
-			await prisma.habit.update({
-				where: {
-					id: taskId,
-				},
-				data: {
-					completed: !taskCompletedParsed,
-				},
-			});
-			break;
+            return new Response(JSON.stringify({ error: "Habit task type not implemented yet" }), {
+                status: StatusCodes.BAD_REQUEST,
+            });
 		case TaskType.AUTOMATIC:
-			await prisma.automaticTask.update({
-				where: {
-					id: taskId,
-				},
-				data: {
-					completed: !taskCompletedParsed,
-				},
-			});
-			break;
+            return new Response(JSON.stringify({ error: "Automatic task type not implemented yet" }), {
+                status: StatusCodes.BAD_REQUEST,
+            });
 		default:
 			return new Response(JSON.stringify({ error: "Invalid task type" }), {
 				status: StatusCodes.BAD_REQUEST,

@@ -6,7 +6,7 @@ import {Check as CheckIcon} from "lucide-react-native";
 import {useMemo} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
-import {createTaskAction} from "@/actions/taskActions";
+import {updateTaskAction} from "@/actions/taskActions";
 import {PriorityLevel, TaskType} from "@/prisma/generated/client/edge";
 import {addTimeToDate, convertMinutesToTime, timeToDate} from "@/utils/dateUtils";
 import {Button, Checkbox, Form, Input, Label, RadioGroup, TextArea, XStack} from "tamagui";
@@ -37,7 +37,6 @@ export default function EditTaskForm({
                                             setRefreshKey,
                                             onClose,
                                         }: EditTaskFormProps) {
-    //TODO: Ensure default values are set correctly for different task types
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const defaultEstimatedHoursAndMinutes = new Time(0, 30);
     const selectedDayPlusDefaultEstimated = addTimeToDate(
@@ -78,22 +77,27 @@ export default function EditTaskForm({
     );
 
     // Remove useState for formData and use react-hook-form for state management
-    const { control, handleSubmit, watch, setValue } = useForm<TaskDataEntry>({
-        defaultValues,
-    });
+    const { control, handleSubmit, watch, setValue } = useForm<TaskDataEntry>({defaultValues});
 
     const taskType = watch("taskType");
 
-    async function handleCreateTask(formTaskData: TaskDataEntry) {
-        await createTaskAction(formTaskData);
+    async function handleEditTask(updatedFields: TaskDataEntry) {
+        const taskId = currEditingTask?.id;
+        const taskType = updatedFields.taskType;
+
+        console.log("Submitted start", updatedFields.start.toDate());
+
+        await updateTaskAction(taskId, taskType, updatedFields);
+
         await new Promise((resolve) => setTimeout(resolve, 300));
         setRefreshKey((prev) => prev + 1); // Increment refresh key to trigger re-fetching of tasks
-        onClose(); // Close the popup after task creation
+        onClose(); // Close the popup after task is edited
+
     }
 
     return (
         <Form
-            onSubmit={handleSubmit(handleCreateTask)}
+            onSubmit={handleSubmit(handleEditTask)}
         >
 
             {/*Task Title*/}
@@ -134,8 +138,9 @@ export default function EditTaskForm({
                         render={({ field: { onChange, value } }) => (
                             <DateTimePicker
                                 value={value.toDate()}
-                                onChange={() => {
-                                    onChange(fromDate(value.toDate(), userTimeZone));
+                                onChange={(_, selectedDate) => {
+                                    if (!selectedDate) return;
+                                    onChange(fromDate(selectedDate, userTimeZone));
                                 }}
                                 display="default"
                                 mode="datetime"
@@ -151,8 +156,9 @@ export default function EditTaskForm({
                         render={({ field: { onChange, value } }) => (
                             <DateTimePicker
                                 value={timeToDate(value)}
-                                onChange={() => {
-                                    const timeFromDate = new Time(value.hour, value.minute);
+                                onChange={(_, selectedDuration) => {
+                                    if (!selectedDuration) return;
+                                    const timeFromDate = new Time(selectedDuration.getHours(), selectedDuration.getMinutes());
                                     onChange(timeFromDate);
                                 }}
                                 locale={"en-GB"}

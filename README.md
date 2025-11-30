@@ -51,6 +51,7 @@ Important CMD's:
 
 
 Future Additions (In order of priority):
+- Refactor taskcompleted logic to use new updatedFields structure
 - Refactor ListView to take in AnyTask instead of listedtask
 - Refactor ai functionality to return AnyTask instead of ListedTask
 1. Add Task Editing capabilities
