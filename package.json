@@ -20,7 +20,8 @@
 		"build": "expo export -p web --output-dir dist",
 		"studio": "dotenv -e .env.development -- npx prisma studio",
 		"vercel-build": "expo export -p web --output-dir dist",
-		"test": "jest --watchAll"
+		"test": "jest --watchAll",
+        "getip": "ipconfig getifaddr en0"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",

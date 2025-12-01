@@ -7,7 +7,6 @@ import {AnyTask} from "@/lib/types";
 
 interface EditTaskPopupProps {
     currEditingTask: AnyTask | null;
-    selectedDay: Date;
     onClose: () => void;
     setRefreshKey: (key: (prev: number) => number) => void;
     modalizeRef: React.RefObject<Modalize | null>;
@@ -15,11 +14,12 @@ interface EditTaskPopupProps {
 
 export default function EditTaskPopup({
                                           currEditingTask,
-                                            selectedDay,
                                             onClose,
                                             setRefreshKey,
                                             modalizeRef
                                         }: EditTaskPopupProps) {
+    if (!currEditingTask) return null;
+
     return (
         <>
             {/*//TODO: Fix, temp fix: currently h-full view prevents Modal from having white background*/}
@@ -44,7 +44,6 @@ export default function EditTaskPopup({
 
                         <EditTaskForm
                             currEditingTask={currEditingTask}
-                            selectedDay={selectedDay}
                             setRefreshKey={setRefreshKey}
                             onClose={onClose}
                         />

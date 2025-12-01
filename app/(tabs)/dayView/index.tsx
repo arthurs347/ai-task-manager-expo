@@ -97,7 +97,6 @@ export default function DayView() {
 
             <EditTaskPopup
                 currEditingTask={currEditingTask}
-                selectedDay={selectedDay}
                 setRefreshKey={setRefreshKey}
                 onClose={onEditTaskPopupClose}
                 modalizeRef={editTaskModalizeRef}

@@ -1,6 +1,6 @@
 import {TimeInput} from "@heroui/date-input";
 import {DatePicker} from "@heroui/date-picker";
-import {fromDate, Time, type ZonedDateTime} from "@internationalized/date";
+import {fromDate, Time} from "@internationalized/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {Check as CheckIcon} from "lucide-react-native";
 import {useMemo} from "react";
@@ -8,47 +8,28 @@ import {Controller, useForm} from "react-hook-form";
 import {Platform} from "react-native";
 import {updateTaskAction} from "@/actions/taskActions";
 import {PriorityLevel, TaskType} from "@/prisma/generated/client/edge";
-import {addTimeToDate, convertMinutesToTime, timeToDate} from "@/utils/dateUtils";
+import {convertMinutesToTime, timeToDate} from "@/utils/dateUtils";
 import {Button, Checkbox, Form, Input, Label, RadioGroup, TextArea, XStack} from "tamagui";
 import {AnyTask} from "@/lib/types";
-
-export type TaskDataEntry = {
-    title: string;
-    description: string;
-    start: ZonedDateTime;
-    dueDate: ZonedDateTime;
-    estimatedHoursAndMinutes: Time;
-    priority: PriorityLevel;
-    recurring: boolean;
-    hardDeadline: boolean;
-    taskType: TaskType;
-};
+import {TaskDataEntry} from "@/modules/components/createTaskPopup/CreateTaskForm";
 
 interface EditTaskFormProps {
-    currEditingTask: AnyTask | null;
-    selectedDay: Date;
+    currEditingTask: AnyTask;
     setRefreshKey: (key: (prev: number) => number) => void;
     onClose: () => void;
 }
 
 export default function EditTaskForm({
                                          currEditingTask,
-                                            selectedDay,
-                                            setRefreshKey,
-                                            onClose,
+                                         setRefreshKey,
+                                         onClose,
                                         }: EditTaskFormProps) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const defaultEstimatedHoursAndMinutes = new Time(0, 30);
-    const selectedDayPlusDefaultEstimated = addTimeToDate(
-        selectedDay,
-        defaultEstimatedHoursAndMinutes,
-    );
 
     const taskTitle = currEditingTask.title
     const taskDescription = currEditingTask.description
     const taskEstimatedHoursAndMinutes = convertMinutesToTime(currEditingTask.estimatedDuration)
     const taskTaskType =  currEditingTask.taskType as TaskType
-
     const taskStart = new Date(currEditingTask.start)
     const taskEnd = new Date(currEditingTask.end)
 
@@ -69,9 +50,7 @@ export default function EditTaskForm({
             taskType: taskTaskType,
         }),
         [
-            defaultEstimatedHoursAndMinutes,
             taskStart,
-            selectedDayPlusDefaultEstimated,
             userTimeZone,
         ],
     );
@@ -82,10 +61,8 @@ export default function EditTaskForm({
     const taskType = watch("taskType");
 
     async function handleEditTask(updatedFields: TaskDataEntry) {
-        const taskId = currEditingTask?.id;
+        const taskId = currEditingTask.id;
         const taskType = updatedFields.taskType;
-
-        console.log("Submitted start", updatedFields.start.toDate());
 
         await updateTaskAction(taskId, taskType, updatedFields);
 
@@ -96,10 +73,7 @@ export default function EditTaskForm({
     }
 
     return (
-        <Form
-            onSubmit={handleSubmit(handleEditTask)}
-        >
-
+        <Form onSubmit={handleSubmit(handleEditTask)}>
             {/*Task Title*/}
             <Label>Title</Label>
             <Controller
@@ -148,7 +122,7 @@ export default function EditTaskForm({
                         )}
                     />
 
-                    {/*/!*Mobile Estimated Duration*!/*/}
+                    {/*Mobile Estimated Duration*/}
                     <Label>Estimated Duration</Label>
                     <Controller
                         control={control}
